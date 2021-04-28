@@ -488,12 +488,15 @@ class BaiduDataset(Dataset):
             s2ro_map = {}
             triples = []
             for triple in ins_json_data['spo_list']:
-                pos_head = triple["h"]['pos']
-                pos_tail = triple['t']['pos']
+                # pos_head = triple["h"]['pos']
+                # pos_tail = triple['t']['pos']
+                pos_head = triple["t"]['pos'] # 这是object
+                pos_tail = triple['h']['pos'] # 这是subject
                 # triple = (self.tokenizer.tokenize(triple['subject'])[1:-1], triple[1], self.tokenizer.tokenize(triple["object"]['@value'])[1:-1])
                 # sub_head_idx = find_head_idx(tokens, triple[0])
                 # obj_head_idx = find_head_idx(tokens, triple[2])
-                triple = (triple['subject'], triple['predicate'], triple["object"]['@value'])
+                # triple = (triple['subject'], triple['predicate'], triple["object"]['@value'])
+                triple = (triple["object"]['@value'], triple['predicate'], triple['subject']) #百度的主语是用object表示的
                 triples.append(triple)
                 sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index)
                 self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
@@ -532,7 +535,10 @@ class BaiduDataset(Dataset):
             else:
                 return None
         else:
-            triples = [(triple['subject'], triple['predicate'], triple["object"]['@value']) for triple in ins_json_data['spo_list']]
+            # triples = [(triple['subject'], triple['predicate'], triple["object"]['@value']) for triple in ins_json_data['spo_list']]
+            # 理由同上
+            triples = [(triple["object"]['@value'], triple['predicate'], triple['subject']) for triple in ins_json_data['spo_list']]
+
             outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
             token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
             if len(token_ids) > text_len:
