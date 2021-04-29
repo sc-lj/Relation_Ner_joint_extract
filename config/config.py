@@ -12,6 +12,7 @@ class Config(object):
         self.rel_num = args.rel_num
         self.optimizer = args.optimizer
         self.weight_decay = args.weight_decay
+        self.teacher_pro = 0.6  #teacher probability
 
         # dataset
         self.dataset = args.dataset

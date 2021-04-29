@@ -1,13 +1,14 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+
 import config
 import framework
 import argparse
 import models
-import os
 import torch
 import numpy as np
 import random
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 seed = 1234
 torch.manual_seed(seed)
@@ -19,8 +20,8 @@ torch.backends.cudnn.benchmark = False
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_name', type=str, default='Casrel', help='name of the model')
-parser.add_argument('--lr', type=float, default=1e-5)
-parser.add_argument('--weight_decay', type=float, default=2e-5)
+parser.add_argument('--lr', type=float, default=2e-5)
+parser.add_argument('--weight_decay', type=float, default=1e-5)
 parser.add_argument('--multi_gpu', type=bool, default=False)
 parser.add_argument('--dataset', type=str, default='baidu')
 parser.add_argument('--optimizer', type=str, default='adamw',choices=['adamw',"adam","sgd"])

@@ -1,5 +1,6 @@
 from torch import nn
 from transformers import *
+import random
 import torch
 
 
@@ -54,10 +55,21 @@ class Casrel(nn.Module):
         encoded_text = self.get_encoded_text(token_ids, mask)
         # [batch_size, seq_len, 1]
         pred_sub_heads, pred_sub_tails = self.get_subs(encoded_text)
-        # [batch_size, 1, seq_len]
-        sub_head_mapping = data['sub_head'].unsqueeze(1)
-        # [batch_size, 1, seq_len]
-        sub_tail_mapping = data['sub_tail'].unsqueeze(1)
+        if random.random()<self.config.teacher_pro:
+            # [batch_size, 1, seq_len]
+            sub_head = pred_sub_heads.permute(0,2,1)
+            # [batch_size, 1, seq_len]
+            sub_tail = pred_sub_tails.permute(0,2,1)
+            
+            sub_head_mapping = torch.zeros_like(sub_head,dtype=sub_head.dtype)
+            sub_tail_mapping = torch.zeros_like(sub_tail,dtype=sub_tail.dtype)
+            sub_head_mapping.scatter_(-1,sub_head.argmax(-1,keepdim=True),1)
+            sub_tail_mapping.scatter_(-1,sub_tail.argmax(-1,keepdim=True),1)
+        else:
+            # [batch_size, 1, seq_len]
+            sub_head_mapping = data['sub_head'].unsqueeze(1)
+            # [batch_size, 1, seq_len]
+            sub_tail_mapping = data['sub_tail'].unsqueeze(1)
         # [batch_size, seq_len, rel_num]
         pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text)
         return pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails
