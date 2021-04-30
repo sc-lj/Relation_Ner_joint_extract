@@ -191,10 +191,10 @@ class GHMR_Loss(GHM_Loss):
 
 @register("focal")
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=3.0, alpha=0.5, size_average=True,**kwargs):
+    def __init__(self, gamma=3.0, alpha=0.75, size_average=True,**kwargs):
         """
         gamma: 对困难样本的关注程度
-        alpha: 平衡正负样本数量，相当于
+        alpha: 平衡正负样本数量，对于二分类而言，正样本少，属于正样本的alpha应该越大
         """
         super(FocalLoss, self).__init__()
         self.gamma = gamma
@@ -212,15 +212,15 @@ class FocalLoss(nn.Module):
             input = input.contiguous().view(-1,input.size(2))   # N,H*W,C => N*H*W,C
         target = target.view(-1,1)
 
-        logpt = f.log_softmax(input, dim=-1)
-        logpt = logpt.gather(1,target)
-        logpt = logpt.view(-1)
+        # logpt = f.log_softmax(input, dim=-1)
+        # logpt = logpt.gather(1,target)
+        logpt = input.view(-1)
         pt = Variable(logpt.data.exp())
 
         if self.alpha is not None:
             if self.alpha.type()!=input.data.type():
                 self.alpha = self.alpha.type_as(input.data)
-            at = self.alpha.gather(0,target.data.view(-1))
+            at = self.alpha.gather(0,target.data.view(-1).long())
             logpt = logpt * Variable(at)
 
         loss = -1 * (1-pt)**self.gamma * logpt

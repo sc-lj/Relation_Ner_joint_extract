@@ -3,6 +3,7 @@ from torch import nn
 import os
 import data_loader
 import torch.nn.functional as F
+from .Loss import FocalLoss
 import torch
 import numpy as np
 import json
@@ -12,6 +13,7 @@ import time
 class Framework(object):
     def __init__(self, con):
         self.config = con
+        self.focal_loss = FocalLoss()
 
     def logging(self, s, print_=True, log_=True):
         if print_:
@@ -66,6 +68,8 @@ class Framework(object):
             if los.shape != mask.shape:
                 mask = mask.unsqueeze(-1)
             los = torch.sum(los * mask) / torch.sum(mask)
+            if self.config.use_focal:
+                los += self.focal_loss(pred,gold)
             return los
 
         # check the checkpoint dir

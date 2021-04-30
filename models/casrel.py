@@ -55,7 +55,7 @@ class Casrel(nn.Module):
         encoded_text = self.get_encoded_text(token_ids, mask)
         # [batch_size, seq_len, 1]
         pred_sub_heads, pred_sub_tails = self.get_subs(encoded_text)
-        if random.random()<self.config.teacher_pro: # teacher probability
+        if random.random()>self.config.teacher_pro: # teacher probability
             # [batch_size, 1, seq_len]
             sub_head_mapping = pred_sub_heads.permute(0,2,1)
             # [batch_size, 1, seq_len]
