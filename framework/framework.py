@@ -62,14 +62,14 @@ class Framework(object):
             model = ori_model
 
         # define the loss function
-        def loss(gold, pred, mask):
+        def loss(gold, pred, mask,use_focal=False):
             pred = pred.squeeze(-1)
             los = F.binary_cross_entropy(pred, gold, reduction='none')
             if los.shape != mask.shape:
                 mask = mask.unsqueeze(-1)
             los = torch.sum(los * mask) / torch.sum(mask)
-            if self.config.use_focal:
-                los += self.focal_loss(pred,gold)
+            if self.config.use_focal and use_focal:
+                los += self.focal_loss(pred,gold,mask)
             return los
 
         # check the checkpoint dir

@@ -449,7 +449,7 @@ class BaiduDataset(Dataset):
     def check(self,pos_head,pos_tail,tokens,sub,text):
         substring = tokens[pos_head:pos_tail]
         substring = [a.replace("##","") for a in substring if a!="[unused1]"]
-        subtoken = self.tokenizer.tokenize(sub)
+        subtoken = self.tokenizer.tokenize(strQ2B(sub))
         subtoken = [a.replace("##","") for a in subtoken]
         if subtoken != substring:
             print(substring,subtoken,text)

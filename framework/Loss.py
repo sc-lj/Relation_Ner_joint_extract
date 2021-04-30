@@ -205,7 +205,7 @@ class FocalLoss(nn.Module):
             self.alpha = torch.Tensor(alpha)
         self.size_average = size_average
 
-    def forward(self, input, target):
+    def forward(self, input, target,mask):
         if input.dim()>2:
             input = input.view(input.size(0),input.size(1),-1)  # N,C,H,W => N,C,H*W
             input = input.transpose(1,2)    # N,C,H*W => N,H*W,C
@@ -223,7 +223,7 @@ class FocalLoss(nn.Module):
             at = self.alpha.gather(0,target.data.view(-1).long())
             logpt = logpt * Variable(at)
 
-        loss = -1 * (1-pt)**self.gamma * logpt
+        loss = -1 * (1-pt)**self.gamma * logpt*mask.view(-1)
         if self.size_average:
             return loss.mean()
         else:

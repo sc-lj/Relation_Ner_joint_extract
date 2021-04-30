@@ -1901,4 +1901,868 @@ Truncation was not explicitly activated but `max_length` is provided a specific 
 
 ['1908', '万'] ['8', '万'] 香港周六大盘:349万累计票房 #魔警#1300万 #情敌#197万 #美队#5335万 #里约#944万 #红van#1908万 #冰封侠#383万 #二重身#35万 #豪情#1541万 #吸血#43万 #天堂#77万 #杀机#1525万 #卡诺#368万 #整容日记#8万 #性上瘾2#18万 #布达佩斯#335万 #分歧者#872万 #诺亚#909万 #美味情书#131万
 
-['钟', '馗', '伏', '魔', ':', '雪', '妖', '魔', '灵']
+['钟', '馗', '伏', '魔', ':', '雪', '妖', '魔', '灵']['假', '面', '骑', '士', 'wi', 'za', 'rd', ':', 'in', 'magic', 'land'] ['假', '面', '骑', '士', 'wi', 'za', 'rd', '：', 'in', 'magic', 'land'] "时,会场观众都拍手喝起采来,热闹非凡剧场版《假面骑士wizard:in magic land》8月3日日本公开上映剧场版《假面骑士wizard:in magic land》预告:视频来自:优酷记者发布会照片白石隼也饰假面骑士wizard奥仲麻琴饰历永瀬匡饰假面骑士beast高山郁子饰大门凛子阵内孝则饰假面骑士sorcerer
+
+['120', '15', '年'] ['2015', '年'] 常州德兴味餐饮管理有限公司于12015年正式成立于江苏常州市,公司属于餐饮服务行业
+
+['s', 'bs', '演', '技', '大', '赏', '连', '续', '剧', '最', '佳', '配', '角', '奖'] ['sbs', '演', '技', '大', '赏', '连', '续', '剧', '最', '佳', '配', '角', '奖'] 2007年,李世恩与王光娜、金南镇等主演了由朴京烈执导的爱情励志剧《起飞》,因饰演为达目的不择手段的都市女性"车有利"而获得2007sbs演技大赏连续剧最佳配角奖
+
+['16', '亿'] ['6', '亿'] 而且我们看到今年的国庆档这三部影片的票房可以说都是不错的,目前的我和我的祖国马上16亿,中国机长13亿,攀登者6亿
+
+['2012', '年'] ['12', '年'] 2012年人再囧途之泰囧票房12.67亿
+
+['08', '10'] ['810'] 2012年教育部学科排名(0810信息与通信工程)全国排名学校代码及名称
+
+['122', '012', '年', '10', '月', '12', '日', '-', '12', '月', '21', '日'] ['2012', '年', '10', '月', '12', '日', '-', '12', '月', '21', '日'] 5%系列作品播出时间剧名集数2011年7月8日-9月23日勇者义彦和魔王之城122012年10月12日-12月21日勇者义彦和恶灵之钥112016年10月8日-12月24日勇者义彦与被引导的七人12
+
+['05', '23', '60'] ['52', '360'] 辛集站位于河北省辛集市,邮政编码:052360,距离石家庄站71公里,离德州站109公里,隶属北京铁路局管辖,现为二等站
+
+['1800', '万'] ['800', '万'] 中国电影报v:2012第19周(5.7-13),周总票房约3亿 #复仇者联盟#2亿进账,累计3.2亿;#泰坦尼克号#2000万,累计9.6亿;#超级战舰#1800万,累计过3亿 #黄金大劫案#1600万,累计1.4亿多;#追凶#首周900多万,#影子爱人#800万,#赛德克·巴莱#400万,#飞越老人院#300多万 #形影不离#300多万,累计约900万准确明发
+
+['08', '110', '2'] ['81', '10', '2'] 检测技术与自动化装置,专业代码:081102,是将自动化、电子、计算机、控制工程、信息处理、机械等多种学科、多种技术融合为一体并综合运用的复合技术,广泛应用于交通、电力、冶金、化工、建材等各领域自动化装备及生产自动化过程
+
+['kb', 's', '明', '星', '发', '掘', '大', '赛', '冠', '军'] ['kbs', '明', '星', '发', '掘', '大', '赛', '冠', '军'] 崔振赫,1985年生,韩国明星,2006年出道,曾获2006kbs明星发掘大赛冠军中文名:崔振赫(或翻译为崔真赫、崔镇赫)外文名:kim thae-ho别名:金泰浩国籍:韩国出生地:1985年2月9日职业:演员毕业院校:京门大学模特专业
+
+['119', '94', '年'] ['1994', '年'] 商科集团11994年成立于广州,是一家从事消费数码电子产品研发和计算机硬件及周边设备、生产及销售的国家高新技术企业
+
+['200', '1', '年'] ['2001', '年'] 062001年,《康熙王朝》豆瓣评分9.0,居高不下,虽距首播有16年了,但它所掀起的收视狂潮久久不能平息
+
+['19', '96'] ['1996'] 该剧当时在香港首播时收视一般,但06年被内地第一次引进就连续三次拿到收视冠军,06年内地版《新上海滩》刚刚开机,tvb1996版《新上海滩》却是首次被内地引进,大年初二起在电视剧频道的晚间十点档播出,刚开播收视率就冲到了4
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] "2月27日,由中央电视台和中国电影股份有限公司联合出品的大型纪录电影《厉害了,我的国》在北京举行盛大首映式3月2日,电影即将登陆全国各大院线
+
+['名', '侦', '探', '柯', '南', ':', '绀', '青', '之', '拳'] ['名', '侦', '探', '柯', '南', '：', '绀', '青', '之', '拳'] 当"柯学宇宙"取代了只有一个的真相……今年中秋节,《名侦探柯南:绀青之拳》在国内上映,截止9月19日,上映7天票房为1.82亿,这是该系列剧场版在中国内地上映以来获得的最好票房成绩
+
+['91', '98', '2', '年'] ['1982', '年'] 91982年,凌子风将《骆驼祥子》小说改编为电影同名电影
+
+['hi', 'to', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] ['hit', 'o', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] 15获奖记录获奖时间奖项获得者参考资料2014年6月2日2014hito流行音乐奖高音质hito最潜力女声奖梁文音162013年10月5日全球华语歌曲排行榜最佳作曲人饶善强《黄色夹克》17
+
+['2017'] ['7'] 且跟小编一起看看~董洁,别名:小董老师星座:白羊座血型:o型身高:160cm出生地:辽宁省大连市代表作品:幸福时光、金粉世家、天若有情、龙虎门、梁山伯与祝英台、你是我兄弟、相爱十年、如懿传主要成就:国剧盛典观众最喜爱女配角、第22届上海电视节白玉兰奖最佳女配角提名、第3届中国电视艺术双十佳十佳演员、第47届西班牙巴利亚多利德国际电影节最佳女演员、第7届中国电影华表奖电影新人奖、2017今日头条年度盛典年度实力演员董洁个性温和恬静,给人感觉人淡如菊、天然纯粹
+
+['15'] ['5'] 且跟小编一起看看~星座:天秤座血型:ab型身高:180cm出生地:台湾省台北市代表作品:痞子英雄、艋舺、搜索、致我们终将逝去的青春、狄仁杰之神都龙王、三生三世十里桃花主要成就:第44届台湾金钟奖最佳男主角奖、第5届亚洲电影大奖最佳新演员奖、第15届中国电影华表奖优秀境外华裔男演员奖、第16届华鼎奖最佳电影男演员奖、第7届英国万像国际华语电影节最佳男主角奖赵又廷沉稳持重,他面庞帅气、轮廓硬朗、线条分明,更加衬托赵又廷而立之年的坚毅果敢和责任担当(凤凰网评)
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] (《复仇者联盟4:终局之战》剧照)《复仇者联盟4:终局之战》(avengers 4:endgame)在全球掀起热潮,结果在全球累积27.96亿美元,打破《阿凡达》长达10年定的电影最高票房冠军,正式超越了《阿凡达》所保持的27.89亿美元票房纪录
+
+['斗', '爱', 'du', 'el', 'for', 'love', '(', '舞', '动', '心', '灵', ')'] ['斗', '爱', 'du', 'el', 'for', 'love', '（', '舞', '动', '心', '灵', '）'] [辽宁大连] 大连万达4月影片上映计划《斗爱duel for love(舞动心灵)》4月14日上映估计全价45元,优惠价格20元2009中国体育舞蹈公开系列赛推荐影片钟汉良
+
+['死', '亡', '笔', '记', ':', '最', '后', '的', '名', '字'] ['死', '亡', '笔', '记', '：', '最', '后', '的', '名', '字'] 电影《死亡笔记:最后的名字》外文名称death note:the last name上映日期:2006年11月3日(日本、中国香港);2006年11月24日(中国台湾)其他名称:《死亡笔记:决战时刻》影片长度:140分制作公司:日本电视放送网株式会社首播频道:日本:日本电视台中国台湾:star卫视电影台中国内地:星空卫视导演:金子修介脚本:大石哲也、金子修介
+
+['120', '11', '年', '11', '月', '4', '日'] ['2011', '年', '11', '月', '4', '日'] 12011年11月4日,徐捷自编自导喜剧电影《古宝奇缘》全国上映,这部投资不足百万的小成本影片上映后引起广泛关注,徐捷也成为了最年轻的院线导演之一
+
+['さ', 'い', 'は', 'ての', '湖'] ['さい', 'は', 'ての', '湖'] 八代亜纪华丽なる女心铃木道明作品集1977收录曲目:side1赤坂の夜は更けて银座フルースワン?レイニー ?ナイト?イン?卜キヨ一フひレー?ナイト?イン?札幌はてしなき恋女の意地side 2夏の日の想い出想い出の街北国は寒いたろうさいはての湖はかなわたしやつしろ草['jun'] ['n'] 《灰色的小红帽》是曾咏欣演唱的歌曲,由林若宁填词、jun kung等人谱曲,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['jun'] ['n'] 《灰色的小红帽》是曾咏欣演唱的歌曲,由林若宁填词、jun kung等人谱曲,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['[UNK]', '年', '4', '月', '18', '日'] ['2016', '年', '4', '月', '18', '日'] 我为什么选择它?因为如下关于谭八爷公司,这么短的时间内做到月销量一千多万,靠的是口碑和质量[拳头][拳头]1⃣2016年4月18日成立了"四川谭八爷商贸有限责任公司"2⃣2016年11月1日,自贡谭八爷食品厂正式落成3⃣2016年11月19日,和cctv央视网商城签约优选品牌4⃣2017年2月1日,推出下单平台系统5⃣2017年4月,拿下qs食品生产许可证
+
+['08', '10'] ['810'] 信息领域主要的一级学科共有4个,分别是:0809电子科学与技术、0810信息与通信工程、0811控制科学与工程、0812计算机科学与技术
+
+['名', '侦', '探', '柯', '南', ':', '绀', '青', '之', '拳'] ['名', '侦', '探', '柯', '南', '：', '绀', '青', '之', '拳'] >中秋档亚军-《名侦探柯南:绀青之拳》,作为《柯南》剧场版第23部,在日本的累计票房已经突破92.4亿日元,位居日本影史票房第48名
+
+['2016'] ['16'] 且跟小编一起看看~刘亦菲,别名:茜茜、天仙、神仙姐姐星座:处女座血型:b型身高:170cm出生地:湖北省武汉市代表作品:仙剑奇侠传、神雕侠侣、功夫之王、倩女幽魂、铜雀台、夜孔雀、烽火芳菲、二代妖精主要成就:第16届华语电影传媒大奖最受瞩目女演员、第5届澳门国际电影节最佳女主角、gmic x 2017非凡盛典"gmic互联网时代电影人物"、入围第40届蒙特利尔国际电影节最佳女演员奖、入围第20届上海国际电影节金爵奖最佳女演员奖、2016年当选"中国80后十大影响力人物"刘亦菲清纯灵气、气质独特,具有典型的江南女子气质,让人过目难忘
+
+['1200', '3', '年'] ['2003', '年'] 12003年,张睿家出演第一部电视剧《七年级生》,2006年,出演电影《盛夏光年》并获得第43届台湾金马奖最佳新演员奖2
+
+['回', '来', '吧', ',', '大', '叔'] ['回', '来', '吧', '，', '大', '叔'] 韩国sbs电视台于2016年2月24日起播出的水木连续剧《回来吧,大叔》
+
+['171'] ['17'] 2008年1月31日,获得第17届首尔歌谣大赏本赏;55月21日,为古装剧《王女自鸣鼓》所演唱的主题曲《爱情是罪吗》公开;1711月13日,做了声带手术后的白智英推出第7张专辑《sensibility》,她用与以往有所不同的嗓音尝试演唱了全新类型的歌曲
+
+['米', '兰', '达', ':', '2014', '圣', '诞', '特', '辑'] ['米', '兰', '达', '：', '2014', '圣', '诞', '特', '辑'] 米兰达:2014圣诞特辑》是导演mandie fletcher执导的一部喜剧片,影片于2014-12-25(英国)上映
+
+['t', 'ul'] ['t', 'u'] 塔尔萨大学(university of tulsa,简称tu)成立于1894年,是美国的一所私立研究型大学
+
+['星', '际', '迷', '航', ':', '发', '现', '号'] ['星', '际', '迷', '航', '：', '发', '现', '号'] 《星际迷航:发现号》于2017年9月24日在美国cbs电视台首播
+
+['her', 'oe', 's'] ['hero', 'es'] qq中国音乐点击榜----张靓颖荣登榜首01heroes(《功夫之王》片尾曲)张靓颖002依然在一起马天宇03这就是我戴佩妮04不死心还在信乐团05|拥抱爱的梦想张靓/div>
+
+['520', '15', '年', '10', '月', '16', '日'] ['2015', '年', '10', '月', '16', '日'] 14播出信息播出情况播出时间播出平台2016年2月8日cctv8152015年10月16日腾讯视频好莱坞会员独播32016年1月10日福建电视剧频道收视情况《班淑传奇》全集首播csm52城收视率日期集数收视率收视份额同时段排名2016
+
+['172', '00', '3', '年'] ['2003', '年'] 172003年,15岁的颖儿参加全国推新人大赛,获得节目主持组"全国特别新人"奖、民族组优秀奖
+
+['520', '14', '年', '8', '月'] ['2014', '年', '8', '月'] 52014年8月,韩兆导演的电影《好命先生》上映
+
+['茶', ',', '一', '片', '树', '叶', '的', '故', '事'] ['茶', '，', '一', '片', '树', '叶', '的', '故', '事'] 第二部《茶,一片树叶的故事》是央视纪录频道于2013年11月18日推出的一部原创纪录片,也是中国首部全面探寻世界茶文化的纪录片,由王冲霄执导,罗明担任总监制,方亮担任总结说员
+
+['游', '戏', '王', ':', 'the', 'dark', 'side', 'of', 'di', 'men', 'sion', 's'] ['游', '戏', '王', '：', 'the', 'dark', 'side', 'of', 'di', 'men', 'sion', 's'] 《游戏王:the dark side of dimensions》是为了纪念《游戏王》原作诞生20周年而制作的新剧场版动画,于2016年4月23日在日本公映
+
+['.', 'ha', 'ck', '/', '/', '创', '世', '纪', '传', '说', ':', '世', '界', '的', '彼', '方'] ['.', 'ha', 'ck', '/', '/', '创', '世', '纪', '传', '说', '：', '世', '界', '的', '彼', '方'] 中国大陆地区或名《.hack//创世纪传说:世界的彼方》,日本上映时间2012-01-21
+
+['311', '2', '月', '9', '日'] ['12', '月', '9', '日'] 3112月9日,与李凡秀、尹施允、蔡贞安等联袂主演的爱情剧《总理和我》播出,林允儿出演大韩民国三流演艺杂志代表"南多贞",凭借该角色获得了kbs演技大赏迷你系列剧女子部门优秀演技赏326
+
+['vin'] ['n'] 《华丽的灰姑娘》是曾咏欣演唱的歌曲,由林若宁作词,kelvin avon、jessica bennett、paul longford、曾咏欣作曲1,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['vin'] ['n'] 《华丽的灰姑娘》是曾咏欣演唱的歌曲,由林若宁作词,kelvin avon、jessica bennett、paul longford、曾咏欣作曲1,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['bb', 'c'] ['bbc'] 观看链接:或在公号对话框回复:最美经典2、《冰冻星球》frozenplanet豆瓣评分:9.7bbc耗时5年制作的纪录片《冰冻星球》,同样是一部耗资巨大的纪录片,用镜头真实地展现正在逐渐融化的地球两极,以及生活在这里的各种生物
+
+['08', '10'] ['810'] 专业发展通信工程专业代码:0810,分为两个学科,一个是偏向于传输的"通信与信息系统(081001)",另一个是偏向于编解码的"信号与信息处理(081002)"
+
+['夺', '命', '煞', '星', '宝', '莱', '坞', '2', ':', '再', '度', '追', '击'] ['夺', '命', '煞', '星', '宝', '莱', '坞', '2', '：', '再', '度', '追', '击'] 好莱坞惊悚科幻动作片《至暗之时》在16个地区拿下742万的票房,目前两周全球累计票房2237万,跟本片之前颇为大手笔的宣传策略和投资比起来,成绩不甚理想印度电影《夺命煞星宝莱坞2:再度追击》是印度的首席明星沙鲁克·罕的新作,该片于2011年12月23日在印度上映,随即在印度国内引发观影热潮,两周票房3367万,视其走势,超越《ra.one》的5000万票房已属必然
+
+['1993', '-', '01', '-', '011'] ['1993', '-', '01', '-', '01'] no.1《霸王别姬》导演:陈凯歌主演:张国荣、张丰毅、巩俐上映时间:1993-01-011993年电影《霸王别姬》,改编自中国香港女作家李碧华的同名小说,由陈凯歌导演,张国荣、张丰毅、巩俐领衔主演
+
+['ii', 'ga'] ['ig', 'a'] 英洛威(iiga)全球共管理20多支基金,1999年进入中国,前期一直采用和中国合作伙伴合作投资的方式,中国市场所有资金全部用于中国市场投资,助力中国经济发展
+
+['边', '缘', '人', ':', '教', '你', '制', '作', '情', '妇', '的', '方', '法'] ['边', '缘', '人', '：', '教', '你', '制', '作', '情', '妇', '的', '方', '法'] 介绍《边缘人:教你制作情妇的方法》,2017年10月7日于日本上映
+
+['162', '015', '年', '12', '月', '25', '日'] ['2015', '年', '12', '月', '25', '日'] 162015年12月25日亚投行成立--首个由中国倡议设立的多边金融机构2015年12月25日,亚洲基础设施投资银行正式成立,这是全球首个由中国倡议设立的多边金融机构,重点支持基础设施建设,促进亚洲区域的建设互联互通化和经济一体化进程['320', '13', '年', '3', '月', '8', '日'] ['2013', '年', '3', '月', '8', '日'] 32013年3月8日,张江南执导,霍思燕、惠英红、李宗翰、王双宝主演的电影《午夜火车》全国公映
+
+['2000'] ['20'] 吴镇宇2000第37届台湾电影金马奖最佳男主角奖《枪火》2001第20届香港电影金像奖最佳男配角奖《公元2000》
+
+['哆', '啦', 'a', '梦', ':', '伴', '我', '同', '行'] ['哆', '啦', 'a', '梦', '：', '伴', '我', '同', '行'] 2014年8月8日,为纪念《哆啦a梦》之父藤子·f·不二雄诞辰80周年,山崎贵与八木龙一再次合作,联合执导了3d动画电影《哆啦a梦:伴我同行》,影片的日本总票房达83.8亿日元
+
+['19', '95', '年'] ['1995', '年'] ⊙1995年的今天,雅虎网站成立
+
+['火', '影', '忍', '者', '剧', '场', '版', ':', '博', '人', '传'] ['火', '影', '忍', '者', '剧', '场', '版', '：', '博', '人', '传'] 2月18号,《火影忍者剧场版:博人传》在中国内地正式上映,四天席卷6000万票房,但是这份数据对于火影人气极高的中国来说,未免是一份令人不满的答卷回顾情怀大片《哆来a梦:伴我同行》的五亿票房,《名侦探柯南:业火的向日葵》的八千万票房,火影忍者当下的七千万实在不够看,那么到底是什么原因导致国内票房并不理想呢
+
+['08', '110', '2'] ['81', '10', '2'] 吴森堂,男,山东人,工学博士,北京航空航天大学自动化科学与电气工程学院教授、博士研究生导师(博士学科:081102检测技术与自动化装置),1992年2月在苏联基辅航空工程学院(现乌克兰国立航空大学)获动力学、弹道学与飞行器运动控制专业、工程系统控制专业苏联工学博士学位
+
+['海', '贼', '王', ':', '狂', '热', '行', '动'] ['海', '贼', '王', '：', '狂', '热', '行', '动'] 8月9日在日本上映的海贼王20周年剧场版《海贼王:狂热行动》凭借着优秀的制作与剧情,上映1个多月以来席卷日本票房榜,累计票房已超过50亿日元,动员人次超过370万
+
+['黑', '夜', '传', '说', '5', ':', '血', '战'] ['黑', '夜', '传', '说', '5', '：', '血', '战'] 2016年7月2日,凯特·贝金赛尔主演的魔幻动作电影《黑夜传说5:血战》(underworld:blood wars),马来西亚地区已于2016年12月1日上映
+
+['19', '84', '年'] ['1984', '年'] 帅康公司名称:帅康集团有限公司公司网址:www.sacon.cn1984年,帅康由余姚市调谐器厂起步,在成长为全国电视调谐器生产大户后转型生产烟机,并在1993年首开全国深型吸油烟机先河,由此翻开了"厨房革命"新的一页
+
+['分', '歧', '者', ':', '异', '类', '觉', '醒'] ['分', '歧', '者', '：', '异', '类', '觉', '醒'] 由美国顶峰娱乐出品的科幻动作系列电影《分歧者:异类觉醒》2014年9月8日于中国内地正式上映,上映首日票房累计2260万,超过同门前辈《饥饿游戏2》在内地的首日票房(1450万)
+
+['茶', ',', '一', '片', '树', '叶', '的', '故', '事'] ['茶', '，', '一', '片', '树', '叶', '的', '故', '事'] 豆瓣评分:8.8《茶,一片树叶的故事》是央视纪录频道于2013年11月18日推出的一部原创纪录片,也是中国首部全面探寻世界茶文化的纪录片,由王冲霄执导,罗明担任总监制,方亮担任总结说员
+
+['s', 'bs', '演', '艺', '大', '赏', '最', '佳', 'mc', '奖'] ['sbs', '演', '艺', '大', '赏', '最', '佳', 'mc', '奖'] 2014年12月30日,金媛熙凭借节目《亲爱的-百年客人》获得2014sbs演艺大赏最佳mc奖
+
+['2016'] ['16'] 我觉得刘亦菲更美,她获得的成就有16届华语电影传媒大奖最受瞩目女演员第5届澳门国际电影节最佳女主角gmic x 2017非凡盛典"gmic互联网时代电影人物"入围第40届蒙特利尔国际电影节最佳女演员入围第20届上海国际电影节金爵奖最佳女演员2016年当选"中国80后十大影响力人物
+
+['2016'] ['20'] 我觉得刘亦菲更美,她获得的成就有16届华语电影传媒大奖最受瞩目女演员第5届澳门国际电影节最佳女主角gmic x 2017非凡盛典"gmic互联网时代电影人物"入围第40届蒙特利尔国际电影节最佳女演员入围第20届上海国际电影节金爵奖最佳女演员2016年当选"中国80后十大影响力人物
+
+['哆', '啦', 'a', '梦', ':', '大', '雄', '与', '奇', '迹', '之', '岛', '~', '动', '物', '历', '险', '记', '~'] ['哆', '啦', 'a', '梦', '：', '大', '雄', '与', '奇', '迹', '之', '岛', '～', '动', '物', '历', '险', '记', '～'] 《哆啦a梦:大雄与奇迹之岛~动物历险记~》日本总票房36.2亿日元
+
+['26'] ['6'] 最具有含金量的还要数影视剧类的奖项,从1985年到2014年,宋丹丹老师获得影视剧类奖项竟然高达24项,其中有第6届中国电视剧飞天奖最佳女配角奖、第26届飞天奖少儿电视剧一等奖、第23届电视金鹰奖之优秀长篇电视剧奖等奖项,这是对宋丹丹老师演技的高度认可,同时也更能够说明宋丹丹老师择剧的眼光非常高,她所出演的作品大多质量都很高
+
+['3', 'm', '公', '司'] ['3m', '公', '司'] 1、3m3m公司创建于1902年,总部设在美国明苏达州的圣保罗市,是世界著名的产品多元化跨国企业
+
+['080', '20', '2'] ['802', '02'] 人物简介陈胜功,男,工学博士,山东省平度市人,北京航空航天大学自动化科学与电气工程学院副教授、硕士研究生导师(硕士学科:080202机械电子工程)
+
+['蜘', '蛛', '侠', '14'] ['蜘', '蛛', '侠', '1'] 当然,我说的是那些相对比较热门的电影那些扑街几千万的不在讨论之列狮子王8亿银河9亿扫毒13亿蜘蛛侠14亿烈火英雄哪吒上海堡垒使徒行者2速度与激情这些正在上映或即将上映的影片,除上海堡垒我表示存疑外,其他电影票房应该都不会低于8亿上海堡垒要么大爆,要么高开低走票房低于8亿没想到狮子王极大可能成为暑期档那些热门电影中票房最低的一部
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] 好莱坞大片《复仇者联盟4:终局之战》自4月24日在内地上映开始,它就不断刷新各种纪录,包括中国影史预售票房第一(7.2亿元),中国影史零点场票房第一(1.89亿元),中国影史单日票房最高(5.5亿元),中国影史最快破20亿(用时3天20时)、最快破30亿(用时7天17时),中国影史单周票房第一(26.04亿元)等等
+
+['00', ':', '00'] ['0', ':', '00'] 这次却不为谁2歌曲mv《夜落初雪》作为新专辑《00:00》中第一首确定收入的歌曲,旋律优美独具中国五声音阶韵味,让人沉醉在飘渺悠远的意境之中
+
+['火', '烧', '石', '室', '(', '梁', '天', '来', '告', '御', '状', ')'] ['火', '烧', '石', '室', '（', '梁', '天', '来', '告', '御', '状', '）'] 20岁入电影圈,银幕处男作是粤语片《火烧石室(梁天来告御状)》(1939年11月24日香港公映,饰演梁天来儿子),影作国语文艺片《蔷薇处处开》
+
+['312', '0', '万'] ['120', '万'] 9月8日周一,票房1.07亿元11.5万场310万人敢死队3150万,累计2.78亿;猩球崛起3120万,累计5.27亿;一生一世2150万,累计8800万;分歧者1780万;龟兔再跑200万,累计650万;驯龙高手160万,累计3.98亿;动物也疯狂120万,累计350万;挑战者联盟90万,累计360万
+
+['08', '10'] ['810'] 教育部一级学科代码及名称:0810信息与通信工程(2012年)
+
+['1200', '4', '年'] ['2004', '年'] 12004年,自编自导了犯罪电影《汉城大劫案》,该片是其电影处女作,崔东勋凭该片获得第41届韩国电影大钟奖新人导演奖,第25届韩国青龙电影奖新人导演奖和最佳剧本奖
+
+['080', '50', '2'] ['80', '50', '2'] 专业实验核电子学、核物理、核辐射测量、核电站模拟、反应堆控制等专业实验等专业概览专业名称核工程与核技术修业年限四年授予学位工学学士专业代码核工程与核技术专业代码080502开设院校清华大学
+
+['国', '家', '宝', '藏', ':', '夺', '宝', '秘', '笈']['mb', 'c', '演', '技', '大', '赏', '迷', '你', '剧', '男', '子', '优', '秀', '演', '技', '奖'] ['mbc', '演', '技', '大', '赏', '迷', '你', '剧', '男', '子', '优', '秀', '演', '技', '奖'] 获奖记录2013-05-09第49届百想艺术大赏电视部门男子人气奖朴有天2012-12-30mbc演技大赏迷你剧男子优秀演技奖朴有天2012-12-30mbc演技大赏女子网络人气奖尹恩惠2012-12-30mbc演技大赏最佳韩流star奖尹恩惠
+
+['米', '兰', '达', ':', '2014', '圣', '诞', '特', '辑'] ['米', '兰', '达', '：', '2014', '圣', '诞', '特', '辑'] <米兰达:2014圣诞特辑》是导演mandie fletcher执导的一部喜剧片,影片于2014-12-25(英国)上映
+
+['ko'] ['k'] ufotable和starchild联手推出新"小魔女classical"企划剧场版动画《魔法少女姐妹优优与宁宁》,2013年03月已公开了主要制作阵容,2位可爱魔法少女优优与宁宁的声优也得到确认,此外,动画主题歌将由在《k》中为neko配音并演唱了ed的小松未可子担当
+
+['外', '事', '警', '察', ':', '被', '那', '个', '男', '人', '欺', '骗'] ['外', '事', '警', '察', '：', '被', '那', '个', '男', '人', '欺', '骗'] 影片《外事警察:被那个男人欺骗》将于2012年6月2日在日本全国公映
+
+['[UNK]', '月', '1', '日'] ['7', '月', '1', '日'] ←∝←7月1日首播∝←∝百度文根英(瑾莹)、李尚允、金范、李光洙、陈智熙、火之女神吧邀您共同关注7月1日《火之女神井儿》热火开播. ~~~~~~~~~~~y(^o^)yy~~~~~~~~~~.诚意邀约,祝贵吧越办越好,两吧友谊长长久久. ~~~~~~~~~~~y(^o^)yy~~~~~~~~~~.
+
+['2019', '.', '04', '.', '261'] ['2019', '.', '04', '.', '26'] 余波/the aftermath英国导演:詹姆斯·肯特上映时间:2019.04.261946年一名英军上校带着失去儿子的妻子住在一家失去妻子的德国家庭的豪宅里,结果妻子出轨德国男主人
+
+['超', '人', '前', '传', '第', '九', '季', '(', 'small', 'ville', 'season', '9', ')'] ['超', '人', '前', '传', '第', '九', '季', '（', 'small', 'ville', 'season', '9', '）'] 《超人前传第九季(smallville season 9)》美国东部时间2009年9月25日首播,lois对超人产生了暧昧,而同时又觉得clark很气人
+
+['hi', 'to', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] ['hit', 'o', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] 2014年6月2日梁文音凭获得2014hito流行音乐奖高音质hito最潜力女声奖;10月9日梁文音发行第五张个人音乐专辑《漫情歌》
+
+['200', '6', '年'] ['2006', '年'] 《樱子》是日本nhk2006年度上半年的晨间小说连续剧(第74部)
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] 就在3月2日,电影《厉害了,我的国》首次以纪录片的形式正式登陆全国影院,它全面反映了党的十八大以来中国取得了改革开放和社会主义现代化建设的历史性成就展现了中国人民在全面建设小康征程上的伟大奋斗,凝聚起全党全国人民的磅礴力量,为实现中华民族伟大复兴的中国梦不断前进
+
+['[UNK]', '月', '27', '日'] ['3', '月', '27', '日'] [03-20][原创翻译]"在当地吃得开吗"官方fb更新:d-7 yeah!!! *哥哥我_提了辆车 *去给你_做吃的去! 🏻3月27日(周二)晚11点(韩国时间)tvn首播萨瓦迪卡! 路上餐厅《在当地吃得开吗
+
+['名', '侦', '探', '柯', '南', ':', '零', '的', '执', '行', '人'] ['名', '侦', '探', '柯', '南', '：', '零', '的', '执', '行', '人'] 该剧在日本取得了91.83亿日元(折合人民币约6.22亿元)的票房,超过了去年上映的《名侦探柯南:零的执行人》(91.8亿日元),同时也刷新了柯南剧场版系列的最高票房纪录
+
+['美', '国', ':', '我', '们', '的', '故', '事'] ['美', '国', '：', '我', '们', '的', '故', '事'] 2010年4月,america:the story of us[美国:我们的故事]在美国的历史频道首映
+
+['08', '10'] ['810'] 教育部一级学科代码及名称:0810信息与通信工程(2012年)2
+
+['da', 'vi', 'd', '.', 'chi', 'n'] ['david', '.', 'chi', 'n'] ⑴david.chin(新西兰):淮安市新马高级中学董事长
+
+['破', '产', '姐', '妹', '第', '一', '季', '(', '2', 'br', 'ok', 'e', 'girls', 'season', '1', ')'] ['破', '产', '姐', '妹', '第', '一', '季', '（', '2', 'br', 'ok', 'e', 'girls', 'season', '1', '）'] 《破产姐妹第一季(2 broke girls season1)》是美国哥伦比亚广播公司于2011年9月19日首播的情景喜剧
+
+['蔷', '花', ',', '红', '莲'] ['蔷', '花', '，', '红', '莲'] 2003年6月13日,林秀晶主演金知云导演的电影《蔷花,红莲》在韩国上映4
+
+['08', '10'] ['810'] (0810)信息与通信工程(共25个一级学科招生单位)
+
+['220', '15', '年', '4', '月', '27', '日'] ['2015', '年', '4', '月', '27', '日'] 22015年4月27日,为郭德纲量身打造的脱口秀节目《纲到你身边》在湖北卫视开播
+
+['61'] ['6'] 2005年6月,19岁的林家宇被林正盛选为电影《月光下,我记得》女主角,开始演艺生涯5,并凭此该剧获得第6届华语电影传媒大奖最佳女配角奖61
+
+['越', '狱', ':', '重', '生'] ['越', '狱', '：', '重', '生'] 主要演员及基本信息《越狱:重生》由fox电视集团联合adelstein/parous公司出品,在paul scheuring的带领创作下打造出的全新剧本,一共有9集,在2016年开拍,将于今年美国时间的4月4日播出
+
+['1963'] ['3'] 1962年周明牂在中国植物保护学会成立大会上,作了《我国害虫农业防治研究现状和展望》的学术报告,1963年在《人民日报》上发表《结合耕作防治害虫》一文
+
+['n2', '017', '年', '12', '月'] ['2017', '年', '12', '月'] 链接:1qygbzks密码:pbxn2017年12月20号妖猫传北京首映的zip
+
+['200', '1', '-', '04', '-', '03'] ['2001', '-', '04', '-', '03'] 疾风/金山一彦主要剧情阴阳师是日本放送协会nhk2001-04-03首播的日本奇幻/鬼怪电视剧,导演小田切正明
+
+['mb', 'c', '演', '艺', '大', '赏', '年', '度', 'star', '奖'] ['mbc', '演', '艺', '大', '赏', '年', '度', 'star', '奖'] 2013年9月,郑俊英与演员郑柔美共同参演综艺《我们结婚了4》7;10月1日,郑俊英发行首张迷你专辑《1st mini album》,主打曲目为《离别前10分钟》8;同年,郑俊英凭首张迷你专辑提名2013 mama最佳男新人9,并获得ment 20's choice最佳翻唱奖10,2013mbc演艺大赏年度star奖11
+
+['og', 'ical'] ['gi', 'c'] 中国地质大学(武汉)珠宝学院(gemmological institute china university of geosciences)(wuhan)缩写为(gic)是一所以宝石教育为中心的教学、科研和技术服务单位,拥有全球最完备的珠宝教育体系
+
+['22', '年', '后', '的', '自', '白', ':', '我', '是', '杀', '人', '犯'] ['22', '年', '后', '的', '自', '白', '：', '我', '是', '杀', '人', '犯'] 据悉,《22年后的自白:我是杀人犯》于2017年6月10日日本公映
+
+['2200', '5', '年'] ['2005', '年'] 中央电视台视八套影视剧频道22005年度中央电视台八套黄金强档电视剧收视率统计结果,电视剧《我的鄂尔多斯》的收视率在30部电视剧中排名第14位11
+
+['哆', '啦', 'a', '梦', ':', '伴', '我', '同', '行'] ['哆', '啦', 'a', '梦', '：', '伴', '我', '同', '行'] 山崎贵早年以《永远的三丁目的夕阳》系列出名,后来执导了《宇宙战舰大和号》《永远的0》等片奠定了业界地位好玩的是,山崎贵的作品也经常引进到中国内地,譬如《哆啦a梦:伴我同行》曾拿到5.3亿人民币票房,一度成为日本电影在华最高纪录,后来才被《你的名字》超越
+
+['121', '0', '万'] ['210', '万'] 新浪微博 @ 电影票房: #昨日票房播报#周一放映10.9万场,人次270万,票房9200万;#小时代3:刺金时代#3400万,累计3.46亿;#京城81号#3300万,累计1.89亿;#变形金刚4:绝迹重生#1210万,累计19.02亿;#老男孩猛龙过江#440万,累计1.87亿;#分手大师#380无,累计6.45亿;#开心超人2#210万,累计1830万;#塞尔号4#累计5750万 ['国', '家', '宝', '藏', '：', '夺', '宝', '秘', '笈'] 影片《国家宝藏:夺宝秘笈》是《国家宝藏》的续集,由乔·德特杜巴执导,尼古拉斯·凯奇、黛安·克鲁格、强·沃特和哈威·凯特尔等联袂出演,影片于2007年12月21日在美国上映1
+
+['走', ',', '打', '鬼', '子', '去'] ['走', '，', '打', '鬼', '子', '去'] 电视剧《走,打鬼子去》国语全集于2013年在大陆上映,由:焦晓雨导演,著名演员:曹云金董可飞杜志国主演
+
+['23'] ['3'] 陈思诚,曾获得第三届英国万像国际华语电影节优秀男配角奖,第21届北京大学生电影节最佳导演处女作奖,第23届北京大学生电影节最佳编剧奖等奖项,前两年背叛佟丽娅一事也是闹得人尽皆知
+
+['162', '016', '年', '4', '月', '4', '日'] ['2016', '年', '4', '月', '4', '日'] 2014年12月7日北京影视频道162016年4月4日央视八套1剧集评价《遥远的婚约》再现了当年知青的插队生活状态、坚持真爱的坎坷爱情故事以及返城后各自人生和命运随着时代发展的变化,并掀起了一段追忆知青年代的热潮
+
+['robert', 'o', 'go'] ['robert', 'o', 'g'] 滴血的玫瑰la duena是墨西哥1995年拍摄的95集电视剧,导演是roberto gomez,主演是angelica rivera、cynthia klithbo、norma herrera
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+
+
+
+
+['200', '2', '年', '11', '月'] ['2002', '年', '11', '月'] 法内情20022002年11月首播2001-2002年间,亚视有数套剧集与新传媒(新加坡电视台)合作,《法内情2002》是其中一套,该剧由昔日"丽视桥王"萧若元创作故事及策划,卢新燕担任编审,二人早于丽的电视已有多次合作
+
+['050', '011'] ['500', '11'] 2016年5月1日,河北省人民政府机关迁址公告:经国务院批准,河北省人民政府机关由石家庄市桥西区维明南大街46号迁移至石家庄市长安区裕华东路113号(邮政编码:050011),自2016年5月3日起正式在新址办公
+
+['392', '013', '年'] ['2013', '年'] 392013年剧场第3《陆贞传奇》全国网收视率(含央视)
+
+['152', '017', '年'] ['2017', '年'] 152017年6月3日,在cfpls10总决赛上,马哲随队3:1击败tgf电子竞技俱乐部卫冕cfpl冠军16
+
+['tv', 'b'] ['tvb'] 1996tvb《西游记》卡司:麦长青的沙僧、江华的唐僧、张卫健的悟空、黎耀祥的八戒1998tvb《西游记2》卡司:江华的唐僧、陈浩民的悟空、麦长青的沙僧、黎耀祥的八戒tvb金牌绿叶麦长青版沙僧憨萌可爱乔杉×易小星,俩胖沙僧更适合老猪|耍贱二人卖起萌一样可爱说起内地各种版本的异象化西游,还有两只经常耍贱的常客其中,卖萌扮沙僧倒是反差出另一番光景
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+ ['钟', '馗', '伏', '魔', '：', '雪', '妖', '魔', '灵'] 《钟馗伏魔:雪妖魔灵》是由陈坤、李冰冰主演,鲍德熹、赵天宇联合执导的3d魔幻电影,定于2015年2月19日中国大陆上映
+
+['101'] ['10'] 张翰凭借该剧获得第10届首尔电视剧大赏亚洲之星奖101165
+
+['007', ':', '无', '暇', '赴', '死'] ['007', '：', '无', '暇', '赴', '死'] 《007:无暇赴死》是系列第25部,将于2020年4月3日英国上映,4月8日北美上映
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] 1、《复仇者联盟4:终局之战》2019年4月24日在中国大陆上映,作为漫威布局十年的电影,漫威电影第三阶段的收官之作,无疑是完美的
+
+['daniel', 'ce', 'b', 'rian'] ['daniel', 'ce', 'b', 'ri'] 《天使亦魔鬼》是daniel cebrian,joaquin gorriz执导,aura garrido、jaime olias等主演的爱情剧
+
+['名', '侦', '探', '柯', '南', ':', '绝', '海', '的', '侦', '探'] ['名', '侦', '探', '柯', '南', '：', '绝', '海', '的', '侦', '探'] 自4月12日在日本本土上映以来,累计票房高达92.4亿日元,《名侦探柯南:绝海的侦探》以来连续7年更新了系列历代最高票房,也位居日本上半年电影票房第一的好成绩
+
+['海', '底', '总', '动', '员', '2', ':', '寻', '找', '多', '莉'] ['海', '底', '总', '动', '员', '2', '：', '寻', '找', '多', '莉'] 20.海底总动员2:寻找多莉上映日期:2016-06-17(美国)剧情简介:故事从上一部结尾的六个月后开始,患上思乡病的蓝藻鱼多莉(dory)决定去寻找自己的父母查理(charlie)和安妮(jenny),在小丑鱼尼莫(nemo)和他的父亲马林(marlin)的帮助下,她从澳大利亚大堡礁来到了美国加州海岸,在这里她遇到了很多新朋友,有章鱼、海狮、白鲸等等
+
+
+
+['1960'] ['1'] 第1届金马影后:"玉女"尤敏英文名:you min籍贯:广东出生地:香港出生日期:1936年8月19日获奖记录:第一届台湾电影金马奖最佳女主角(1962)第七届亚太影展最佳女主角(1960)
+
+['花', '样', '男', '子', '(', '美', '版', ')', ')'] ['花', '样', '男', '子', '（', '美', '版', ')', '）'] 《花样男子(美版))》是导演kel williams执导的美版流星花园,于2013年12月26日在美国上映
+
+['le', 'ave', 'your', 'love', 'r'] ['leave', 'your', 'love', 'r'] ≪leave your lover≫神来一笔的吉他弹奏与即听感,使sam smith发迹,从而填充soul在英国男歌手地段的相对空白
+
+['ha', 'rus'] ['ha', 'ru'] 會不會哪天再看見小愛的時候,就已經是她17歲要和青梅竹馬yuto結婚的時候啊~harusource:source:另一位元老成員饒舌歌手tablo的女兒李haru
+
+['1200', '8', '年', '11', '月', '17', '日'] ['2008', '年', '11', '月', '17', '日'] 北京空港亿兆地产开发有限公司12008年11月17日由北京空港科技园区股份有限公司与北京北京天竺空港工业开发公司出资设立,注册资本4500万元
+
+['510', '月', '17', '日'] ['10', '月', '17', '日'] 510月17日,与金来沅、李尚禹、郑柔美合作的爱情剧《千日的约定》首播,秀爱因在剧中饰演渐渐失去记忆的出版社作家"李舒妍"而获得了第48届韩国百想艺术大赏电视类最佳女演员提名
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+epoch:   4, step: 21450, speed: 8190.74ms/b, train loss: 0.086
+epoch:   4, step: 21500, speed: 182.39ms/b, train loss: 0.087
+epoch:   4, step: 21550, speed: 182.40ms/b, train loss: 0.085
+epoch:   4, step: 21600, speed: 188.53ms/b, train loss: 0.089
+epoch:   4, step: 21650, speed: 187.46ms/b, train loss: 0.091
+epoch:   4, step: 21700, speed: 179.91ms/b, train loss: 0.086
+epoch:   4, step: 21750, speed: 189.06ms/b, train loss: 0.088
+epoch:   4, step: 21800, speed: 189.19ms/b, train loss: 0.083
+epoch:   4, step: 21850, speed: 184.02ms/b, train loss: 0.089
+epoch:   4, step: 21900, speed: 182.33ms/b, train loss: 0.091
+epoch:   4, step: 21950, speed: 179.80ms/b, train loss: 0.091
+epoch:   4, step: 22000, speed: 187.77ms/b, train loss: 0.086
+epoch:   4, step: 22050, speed: 205.30ms/b, train loss: 0.096
+epoch:   4, step: 22100, speed: 186.03ms/b, train loss: 0.090
+epoch:   4, step: 22150, speed: 188.13ms/b, train loss: 0.083
+epoch:   4, step: 22200, speed: 180.57ms/b, train loss: 0.092
+epoch:   4, step: 22250, speed: 183.58ms/b, train loss: 0.090
+epoch:   4, step: 22300, speed: 186.18ms/b, train loss: 0.091
+epoch:   4, step: 22350, speed: 182.60ms/b, train loss: 0.088
+epoch:   4, step: 22400, speed: 183.92ms/b, train loss: 0.091
+epoch:   4, step: 22450, speed: 189.94ms/b, train loss: 0.082
+epoch:   4, step: 22500, speed: 178.84ms/b, train loss: 0.086
+epoch:   4, step: 22550, speed: 183.37ms/b, train loss: 0.095
+epoch:   4, step: 22600, speed: 188.27ms/b, train loss: 0.096
+epoch:   4, step: 22650, speed: 189.12ms/b, train loss: 0.088
+epoch:   4, step: 22700, speed: 181.49ms/b, train loss: 0.092
+epoch:   4, step: 22750, speed: 186.09ms/b, train loss: 0.091
+epoch:   4, step: 22800, speed: 188.11ms/b, train loss: 0.086
+epoch:   4, step: 22850, speed: 184.88ms/b, train loss: 0.093
+epoch:   4, step: 22900, speed: 185.73ms/b, train loss: 0.088
+epoch:   4, step: 22950, speed: 192.68ms/b, train loss: 0.093
+epoch:   4, step: 23000, speed: 180.02ms/b, train loss: 0.088
+epoch:   4, step: 23050, speed: 184.64ms/b, train loss: 0.087
+epoch:   4, step: 23100, speed: 188.21ms/b, train loss: 0.090
+epoch:   4, step: 23150, speed: 185.71ms/b, train loss: 0.086
+epoch:   4, step: 23200, speed: 185.62ms/b, train loss: 0.088
+epoch:   4, step: 23250, speed: 191.66ms/b, train loss: 0.089
+epoch:   4, step: 23300, speed: 185.97ms/b, train loss: 0.086
+epoch:   4, step: 23350, speed: 187.02ms/b, train loss: 0.089
+epoch:   4, step: 23400, speed: 181.86ms/b, train loss: 0.090
+epoch:   4, step: 23450, speed: 187.36ms/b, train loss: 0.086
+epoch:   4, step: 23500, speed: 184.11ms/b, train loss: 0.084
+epoch:   4, step: 23550, speed: 183.84ms/b, train loss: 0.088
+epoch:   4, step: 23600, speed: 184.44ms/b, train loss: 0.088
+epoch:   4, step: 23650, speed: 185.08ms/b, train loss: 0.085
+epoch:   4, step: 23700, speed: 182.97ms/b, train loss: 0.085
+epoch:   4, step: 23750, speed: 185.42ms/b, train loss: 0.087
+epoch:   4, step: 23800, speed: 186.59ms/b, train loss: 0.084
+epoch:   4, step: 23850, speed: 188.39ms/b, train loss: 0.087
+epoch:   4, step: 23900, speed: 187.02ms/b, train loss: 0.086
+epoch:   4, step: 23950, speed: 185.58ms/b, train loss: 0.087
+epoch:   4, step: 24000, speed: 183.12ms/b, train loss: 0.082
+epoch:   4, step: 24050, speed: 181.12ms/b, train loss: 0.082
+epoch:   4, step: 24100, speed: 191.62ms/b, train loss: 0.087
+epoch:   4, step: 24150, speed: 178.86ms/b, train loss: 0.095
+epoch:   4, step: 24200, speed: 188.09ms/b, train loss: 0.081
+epoch:   4, step: 24250, speed: 181.53ms/b, train loss: 0.090
+epoch:   4, step: 24300, speed: 176.79ms/b, train loss: 0.089
+epoch:   4, step: 24350, speed: 180.47ms/b, train loss: 0.089
+epoch:   4, step: 24400, speed: 185.90ms/b, train loss: 0.087
+epoch:   4, step: 24450, speed: 186.73ms/b, train loss: 0.098
+epoch:   4, step: 24500, speed: 193.67ms/b, train loss: 0.092
+epoch:   4, step: 24550, speed: 182.32ms/b, train loss: 0.094
+epoch:   4, step: 24600, speed: 190.41ms/b, train loss: 0.086
+epoch:   4, step: 24650, speed: 189.50ms/b, train loss: 0.086
+epoch:   4, step: 24700, speed: 188.45ms/b, train loss: 0.088
+epoch:   4, step: 24750, speed: 174.64ms/b, train loss: 0.089
+epoch:   4, step: 24800, speed: 180.83ms/b, train loss: 0.087
+epoch:   4, step: 24850, speed: 179.58ms/b, train loss: 0.084
+epoch:   4, step: 24900, speed: 185.34ms/b, train loss: 0.087
+epoch:   4, step: 24950, speed: 181.76ms/b, train loss: 0.093
+epoch:   4, step: 25000, speed: 181.30ms/b, train loss: 0.089
+epoch:   4, step: 25050, speed: 188.33ms/b, train loss: 0.085
+epoch:   4, step: 25100, speed: 179.26ms/b, train loss: 0.091
+epoch:   4, step: 25150, speed: 178.92ms/b, train loss: 0.089
+epoch:   4, step: 25200, speed: 179.78ms/b, train loss: 0.085
+epoch:   4, step: 25250, speed: 188.65ms/b, train loss: 0.088
+epoch:   4, step: 25300, speed: 180.57ms/b, train loss: 0.088
+epoch:   4, step: 25350, speed: 182.96ms/b, train loss: 0.082
+epoch:   4, step: 25400, speed: 187.55ms/b, train loss: 0.092
+epoch:   4, step: 25450, speed: 187.46ms/b, train loss: 0.086
+epoch:   4, step: 25500, speed: 182.43ms/b, train loss: 0.094
+epoch:   4, step: 25550, speed: 190.19ms/b, train loss: 0.085
+epoch:   4, step: 25600, speed: 179.09ms/b, train loss: 0.093
+epoch:   4, step: 25650, speed: 181.00ms/b, train loss: 0.091
+epoch:   4, step: 25700, speed: 187.71ms/b, train loss: 0.086
+epoch:   4, step: 25750, speed: 183.64ms/b, train loss: 0.090
+epoch:   4, step: 25800, speed: 185.92ms/b, train loss: 0.095
+epoch:   4, step: 25850, speed: 190.89ms/b, train loss: 0.089
+epoch:   4, step: 25900, speed: 188.93ms/b, train loss: 0.092
+epoch:   4, step: 25950, speed: 188.31ms/b, train loss: 0.082
+epoch:   4, step: 26000, speed: 185.88ms/b, train loss: 0.091
+epoch:   4, step: 26050, speed: 183.35ms/b, train loss: 0.085
+epoch:   4, step: 26100, speed: 181.84ms/b, train loss: 0.092
+epoch:   4, step: 26150, speed: 183.94ms/b, train loss: 0.087
+epoch:   4, step: 26200, speed: 181.86ms/b, train loss: 0.080
+epoch:   4, step: 26250, speed: 182.25ms/b, train loss: 0.088
+epoch:   4, step: 26300, speed: 180.54ms/b, train loss: 0.089
+epoch:   4, step: 26350, speed: 186.28ms/b, train loss: 0.088
+epoch:   4, step: 26400, speed: 188.93ms/b, train loss: 0.084
+epoch:   4, step: 26450, speed: 193.76ms/b, train loss: 0.088
+epoch:   4, step: 26500, speed: 183.90ms/b, train loss: 0.090
+epoch:   4, step: 26550, speed: 180.70ms/b, train loss: 0.097
+epoch:   4, step: 26600, speed: 174.75ms/b, train loss: 0.096
+epoch:   4, step: 26650, speed: 183.09ms/b, train loss: 0.085
+epoch:   4, step: 26700, speed: 178.01ms/b, train loss: 0.090
+epoch:   4, step: 26750, speed: 184.91ms/b, train loss: 0.093
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+correct_num: 23605, predict_num: 34164, gold_num: 38962
+epoch   4, eval time: 341.59s, f1: 0.65, precision: 0.69, recall: 0.61
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+['kb', 's', '明', '星', '发', '掘', '大', '赛', '冠', '军'] ['kbs', '明', '星', '发', '掘', '大', '赛', '冠', '军'] 崔振赫,1985年生,韩国明星,2006年出道,曾获2006kbs明星发掘大赛冠军中文名:崔振赫(或翻译为崔真赫、崔镇赫)外文名:kim thae-ho别名:金泰浩国籍:韩国出生地:1985年2月9日职业:演员毕业院校:京门大学模特专业
+
+['1960'] ['1'] 第1届金马影后:"玉女"尤敏英文名:you min籍贯:广东出生地:香港出生日期:1936年8月19日获奖记录:第一届台湾电影金马奖最佳女主角(1962)第七届亚太影展最佳女主角(1960)
+
+['[UNK]', '月', '27', '日'] ['3', '月', '27', '日'] [03-20][原创翻译]"在当地吃得开吗"官方fb更新:d-7 yeah!!! *哥哥我_提了辆车 *去给你_做吃的去! 🏻3月27日(周二)晚11点(韩国时间)tvn首播萨瓦迪卡! 路上餐厅《在当地吃得开吗
+
+['1200', '8', '年', '11', '月', '17', '日'] ['2008', '年', '11', '月', '17', '日'] 北京空港亿兆地产开发有限公司12008年11月17日由北京空港科技园区股份有限公司与北京北京天竺空港工业开发公司出资设立,注册资本4500万元
+
+['火', '影', '忍', '者', '剧', '场', '版', ':', '博', '人', '传'] ['火', '影', '忍', '者', '剧', '场', '版', '：', '博', '人', '传'] 2月18号,《火影忍者剧场版:博人传》在中国内地正式上映,四天席卷6000万票房,但是这份数据对于火影人气极高的中国来说,未免是一份令人不满的答卷回顾情怀大片《哆来a梦:伴我同行》的五亿票房,《名侦探柯南:业火的向日葵》的八千万票房,火影忍者当下的七千万实在不够看,那么到底是什么原因导致国内票房并不理想呢
+
+['火', '烧', '石', '室', '(', '梁', '天', '来', '告', '御', '状', ')'] ['火', '烧', '石', '室', '（', '梁', '天', '来', '告', '御', '状', '）'] 20岁入电影圈,银幕处男作是粤语片《火烧石室(梁天来告御状)》(1939年11月24日香港公映,饰演梁天来儿子),影作国语文艺片《蔷薇处处开》
+
+['小', '狗', 'me', 'rry', ':', '承', '载', '幸', '福', '的', '传', '信', '犬'] ['小', '狗', 'me', 'rry', '：', '承', '载', '幸', '福', '的', '传', '信', '犬'] 《小狗merry:承载幸福的传信犬》是日本beetv播放的手机连续剧,由酒井若菜和小林星兰主演,于2011年2月20日首播
+
+['le', 'ave', 'your', 'love', 'r'] ['leave', 'your', 'love', 'r'] ≪leave your lover≫神来一笔的吉他弹奏与即听感,使sam smith发迹,从而填充soul在英国男歌手地段的相对空白
+
+['mb', 'c', '演', '技', '大', '赏', '迷', '你', '剧', '男', '子', '优', '秀', '演', '技', '奖'] ['mbc', '演', '技', '大', '赏', '迷', '你', '剧', '男', '子', '优', '秀', '演', '技', '奖'] 获奖记录2013-05-09第49届百想艺术大赏电视部门男子人气奖朴有天2012-12-30mbc演技大赏迷你剧男子优秀演技奖朴有天2012-12-30mbc演技大赏女子网络人气奖尹恩惠2012-12-30mbc演技大赏最佳韩流star奖尹恩惠
+
+['daniel', 'ce', 'b', 'rian'] ['daniel', 'ce', 'b', 'ri'] 《天使亦魔鬼》是daniel cebrian,joaquin gorriz执导,aura garrido、jaime olias等主演的爱情剧
+
+['1993', '-', '01', '-', '011'] ['1993', '-', '01', '-', '01'] no.1《霸王别姬》导演:陈凯歌主演:张国荣、张丰毅、巩俐上映时间:1993-01-011993年电影《霸王别姬》,改编自中国香港女作家李碧华的同名小说,由陈凯歌导演,张国荣、张丰毅、巩俐领衔主演
+
+['101'] ['10'] 张翰凭借该剧获得第10届首尔电视剧大赏亚洲之星奖101165
+
+['名', '侦', '探', '柯', '南', ':', '绝', '海', '的', '侦', '探'] ['名', '侦', '探', '柯', '南', '：', '绝', '海', '的', '侦', '探'] 自4月12日在日本本土上映以来,累计票房高达92.4亿日元,《名侦探柯南:绝海的侦探》以来连续7年更新了系列历代最高票房,也位居日本上半年电影票房第一的好成绩
+
+['392', '013', '年'] ['2013', '年'] 392013年剧场第3《陆贞传奇》全国网收视率(含央视)
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] 好莱坞大片《复仇者联盟4:终局之战》自4月24日在内地上映开始,它就不断刷新各种纪录,包括中国影史预售票房第一(7.2亿元),中国影史零点场票房第一(1.89亿元),中国影史单日票房最高(5.5亿元),中国影史最快破20亿(用时3天20时)、最快破30亿(用时7天17时),中国影史单周票房第一(26.04亿元)等等
+
+['黑', '夜', '传', '说', '5', ':', '血', '战'] ['黑', '夜', '传', '说', '5', '：', '血', '战'] 2016年7月2日,凯特·贝金赛尔主演的魔幻动作电影《黑夜传说5:血战》(underworld:blood wars),马来西亚地区已于2016年12月1日上映
+
+['海', '贼', '王', ':', '狂', '热', '行', '动'] ['海', '贼', '王', '：', '狂', '热', '行', '动'] 8月9日在日本上映的海贼王20周年剧场版《海贼王:狂热行动》凭借着优秀的制作与剧情,上映1个多月以来席卷日本票房榜,累计票房已超过50亿日元,动员人次超过370万
+
+['2016'] ['16'] 我觉得刘亦菲更美,她获得的成就有16届华语电影传媒大奖最受瞩目女演员第5届澳门国际电影节最佳女主角gmic x 2017非凡盛典"gmic互联网时代电影人物"入围第40届蒙特利尔国际电影节最佳女演员入围第20届上海国际电影节金爵奖最佳女演员2016年当选"中国80后十大影响力人物
+
+['2016'] ['20'] 我觉得刘亦菲更美,她获得的成就有16届华语电影传媒大奖最受瞩目女演员第5届澳门国际电影节最佳女主角gmic x 2017非凡盛典"gmic互联网时代电影人物"入围第40届蒙特利尔国际电影节最佳女演员入围第20届上海国际电影节金爵奖最佳女演员2016年当选"中国80后十大影响力人物
+
+['破', '产', '姐', '妹', '第', '一', '季', '(', '2', 'br', 'ok', 'e', 'girls', 'season', '1', ')'] ['破', '产', '姐', '妹', '第', '一', '季', '（', '2', 'br', 'ok', 'e', 'girls', 'season', '1', '）'] 《破产姐妹第一季(2 broke girls season1)》是美国哥伦比亚广播公司于2011年9月19日首播的情景喜剧
+
+['分', '歧', '者', ':', '异', '类', '觉', '醒'] ['分', '歧', '者', '：', '异', '类', '觉', '醒'] 由美国顶峰娱乐出品的科幻动作系列电影《分歧者:异类觉醒》2014年9月8日于中国内地正式上映,上映首日票房累计2260万,超过同门前辈《饥饿游戏2》在内地的首日票房(1450万)
+
+['回', '来', '吧', ',', '大', '叔'] ['回', '来', '吧', '，', '大', '叔'] 韩国sbs电视台于2016年2月24日起播出的水木连续剧《回来吧,大叔》
+
+['1800', '万'] ['800', '万'] 中国电影报v:2012第19周(5.7-13),周总票房约3亿 #复仇者联盟#2亿进账,累计3.2亿;#泰坦尼克号#2000万,累计9.6亿;#超级战舰#1800万,累计过3亿 #黄金大劫案#1600万,累计1.4亿多;#追凶#首周900多万,#影子爱人#800万,#赛德克·巴莱#400万,#飞越老人院#300多万 #形影不离#300多万,累计约900万准确明发
+
+['00', ':', '00'] ['0', ':', '00'] 这次却不为谁2歌曲mv《夜落初雪》作为新专辑《00:00》中第一首确定收入的歌曲,旋律优美独具中国五声音阶韵味,让人沉醉在飘渺悠远的意境之中
+
+['hi', 'to', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] ['hit', 'o', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] 2014年6月2日梁文音凭获得2014hito流行音乐奖高音质hito最潜力女声奖;10月9日梁文音发行第五张个人音乐专辑《漫情歌》
+
+['さ', 'い', 'は', 'ての', '湖'] ['さい', 'は', 'ての', '湖'] 八代亜纪华丽なる女心铃木道明作品集1977收录曲目:side1赤坂の夜は更けて银座フルースワン?レイニー ?ナイト?イン?卜キヨ一フひレー?ナイト?イン?札幌はてしなき恋女の意地side 2夏の日の想い出想い出の街北国は寒いたろうさいはての湖はかなわたしやつしろ草['米', '兰', '达', ':', '2014', '圣', '诞', '特', '辑'] ['米', '兰', '达', '：', '2014', '圣', '诞', '特', '辑'] <米兰达:2014圣诞特辑》是导演mandie fletcher执导的一部喜剧片,影片于2014-12-25(英国)上映
+
+['tv', 'b'] ['tvb'] 1996tvb《西游记》卡司:麦长青的沙僧、江华的唐僧、张卫健的悟空、黎耀祥的八戒1998tvb《西游记2》卡司:江华的唐僧、陈浩民的悟空、麦长青的沙僧、黎耀祥的八戒tvb金牌绿叶麦长青版沙僧憨萌可爱乔杉×易小星,俩胖沙僧更适合老猪|耍贱二人卖起萌一样可爱说起内地各种版本的异象化西游,还有两只经常耍贱的常客其中,卖萌扮沙僧倒是反差出另一番光景
+
+['510', '月', '17', '日'] ['10', '月', '17', '日'] 510月17日,与金来沅、李尚禹、郑柔美合作的爱情剧《千日的约定》首播,秀爱因在剧中饰演渐渐失去记忆的出版社作家"李舒妍"而获得了第48届韩国百想艺术大赏电视类最佳女演员提名
+
+['m', 'tv', '封', '神', '榜', '音', '乐', '奖', '十', '大', '人', '气', '王'] ['mtv', '封', '神', '榜', '音', '乐', '奖', '十', '大', '人', '气', '王'] 第二位:安心亚获得过《fhm》全球百大性感美女第1名2011mtv封神榜音乐奖十大人气王身高:172cm体重:52kg
+
+['极', '速', '蜗', '牛', ':', '狂', '奔', '第', '一', '季'] ['极', '速', '蜗', '牛', '：', '狂', '奔', '第', '一', '季'] 《极速蜗牛:狂奔第一季》是由瑞德·斯科特/格蕾·德丽斯勒/菲尔·拉马/达兰·诺里斯/戴德里克·巴德等主演的一部动画喜剧,于2013-12-24(美国)上映
+
+['120', '10', '年', '4', '月'] ['2010', '年', '4', '月'] 12010年4月设立云枫街道,辖原汉丰街道所辖的宝华、永先、长青、龙珠、平桥5个社区,将镇安镇所辖的关子、兴合2个村划入云枫街道管辖
+
+['国', '家', '宝', '藏', ':', '夺', '宝', '秘', '笈'] ['国', '家', '宝', '藏', '：', '夺', '宝', '秘', '笈'] 影片《国家宝藏:夺宝秘笈》是《国家宝藏》的续集,由乔·德特杜巴执导,尼古拉斯·凯奇、黛安·克鲁格、强·沃特和哈威·凯特尔等联袂出演,影片于2007年12月21日在美国上映1
+
+['012', '015', '年', '1', '月', '11', '日'] ['2015', '年', '1', '月', '11', '日'] 获奖记录获奖时间奖项名称获奖方获奖记录2015-10-21东京戏剧奖单元剧作品奖《东方快车谋杀案》获奖8播出信息集数上映时间标题收视率012015年1月11日第1夜16
+
+['夺', '命', '煞', '星', '宝', '莱', '坞', '2', ':', '再', '度', '追', '击'] ['夺', '命', '煞', '星', '宝', '莱', '坞', '2', '：', '再', '度', '追', '击'] 好莱坞惊悚科幻动作片《至暗之时》在16个地区拿下742万的票房,目前两周全球累计票房2237万,跟本片之前颇为大手笔的宣传策略和投资比起来,成绩不甚理想印度电影《夺命煞星宝莱坞2:再度追击》是印度的首席明星沙鲁克·罕的新作,该片于2011年12月23日在印度上映,随即在印度国内引发观影热潮,两周票房3367万,视其走势,超越《ra.one》的5000万票房已属必然
+
+['080', '20', '2'] ['802', '02'] 人物简介陈胜功,男,工学博士,山东省平度市人,北京航空航天大学自动化科学与电气工程学院副教授、硕士研究生导师(硕士学科:080202机械电子工程)
+
+['19', '84', '年'] ['1984', '年'] 中国教育服务中心华南分公司china education service center,south1984年由国家教委批准成立,原隶属于国家育部,是中国首批获得教育部、公安部及国家工商行政管理局颁发的自费出国留学服务及国际教育交流的机构主要服务:美、英、加、澳、新、港澳台等国家地区的留学申请和国际游学,出国考试、英美文化名著国际课程培训、移民及签证等
+
+['19', '84', '年'] ['1984', '年'] 帅康公司名称:帅康集团有限公司公司网址:www.sacon.cn1984年,帅康由余姚市调谐器厂起步,在成长为全国电视调谐器生产大户后转型生产烟机,并在1993年首开全国深型吸油烟机先河,由此翻开了"厨房革命"新的一页
+
+['08', '110', '2'] ['81', '10', '2'] 吴森堂,男,山东人,工学博士,北京航空航天大学自动化科学与电气工程学院教授、博士研究生导师(博士学科:081102检测技术与自动化装置),1992年2月在苏联基辅航空工程学院(现乌克兰国立航空大学)获动力学、弹道学与飞行器运动控制专业、工程系统控制专业苏联工学博士学位
+
+['23'] ['3'] 陈思诚,曾获得第三届英国万像国际华语电影节优秀男配角奖,第21届北京大学生电影节最佳导演处女作奖,第23届北京大学生电影节最佳编剧奖等奖项,前两年背叛佟丽娅一事也是闹得人尽皆知
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] 就在3月2日,电影《厉害了,我的国》首次以纪录片的形式正式登陆全国影院,它全面反映了党的十八大以来中国取得了改革开放和社会主义现代化建设的历史性成就展现了中国人民在全面建设小康征程上的伟大奋斗,凝聚起全党全国人民的磅礴力量,为实现中华民族伟大复兴的中国梦不断前进
+
+['231', '2', '月', '18', '日'] ['12', '月', '18', '日'] 2312月18日,与役所广司联袂主演的古装剧情片《最后的忠臣藏》上映,佐藤浩市在片中饰演为了执行任务而顽强活下去的义士"寺坂吉右卫门",凭此获得了第35届日本电影学院奖最佳男配角提名
+
+['91', '98', '2', '年'] ['1982', '年'] 91982年,凌子风将《骆驼祥子》小说改编为电影同名电影
+
+['哆', '啦', 'a', '梦', ':', '伴', '我', '同', '行'] ['哆', '啦', 'a', '梦', '：', '伴', '我', '同', '行'] 山崎贵早年以《永远的三丁目的夕阳》系列出名,后来执导了《宇宙战舰大和号》《永远的0》等片奠定了业界地位好玩的是,山崎贵的作品也经常引进到中国内地,譬如《哆啦a梦:伴我同行》曾拿到5.3亿人民币票房,一度成为日本电影在华最高纪录,后来才被《你的名字》超越
+
+['172', '012', '年', '10', '月', '7', '日'] ['2012', '年', '10', '月', '7', '日'] 16播出信息播出时间播出平台备注2012年5月16日潍坊电视台首播172012年10月7日东南卫视上星首播18剧集评价《苏东坡》一剧从策划到投拍历时八年之久,由国家一级导演王文杰执导
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] (《复仇者联盟4:终局之战》剧照)《复仇者联盟4:终局之战》(avengers 4:endgame)在全球掀起热潮,结果在全球累积27.96亿美元,打破《阿凡达》长达10年定的电影最高票房冠军,正式超越了《阿凡达》所保持的27.89亿美元票房纪录
+
+['mb', 'c', '演', '艺', '大', '赏', '年', '度', 'star', '奖'] ['mbc', '演', '艺', '大', '赏', '年', '度', 'star', '奖'] 2013年9月,郑俊英与演员郑柔美共同参演综艺《我们结婚了4》7;10月1日,郑俊英发行首张迷你专辑《1st mini album》,主打曲目为《离别前10分钟》8;同年,郑俊英凭首张迷你专辑提名2013 mama最佳男新人9,并获得ment 20's choice最佳翻唱奖10,2013mbc演艺大赏年度star奖11
+
+['200', '6', '年'] ['2006', '年'] 《樱子》是日本nhk2006年度上半年的晨间小说连续剧(第74部)
+
+['1963'] ['3'] 1962年周明牂在中国植物保护学会成立大会上,作了《我国害虫农业防治研究现状和展望》的学术报告,1963年在《人民日报》上发表《结合耕作防治害虫》一文
+
+['robert', 'o', 'go'] ['robert', 'o', 'g'] 滴血的玫瑰la duena是墨西哥1995年拍摄的95集电视剧,导演是roberto gomez,主演是angelica rivera、cynthia klithbo、norma herrera
+
+['2019', '.', '04', '.', '261'] ['2019', '.', '04', '.', '26'] 余波/the aftermath英国导演:詹姆斯·肯特上映时间:2019.04.261946年一名英军上校带着失去儿子的妻子住在一家失去妻子的德国家庭的豪宅里,结果妻子出轨德国男主人['520', '15', '年', '10', '月', '16', '日'] ['2015', '年', '10', '月', '16', '日'] 14播出信息播出情况播出时间播出平台2016年2月8日cctv8152015年10月16日腾讯视频好莱坞会员独播32016年1月10日福建电视剧频道收视情况《班淑传奇》全集首播csm52城收视率日期集数收视率收视份额同时段排名2016
+
+['茶', ',', '一', '片', '树', '叶', '的', '故', '事'] ['茶', '，', '一', '片', '树', '叶', '的', '故', '事'] 豆瓣评分:8.8《茶,一片树叶的故事》是央视纪录频道于2013年11月18日推出的一部原创纪录片,也是中国首部全面探寻世界茶文化的纪录片,由王冲霄执导,罗明担任总监制,方亮担任总结说员
+
+['81', '99', '8', '年'] ['1998', '年'] 81998年,24岁的向海岚参加港姐选美,获得冠军、"最上镜小姐"、"动感都会大使"和"环球美态大奖"
+
+['162', '016', '年', '4', '月', '4', '日'] ['2016', '年', '4', '月', '4', '日'] 2014年12月7日北京影视频道162016年4月4日央视八套1剧集评价《遥远的婚约》再现了当年知青的插队生活状态、坚持真爱的坎坷爱情故事以及返城后各自人生和命运随着时代发展的变化,并掀起了一段追忆知青年代的热潮
+
+['米', '兰', '达', ':', '2014', '圣', '诞', '特', '辑'] ['米', '兰', '达', '：', '2014', '圣', '诞', '特', '辑'] 米兰达:2014圣诞特辑》是导演mandie fletcher执导的一部喜剧片,影片于2014-12-25(英国)上映
+
+['斗', '爱', 'du', 'el', 'for', 'love', '(', '舞', '动', '心', '灵', ')'] ['斗', '爱', 'du', 'el', 'for', 'love', '（', '舞', '动', '心', '灵', '）'] [辽宁大连] 大连万达4月影片上映计划《斗爱duel for love(舞动心灵)》4月14日上映估计全价45元,优惠价格20元2009中国体育舞蹈公开系列赛推荐影片钟汉良
+
+['220', '15', '年', '4', '月', '27', '日'] ['2015', '年', '4', '月', '27', '日'] 22015年4月27日,为郭德纲量身打造的脱口秀节目《纲到你身边》在湖北卫视开播
+
+['119', '94', '年'] ['1994', '年'] 商科集团11994年成立于广州,是一家从事消费数码电子产品研发和计算机硬件及周边设备、生产及销售的国家高新技术企业
+
+['越', '狱', ':', '重', '生'] ['越', '狱', '：', '重', '生'] 主要演员及基本信息《越狱:重生》由fox电视集团联合adelstein/parous公司出品,在paul scheuring的带领创作下打造出的全新剧本,一共有9集,在2016年开拍,将于今年美国时间的4月4日播出
+
+['53'] ['3'] 牛庄镇总面积53平方公里,人口3
+
+['son', 'os'] ['so', 'nos'] 2sonos公司介绍成立于2002年的sonos,是一家来自美国加州圣塔芭芭拉市(santa barbara)的创新型科技企业,主要研发和生产家庭无线智能音响系统
+
+['son', 'os'] ['so', 'nos'] 2sonos公司介绍成立于2002年的sonos,是一家来自美国加州圣塔芭芭拉市(santa barbara)的创新型科技企业,主要研发和生产家庭无线智能音响系统
+
+['son', 'os'] ['so', 'nos'] 2sonos公司介绍成立于2002年的sonos,是一家来自美国加州圣塔芭芭拉市(santa barbara)的创新型科技企业,主要研发和生产家庭无线智能音响系统
+
+['2000'] ['20'] 吴镇宇2000第37届台湾电影金马奖最佳男主角奖《枪火》2001第20届香港电影金像奖最佳男配角奖《公元2000》
+
+['ko'] ['k'] ufotable和starchild联手推出新"小魔女classical"企划剧场版动画《魔法少女姐妹优优与宁宁》,2013年03月已公开了主要制作阵容,2位可爱魔法少女优优与宁宁的声优也得到确认,此外,动画主题歌将由在《k》中为neko配音并演唱了ed的小松未可子担当
+
+['320', '13', '年', '3', '月', '8', '日'] ['2013', '年', '3', '月', '8', '日'] 32013年3月8日,张江南执导,霍思燕、惠英红、李宗翰、王双宝主演的电影《午夜火车》全国公映
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] 北京2月23日电(记者刘阳)由中央电视台、中国电影股份有限公司联合出品的电影《厉害了,我的国》将于3月2日登陆全国影院,将党的十八大以来中国的发展和成就,以及十九大报告中习近平总书记提出的中国特色社会主义进入新时代这一重大论述,以纪录片的形式首次呈现在大银幕上
+
+['名', '侦', '探', '柯', '南', ':', '绀', '青', '之', '拳'] ['名', '侦', '探', '柯', '南', '：', '绀', '青', '之', '拳'] >中秋档亚军-《名侦探柯南:绀青之拳》,作为《柯南》剧场版第23部,在日本的累计票房已经突破92.4亿日元,位居日本影史票房第48名
+
+['her', 'oe', 's'] ['hero', 'es'] qq中国音乐点击榜----张靓颖荣登榜首01heroes(《功夫之王》片尾曲)张靓颖002依然在一起马天宇03这就是我戴佩妮04不死心还在信乐团05|拥抱爱的梦想张靓/div>
+
+['蜘', '蛛', '侠', '14'] ['蜘', '蛛', '侠', '1'] 当然,我说的是那些相对比较热门的电影那些扑街几千万的不在讨论之列狮子王8亿银河9亿扫毒13亿蜘蛛侠14亿烈火英雄哪吒上海堡垒使徒行者2速度与激情这些正在上映或即将上映的影片,除上海堡垒我表示存疑外,其他电影票房应该都不会低于8亿上海堡垒要么大爆,要么高开低走票房低于8亿没想到狮子王极大可能成为暑期档那些热门电影中票房最低的一部
+
+['星', '际', '迷', '航', ':', '发', '现', '号'] ['星', '际', '迷', '航', '：', '发', '现', '号'] 《星际迷航:发现号》于2017年9月24日在美国cbs电视台首播
+
+['61'] ['6'] 2005年6月,19岁的林家宇被林正盛选为电影《月光下,我记得》女主角,开始演艺生涯5,并凭此该剧获得第6届华语电影传媒大奖最佳女配角奖61
+
+['171'] ['17'] 2008年1月31日,获得第17届首尔歌谣大赏本赏;55月21日,为古装剧《王女自鸣鼓》所演唱的主题曲《爱情是罪吗》公开;1711月13日,做了声带手术后的白智英推出第7张专辑《sensibility》,她用与以往有所不同的嗓音尝试演唱了全新类型的歌曲
+
+['08', '10'] ['810'] 教育部一级学科代码及名称:0810信息与通信工程(2012年)
+
+['122', '012', '年', '10', '月', '12', '日', '-', '12', '月', '21', '日'] ['2012', '年', '10', '月', '12', '日', '-', '12', '月', '21', '日'] 5%系列作品播出时间剧名集数2011年7月8日-9月23日勇者义彦和魔王之城122012年10月12日-12月21日勇者义彦和恶灵之钥112016年10月8日-12月24日勇者义彦与被引导的七人12
+
+['08', '10'] ['810'] 专业发展通信工程专业代码:0810,分为两个学科,一个是偏向于传输的"通信与信息系统(081001)",另一个是偏向于编解码的"信号与信息处理(081002)"
+
+['bb', 'c'] ['bbc'] 观看链接:或在公号对话框回复:最美经典2、《冰冻星球》frozenplanet豆瓣评分:9.7bbc耗时5年制作的纪录片《冰冻星球》,同样是一部耗资巨大的纪录片,用镜头真实地展现正在逐渐融化的地球两极,以及生活在这里的各种生物
+
+['外', '事', '警', '察', ':', '被', '那', '个', '男', '人', '欺', '骗'] ['外', '事', '警', '察', '：', '被', '那', '个', '男', '人', '欺', '骗'] 影片《外事警察:被那个男人欺骗》将于2012年6月2日在日本全国公映
+
+['15'] ['5'] 且跟小编一起看看~星座:天秤座血型:ab型身高:180cm出生地:台湾省台北市代表作品:痞子英雄、艋舺、搜索、致我们终将逝去的青春、狄仁杰之神都龙王、三生三世十里桃花主要成就:第44届台湾金钟奖最佳男主角奖、第5届亚洲电影大奖最佳新演员奖、第15届中国电影华表奖优秀境外华裔男演员奖、第16届华鼎奖最佳电影男演员奖、第7届英国万像国际华语电影节最佳男主角奖赵又廷沉稳持重,他面庞帅气、轮廓硬朗、线条分明,更加衬托赵又廷而立之年的坚毅果敢和责任担当(凤凰网评)
+
+['海', '底', '总', '动', '员', '2', ':', '寻', '找', '多', '莉'] ['海', '底', '总', '动', '员', '2', '：', '寻', '找', '多', '莉']['名', '侦', '探', '柯', '南', ':', '绀', '青', '之', '拳'] ['名', '侦', '探', '柯', '南', '：', '绀', '青', '之', '拳'] 当"柯学宇宙"取代了只有一个的真相……今年中秋节,《名侦探柯南:绀青之拳》在国内上映,截止9月19日,上映7天票房为1.82亿,这是该系列剧场版在中国内地上映以来获得的最好票房成绩
+
+['007', ':', '无', '暇', '赴', '死'] ['007', '：', '无', '暇', '赴', '死'] 《007:无暇赴死》是系列第25部,将于2020年4月3日英国上映,4月8日北美上映
+
+['蔷', '花', ',', '红', '莲'] ['蔷', '花', '，', '红', '莲'] 2003年6月13日,林秀晶主演金知云导演的电影《蔷花,红莲》在韩国上映4
+
+['宝', '莲', '灯', '(', '2005', '年', '曹', '骏', ',', '舒', '畅', ',', '焦', '恩', '俊', '主', '演', '电', '视', '剧', ')'] ['宝', '莲', '灯', '（', '2005', '年', '曹', '骏', '，', '舒', '畅', '，', '焦', '恩', '俊', '主', '演', '电', '视', '剧', '）'] 宝莲灯(2005年曹骏,舒畅,焦恩俊主演电视剧)是2005年6月1日在中国大陆上映,由余明生执导的
+
+['53', '35', '万'] ['335', '万'] 香港周六大盘:349万累计票房 #魔警#1300万 #情敌#197万 #美队#5335万 #里约#944万 #红van#1908万 #冰封侠#383万 #二重身#35万 #豪情#1541万 #吸血#43万 #天堂#77万 #杀机#1525万 #卡诺#368万 #整容日记#8万 #性上瘾2#18万 #布达佩斯#335万 #分歧者#872万 #诺亚#909万 #美味情书#131万
+
+['1908', '万'] ['8', '万'] 香港周六大盘:349万累计票房 #魔警#1300万 #情敌#197万 #美队#5335万 #里约#944万 #红van#1908万 #冰封侠#383万 #二重身#35万 #豪情#1541万 #吸血#43万 #天堂#77万 #杀机#1525万 #卡诺#368万 #整容日记#8万 #性上瘾2#18万 #布达佩斯#335万 #分歧者#872万 #诺亚#909万 #美味情书#131万
+
+['080', '50', '2'] ['80', '50', '2'] 专业实验核电子学、核物理、核辐射测量、核电站模拟、反应堆控制等专业实验等专业概览专业名称核工程与核技术修业年限四年授予学位工学学士专业代码核工程与核技术专业代码080502开设院校清华大学
+
+['2012', '年'] ['12', '年'] 2012年人再囧途之泰囧票房12.67亿
+
+['jun'] ['n'] 《灰色的小红帽》是曾咏欣演唱的歌曲,由林若宁填词、jun kung等人谱曲,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['jun'] ['n'] 《灰色的小红帽》是曾咏欣演唱的歌曲,由林若宁填词、jun kung等人谱曲,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['ha', 'ham'] ['ha', 'ha'] mbc无限挑战e317 130216竞争特辑(上)mc:刘在石郑亨敦朴明秀卢洪哲吉郑俊河hahambc无限挑战e318 130223竞争特辑(下)mc:刘在石郑亨敦朴明秀卢洪哲吉郑俊河haha
+
+['16', '亿'] ['6', '亿'] 而且我们看到今年的国庆档这三部影片的票房可以说都是不错的,目前的我和我的祖国马上16亿,中国机长13亿,攀登者6亿
+
+['[UNK]', '年', '4', '月', '18', '日'] ['2016', '年', '4', '月', '18', '日'] 我为什么选择它?因为如下关于谭八爷公司,这么短的时间内做到月销量一千多万,靠的是口碑和质量[拳头][拳头]1⃣2016年4月18日成立了"四川谭八爷商贸有限责任公司"2⃣2016年11月1日,自贡谭八爷食品厂正式落成3⃣2016年11月19日,和cctv央视网商城签约优选品牌4⃣2017年2月1日,推出下单平台系统5⃣2017年4月,拿下qs食品生产许可证
+
+['t', 'ul'] ['t', 'u'] 塔尔萨大学(university of tulsa,简称tu)成立于1894年,是美国的一所私立研究型大学
+
+['05', '23', '60'] ['52', '360'] 辛集站位于河北省辛集市,邮政编码:052360,距离石家庄站71公里,离德州站109公里,隶属北京铁路局管辖,现为二等站
+
+['灵', '动', ':', '鬼', '影', '实', '录', '4'] ['灵', '动', '：', '鬼', '影', '实', '录', '4'] 《灵动:鬼影实录4》是由亨利·朱斯特、阿里尔·舒曼联合执导,凯瑟琳·纽顿、布拉迪·艾伦、凯蒂·菲德斯通等人主演的恐怖电影,该片于2012年10月19日在美国上映
+
+['美', '国', ':', '我', '们', '的', '故', '事'] ['美', '国', '：', '我', '们', '的', '故', '事'] 2010年4月,america:the story of us[美国:我们的故事]在美国的历史频道首映
+
+['同', '床', '异', '梦', ',', '没', '关', '系', '没', '关', '系'] ['同', '床', '异', '梦', '，', '没', '关', '系', '没', '关', '系'] 《同床异梦,没关系没关系》在sbs於3月31日韩国时间晚上11点15分试播,请各位死守生放
+
+['152', '017', '年'] ['2017', '年'] 152017年6月3日,在cfpls10总决赛上,马哲随队3:1击败tgf电子竞技俱乐部卫冕cfpl冠军16
+
+['1200', '3', '年'] ['2003', '年'] 12003年,张睿家出演第一部电视剧《七年级生》,2006年,出演电影《盛夏光年》并获得第43届台湾金马奖最佳新演员奖2
+
+['复', '仇', '者', '联', '盟', '4', ':', '终', '局', '之', '战'] ['复', '仇', '者', '联', '盟', '4', '：', '终', '局', '之', '战'] 1、《复仇者联盟4:终局之战》2019年4月24日在中国大陆上映,作为漫威布局十年的电影,漫威电影第三阶段的收官之作,无疑是完美的
+
+['200', '2', '年', '11', '月'] ['2002', '年', '11', '月'] 法内情20022002年11月首播2001-2002年间,亚视有数套剧集与新传媒(新加坡电视台)合作,《法内情2002》是其中一套,该剧由昔日"丽视桥王"萧若元创作故事及策划,卢新燕担任编审,二人早于丽的电视已有多次合作
+
+['东', '京', '铁', '塔', ':', '我', '的', '母', '亲', '父', '亲'] ['东', '京', '铁', '塔', '：', '我', '的', '母', '亲', '父', '亲'] 2007年10月31日,由日本导演松冈锭司执导的影片《东京铁塔:我的母亲父亲》昨日(10月30日)在香港举行首映林青霞、袁咏仪、张智霖、黄耀明、甘国亮、陈道然等出席首映礼众星纷纷在首映式留念墙上签下了自己的名字表示纪念
+
+['哆', '啦', 'a', '梦', ':', '大', '雄', '与', '奇', '迹', '之', '岛', '~', '动', '物', '历', '险', '记', '~'] ['哆', '啦', 'a', '梦', '：', '大', '雄', '与', '奇', '迹', '之', '岛', '～', '动', '物', '历', '险', '记', '～'] 《哆啦a梦:大雄与奇迹之岛~动物历险记~》日本总票房36.2亿日元
+
+['050', '011'] ['500', '11'] 2016年5月1日,河北省人民政府机关迁址公告:经国务院批准,河北省人民政府机关由石家庄市桥西区维明南大街46号迁移至石家庄市长安区裕华东路113号(邮政编码:050011),自2016年5月3日起正式在新址办公
+
+['s', 'bs', '演', '艺', '大', '赏', '最', '佳', 'mc', '奖'] ['sbs', '演', '艺', '大', '赏', '最', '佳', 'mc', '奖'] 2014年12月30日,金媛熙凭借节目《亲爱的-百年客人》获得2014sbs演艺大赏最佳mc奖
+
+['51', '99', '2', '年', '8', '月', '8', '日'] ['1992', '年', '8', '月', '8', '日'] 51992年8月8日创建北京东方园林艺术公司
+
+['1020', '14', '年', '1', '月', '3', '日'] ['2014', '年', '1', '月', '3', '日'] 1播出信息编辑中文名:非常完美出品时间:2011年制片地区:中国大陆类型:恋爱告白真人秀播出平台:贵州卫视主持人:陈怡首播时间:每周六22:15,周日21:102014年1月3日起,改为周五周六22:10分播出,周日21:10播出特别节目《完美邂逅》情感嘉宾:黄舒骏、王瑞、夏东豪、寇乃馨、黄嘉千
+
+['1200', '4', '年'] ['2004', '年'] 12004年,自编自导了犯罪电影《汉城大劫案》,该片是其电影处女作,崔东勋凭该片获得第41届韩国电影大钟奖新人导演奖,第25届韩国青龙电影奖新人导演奖和最佳剧本奖
+
+['ha', 'rus'] ['ha', 'ru'] 會不會哪天再看見小愛的時候,就已經是她17歲要和青梅竹馬yuto結婚的時候啊~harusource:source:另一位元老成員饒舌歌手tablo的女兒李haru
+
+['121', '0', '万'] ['210', '万'] 新浪微博 @ 电影票房: #昨日票房播报#周一放映10.9万场,人次270万,票房9200万;#小时代3:刺金时代#3400万,累计3.46亿;#京城81号#3300万,累计1.89亿;#变形金刚4:绝迹重生#1210万,累计19.02亿;#老男孩猛龙过江#440万,累计1.87亿;#分手大师#380无,累计6.45亿;#开心超人2#210万,累计1830万;#塞尔号4#累计5750万
+
+['19', '96'] ['1996'] 该剧当时在香港首播时收视一般,但06年被内地第一次引进就连续三次拿到收视冠军,06年内地版《新上海滩》刚刚开机,tvb1996版《新上海滩》却是首次被内地引进,大年初二起在电视剧频道的晚间十点档播出,刚开播收视率就冲到了4
+
+['3', 'm', '公', '司'] ['3m', '公', '司'] 1、3m3m公司创建于1902年,总部设在美国明苏达州的圣保罗市,是世界著名的产品多元化跨国企业
+
+['162', '015', '年', '12', '月', '25', '日'] ['2015', '年', '12', '月', '25', '日'] 162015年12月25日亚投行成立--首个由中国倡议设立的多边金融机构2015年12月25日,亚洲基础设施投资银行正式成立,这是全球首个由中国倡议设立的多边金融机构,重点支持基础设施建设,促进亚洲区域的建设互联互通化和经济一体化进程
+
+['ii', 'ga'] ['ig', 'a'] 英洛威(iiga)全球共管理20多支基金,1999年进入中国,前期一直采用和中国合作伙伴合作投资的方式,中国市场所有资金全部用于中国市场投资,助力中国经济发展
+
+['2200', '5', '年'] ['2005', '年'] 中央电视台视八套影视剧频道22005年度中央电视台八套黄金强档电视剧收视率统计结果,电视剧《我的鄂尔多斯》的收视率在30部电视剧中排名第14位11
+
+['08', '10'] ['810'] (0810)信息与通信工程(共25个一级学科招生单位)
+
+['死', '亡', '笔', '记', ':', '最', '后', '的', '名', '字'] ['死', '亡', '笔', '记', '：', '最', '后', '的', '名', '字'] 电影《死亡笔记:最后的名字》外文名称death note:the last name上映日期:2006年11月3日(日本、中国香港);2006年11月24日(中国台湾)其他名称:《死亡笔记:决战时刻》影片长度:140分制作公司:日本电视放送网株式会社首播频道:日本:日本电视台中国台湾:star卫视电影台中国内地:星空卫视导演:金子修介脚本:大石哲也、金子修介
+
+['og', 'ical'] ['gi', 'c'] 中国地质大学(武汉)珠宝学院(gemmological institute china university of geosciences)(wuhan)缩写为(gic)是一所以宝石教育为中心的教学、科研和技术服务单位,拥有全球最完备的珠宝教育体系
+
+['名', '侦', '探', '柯', '南', ':', '零', '的', '执', '行', '人'] ['名', '侦', '探', '柯', '南', '：', '零', '的', '执', '行', '人'] 该剧在日本取得了91.83亿日元(折合人民币约6.22亿元)的票房,超过了去年上映的《名侦探柯南:零的执行人》(91.8亿日元),同时也刷新了柯南剧场版系列的最高票房纪录
+
+['茶', ',', '一', '片', '树', '叶', '的', '故', '事'] ['茶', '，', '一', '片', '树', '叶', '的', '故', '事'] 第二部《茶,一片树叶的故事》是央视纪录频道于2013年11月18日推出的一部原创纪录片,也是中国首部全面探寻世界茶文化的纪录片,由王冲霄执导,罗明担任总监制,方亮担任总结说员
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+ 20.海底总动员2:寻找多莉上映日期:2016-06-17(美国)剧情简介:故事从上一部结尾的六个月后开始,患上思乡病的蓝藻鱼多莉(dory)决定去寻找自己的父母查理(charlie)和安妮(jenny),在小丑鱼尼莫(nemo)和他的父亲马林(marlin)的帮助下,她从澳大利亚大堡礁来到了美国加州海岸,在这里她遇到了很多新朋友,有章鱼、海狮、白鲸等等
+
+['120', '15', '年'] ['2015', '年'] 常州德兴味餐饮管理有限公司于12015年正式成立于江苏常州市,公司属于餐饮服务行业
+
+['.', 'ha', 'ck', '/', '/', '创', '世', '纪', '传', '说', ':', '世', '界', '的', '彼', '方'] ['.', 'ha', 'ck', '/', '/', '创', '世', '纪', '传', '说', '：', '世', '界', '的', '彼', '方'] 中国大陆地区或名《.hack//创世纪传说:世界的彼方》,日本上映时间2012-01-21
+
+['游', '戏', '王', ':', 'the', 'dark', 'side', 'of', 'di', 'men', 'sion', 's'] ['游', '戏', '王', '：', 'the', 'dark', 'side', 'of', 'di', 'men', 'sion', 's'] 《游戏王:the dark side of dimensions》是为了纪念《游戏王》原作诞生20周年而制作的新剧场版动画,于2016年4月23日在日本公映
+
+['08', '10'] ['810'] 信息领域主要的一级学科共有4个,分别是:0809电子科学与技术、0810信息与通信工程、0811控制科学与工程、0812计算机科学与技术
+
+
+
+['19', '95', '年'] ['1995', '年'] ⊙1995年的今天,雅虎网站成立
+
+['312', '0', '万'] ['120', '万'] 9月8日周一,票房1.07亿元11.5万场310万人敢死队3150万,累计2.78亿;猩球崛起3120万,累计5.27亿;一生一世2150万,累计8800万;分歧者1780万;龟兔再跑200万,累计650万;驯龙高手160万,累计3.98亿;动物也疯狂120万,累计350万;挑战者联盟90万,累计360万
+
+['花', '样', '男', '子', '(', '美', '版', ')', ')'] ['花', '样', '男', '子', '（', '美', '版', ')', '）'] 《花样男子(美版))》是导演kel williams执导的美版流星花园,于2013年12月26日在美国上映
+
+['[UNK]', '月', '1', '日'] ['7', '月', '1', '日'] ←∝←7月1日首播∝←∝百度文根英(瑾莹)、李尚允、金范、李光洙、陈智熙、火之女神吧邀您共同关注7月1日《火之女神井儿》热火开播. ~~~~~~~~~~~y(^o^)yy~~~~~~~~~~.诚意邀约,祝贵吧越办越好,两吧友谊长长久久. ~~~~~~~~~~~y(^o^)yy~~~~~~~~~~.
+
+['311', '2', '月', '9', '日'] ['12', '月', '9', '日'] 3112月9日,与李凡秀、尹施允、蔡贞安等联袂主演的爱情剧《总理和我》播出,林允儿出演大韩民国三流演艺杂志代表"南多贞",凭借该角色获得了kbs演技大赏迷你系列剧女子部门优秀演技赏326
+
+['200', '1', '年'] ['2001', '年'] 062001年,《康熙王朝》豆瓣评分9.0,居高不下,虽距首播有16年了,但它所掀起的收视狂潮久久不能平息
+
+['200', '1', '-', '04', '-', '03'] ['2001', '-', '04', '-', '03'] 疾风/金山一彦主要剧情阴阳师是日本放送协会nhk2001-04-03首播的日本奇幻/鬼怪电视剧,导演小田切正明
+
+['2016'] ['16'] 且跟小编一起看看~刘亦菲,别名:茜茜、天仙、神仙姐姐星座:处女座血型:b型身高:170cm出生地:湖北省武汉市代表作品:仙剑奇侠传、神雕侠侣、功夫之王、倩女幽魂、铜雀台、夜孔雀、烽火芳菲、二代妖精主要成就:第16届华语电影传媒大奖最受瞩目女演员、第5届澳门国际电影节最佳女主角、gmic x 2017非凡盛典"gmic互联网时代电影人物"、入围第40届蒙特利尔国际电影节最佳女演员奖、入围第20届上海国际电影节金爵奖最佳女演员奖、2016年当选"中国80后十大影响力人物"刘亦菲清纯灵气、气质独特,具有典型的江南女子气质,让人过目难忘
+
+['tions'] ['s'] 内容介绍the wealth and poverty of nations is david s
+
+
+
+['2017'] ['7'] 且跟小编一起看看~董洁,别名:小董老师星座:白羊座血型:o型身高:160cm出生地:辽宁省大连市代表作品:幸福时光、金粉世家、天若有情、龙虎门、梁山伯与祝英台、你是我兄弟、相爱十年、如懿传主要成就:国剧盛典观众最喜爱女配角、第22届上海电视节白玉兰奖最佳女配角提名、第3届中国电视艺术双十佳十佳演员、第47届西班牙巴利亚多利德国际电影节最佳女演员、第7届中国电影华表奖电影新人奖、2017今日头条年度盛典年度实力演员董洁个性温和恬静,给人感觉人淡如菊、天然纯粹
+
+['哆', '啦', 'a', '梦', ':', '伴', '我', '同', '行'] ['哆', '啦', 'a', '梦', '：', '伴', '我', '同', '行'] 2014年8月8日,为纪念《哆啦a梦》之父藤子·f·不二雄诞辰80周年,山崎贵与八木龙一再次合作,联合执导了3d动画电影《哆啦a梦:伴我同行》,影片的日本总票房达83.8亿日元
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+['120', '11', '年', '11', '月', '4', '日'] ['2011', '年', '11', '月', '4', '日'] 12011年11月4日,徐捷自编自导喜剧电影《古宝奇缘》全国上映,这部投资不足百万的小成本影片上映后引起广泛关注,徐捷也成为了最年轻的院线导演之一
+
+['钟', '馗', '伏', '魔', ':', '雪', '妖', '魔', '灵'] ['钟', '馗', '伏', '魔', '：', '雪', '妖', '魔', '灵'] 《钟馗伏魔:雪妖魔灵》是由陈坤、李冰冰主演,鲍德熹、赵天宇联合执导的3d魔幻电影,定于2015年2月19日中国大陆上映
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] 3月2日起,由中央电视台、中国电影股份有限公司联合出品的纪录片电影《厉害了,我的国》在全国影城上映,影片首次将祖国发展成就以纪录片形式呈现在大银幕上影片上映后,在我省引起观影热潮
+
+['08', '10'] ['810'] 教育部一级学科代码及名称:0810信息与通信工程(2012年)2
+
+['假', '面', '骑', '士', 'wi', 'za', 'rd', ':', 'in', 'magic', 'land'] ['假', '面', '骑', '士', 'wi', 'za', 'rd', '：', 'in', 'magic', 'land'] "时,会场观众都拍手喝起采来,热闹非凡剧场版《假面骑士wizard:in magic land》8月3日日本公开上映剧场版《假面骑士wizard:in magic land》预告:视频来自:优酷记者发布会照片白石隼也饰假面骑士wizard奥仲麻琴饰历永瀬匡饰假面骑士beast高山郁子饰大门凛子阵内孝则饰假面骑士sorcerer
+
+['hi', 'to', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] ['hit', 'o', '流', '行', '音', '乐', '奖', '高', '音', '质', 'hit', 'o', '最', '潜', '力', '女', '声', '奖'] 15获奖记录获奖时间奖项获得者参考资料2014年6月2日2014hito流行音乐奖高音质hito最潜力女声奖梁文音162013年10月5日全球华语歌曲排行榜最佳作曲人饶善强《黄色夹克》17
+
+['n2', '017', '年', '12', '月'] ['2017', '年', '12', '月'] 链接:1qygbzks密码:pbxn2017年12月20号妖猫传北京首映的zip
+
+['172', '00', '3', '年'] ['2003', '年'] 172003年,15岁的颖儿参加全国推新人大赛,获得节目主持组"全国特别新人"奖、民族组优秀奖
+
+['26'] ['6'] 最具有含金量的还要数影视剧类的奖项,从1985年到2014年,宋丹丹老师获得影视剧类奖项竟然高达24项,其中有第6届中国电视剧飞天奖最佳女配角奖、第26届飞天奖少儿电视剧一等奖、第23届电视金鹰奖之优秀长篇电视剧奖等奖项,这是对宋丹丹老师演技的高度认可,同时也更能够说明宋丹丹老师择剧的眼光非常高,她所出演的作品大多质量都很高
+
+['22', '年', '后', '的', '自', '白', ':', '我', '是', '杀', '人', '犯'] ['22', '年', '后', '的', '自', '白', '：', '我', '是', '杀', '人', '犯'] 据悉,《22年后的自白:我是杀人犯》于2017年6月10日日本公映
+
+['vin'] ['n'] 《华丽的灰姑娘》是曾咏欣演唱的歌曲,由林若宁作词,kelvin avon、jessica bennett、paul longford、曾咏欣作曲1,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['vin'] ['n'] 《华丽的灰姑娘》是曾咏欣演唱的歌曲,由林若宁作词,kelvin avon、jessica bennett、paul longford、曾咏欣作曲1,收录于曾咏欣2016年1月26日发行的专辑《n》中
+
+['闺', '蜜', '2', ':', '无', '二', '不', '作'] ['闺', '蜜', '2', '：', '无', '二', '不', '作'] 闺蜜2上映日期:2018-03-02推荐指数:导演:黄真真编剧:黄真真/侯颖桁/郑善瑜等主演:薛凯琪/陈意涵/张钧甯/迈克·泰森等类型:剧情/喜剧制片国家/地区:香港/中国大陆语言:汉语普通话片长:109分钟《闺蜜2:无二不作》讲述了陈意涵、薛凯琪、张钧甯闺蜜团空降越南,开启了一场婚前失控单身之旅
+
+['da', 'vi', 'd', '.', 'chi', 'n'] ['david', '.', 'chi', 'n'] ⑴david.chin(新西兰):淮安市新马高级中学董事长
+
+['08', '10'] ['810'] 2012年教育部学科排名(0810信息与通信工程)全国排名学校代码及名称
+
+['超', '人', '前', '传', '第', '九', '季', '(', 'small', 'ville', 'season', '9', ')'] ['超', '人', '前', '传', '第', '九', '季', '（', 'small', 'ville', 'season', '9', '）'] 《超人前传第九季(smallville season 9)》美国东部时间2009年9月25日首播,lois对超人产生了暧昧,而同时又觉得clark很气人
+
+['520', '14', '年', '8', '月'] ['2014', '年', '8', '月'] 52014年8月,韩兆导演的电影《好命先生》上映
+
+['08', '110', '2'] ['81', '10', '2'] 检测技术与自动化装置,专业代码:081102,是将自动化、电子、计算机、控制工程、信息处理、机械等多种学科、多种技术融合为一体并综合运用的复合技术,广泛应用于交通、电力、冶金、化工、建材等各领域自动化装备及生产自动化过程
+
+['厉', '害', '了', ',', '我', '的', '国'] ['厉', '害', '了', '，', '我', '的', '国'] "2月27日,由中央电视台和中国电影股份有限公司联合出品的大型纪录电影《厉害了,我的国》在北京举行盛大首映式3月2日,电影即将登陆全国各大院线
+
+['s', 'bs', '演', '技', '大', '赏', '连', '续', '剧', '最', '佳', '配', '角', '奖'] ['sbs', '演', '技', '大', '赏', '连', '续', '剧', '最', '佳', '配', '角', '奖'] 2007年,李世恩与王光娜、金南镇等主演了由朴京烈执导的爱情励志剧《起飞》,因饰演为达目的不择手段的都市女性"车有利"而获得2007sbs演技大赏连续剧最佳配角奖
+
+['边', '缘', '人', ':', '教', '你', '制', '作', '情', '妇', '的', '方', '法'] ['边', '缘', '人', '：', '教', '你', '制', '作', '情', '妇', '的', '方', '法'] 介绍《边缘人:教你制作情妇的方法》,2017年10月7日于日本上映
+
+['丑', '闻', ':', '极', '具', '冲', '击', '性', '且', '不', '道', '德', '的', '事', '件'] ['丑', '闻', '：', '极', '具', '冲', '击', '性', '且', '不', '道', '德', '的', '事', '件'] 《丑闻:极具冲击性且不道德的事件》是韩国mbc电视台于2013年6月29日起播出的周末剧
+
+['走', ',', '打', '鬼', '子', '去'] ['走', '，', '打', '鬼', '子', '去'] 电视剧《走,打鬼子去》国语全集于2013年在大陆上映,由:焦晓雨导演,著名演员:曹云金董可飞杜志国主演
+
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+epoch:   5, step: 26800, speed: 7047.04ms/b, train loss: 0.082
+epoch:   5, step: 26850, speed: 180.33ms/b, train loss: 0.074
+epoch:   5, step: 26900, speed: 185.59ms/b, train loss: 0.081
+epoch:   5, step: 26950, speed: 182.30ms/b, train loss: 0.081
+epoch:   5, step: 27000, speed: 185.22ms/b, train loss: 0.083
+epoch:   5, step: 27050, speed: 182.43ms/b, train loss: 0.081
+epoch:   5, step: 27100, speed: 181.62ms/b, train loss: 0.076
+epoch:   5, step: 27150, speed: 181.59ms/b, train loss: 0.074
+epoch:   5, step: 27200, speed: 179.66ms/b, train loss: 0.074
+epoch:   5, step: 27250, speed: 181.40ms/b, train loss: 0.082
+epoch:   5, step: 27300, speed: 191.90ms/b, train loss: 0.086
+epoch:   5, step: 27350, speed: 181.50ms/b, train loss: 0.084
+epoch:   5, step: 27400, speed: 193.28ms/b, train loss: 0.083
+epoch:   5, step: 27450, speed: 187.83ms/b, train loss: 0.090
+epoch:   5, step: 27500, speed: 190.53ms/b, train loss: 0.085
+epoch:   5, step: 27550, speed: 189.31ms/b, train loss: 0.075
+epoch:   5, step: 27600, speed: 191.74ms/b, train loss: 0.077
+epoch:   5, step: 27650, speed: 184.95ms/b, train loss: 0.083
+epoch:   5, step: 27700, speed: 192.14ms/b, train loss: 0.081
+epoch:   5, step: 27750, speed: 189.95ms/b, train loss: 0.087
+epoch:   5, step: 27800, speed: 184.25ms/b, train loss: 0.082
+epoch:   5, step: 27850, speed: 183.68ms/b, train loss: 0.079
+epoch:   5, step: 27900, speed: 185.18ms/b, train loss: 0.087
+epoch:   5, step: 27950, speed: 185.80ms/b, train loss: 0.082
+epoch:   5, step: 28000, speed: 184.53ms/b, train loss: 0.079
+epoch:   5, step: 28050, speed: 191.89ms/b, train loss: 0.084
+epoch:   5, step: 28100, speed: 179.09ms/b, train loss: 0.077
+epoch:   5, step: 28150, speed: 186.38ms/b, train loss: 0.076
+epoch:   5, step: 28200, speed: 184.95ms/b, train loss: 0.077
+epoch:   5, step: 28250, speed: 185.23ms/b, train loss: 0.080
+epoch:   5, step: 28300, speed: 181.06ms/b, train loss: 0.080
+epoch:   5, step: 28350, speed: 190.50ms/b, train loss: 0.080
+epoch:   5, step: 28400, speed: 181.33ms/b, train loss: 0.077
+epoch:   5, step: 28450, speed: 194.07ms/b, train loss: 0.077
+epoch:   5, step: 28500, speed: 191.69ms/b, train loss: 0.085
+epoch:   5, step: 28550, speed: 191.71ms/b, train loss: 0.082
+epoch:   5, step: 28600, speed: 180.62ms/b, train loss: 0.079
+epoch:   5, step: 28650, speed: 192.53ms/b, train loss: 0.082
+epoch:   5, step: 28700, speed: 178.15ms/b, train loss: 0.080
+epoch:   5, step: 28750, speed: 183.70ms/b, train loss: 0.079
+epoch:   5, step: 28800, speed: 184.45ms/b, train loss: 0.089
+epoch:   5, step: 28850, speed: 189.89ms/b, train loss: 0.079
+epoch:   5, step: 28900, speed: 187.86ms/b, train loss: 0.083
+epoch:   5, step: 28950, speed: 183.40ms/b, train loss: 0.082
+epoch:   5, step: 29000, speed: 194.04ms/b, train loss: 0.078
+epoch:   5, step: 29050, speed: 182.10ms/b, train loss: 0.081
+epoch:   5, step: 29100, speed: 186.78ms/b, train loss: 0.082
+epoch:   5, step: 29150, speed: 178.82ms/b, train loss: 0.084
+epoch:   5, step: 29200, speed: 182.93ms/b, train loss: 0.078
+epoch:   5, step: 29250, speed: 182.78ms/b, train loss: 0.080
+epoch:   5, step: 29300, speed: 192.56ms/b, train loss: 0.077
+epoch:   5, step: 29350, speed: 184.29ms/b, train loss: 0.082
+epoch:   5, step: 29400, speed: 185.20ms/b, train loss: 0.080
+epoch:   5, step: 29450, speed: 189.02ms/b, train loss: 0.079
+epoch:   5, step: 29500, speed: 180.56ms/b, train loss: 0.075
+epoch:   5, step: 29550, speed: 183.69ms/b, train loss: 0.087
+epoch:   5, step: 29600, speed: 183.74ms/b, train loss: 0.082
+epoch:   5, step: 29650, speed: 183.73ms/b, train loss: 0.080
+epoch:   5, step: 29700, speed: 189.41ms/b, train loss: 0.079
+epoch:   5, step: 29750, speed: 187.57ms/b, train loss: 0.080
+epoch:   5, step: 29800, speed: 185.52ms/b, train loss: 0.074
+epoch:   5, step: 29850, speed: 188.69ms/b, train loss: 0.082
+epoch:   5, step: 29900, speed: 171.07ms/b, train loss: 0.078
+epoch:   5, step: 29950, speed: 185.24ms/b, train loss: 0.087
+epoch:   5, step: 30000, speed: 186.53ms/b, train loss: 0.079
+epoch:   5, step: 30050, speed: 188.65ms/b, train loss: 0.077
+epoch:   5, step: 30100, speed: 181.72ms/b, train loss: 0.087
+epoch:   5, step: 30150, speed: 183.78ms/b, train loss: 0.080
+epoch:   5, step: 30200, speed: 181.61ms/b, train loss: 0.083
+epoch:   5, step: 30250, speed: 195.02ms/b, train loss: 0.080
+epoch:   5, step: 30300, speed: 186.33ms/b, train loss: 0.085
+epoch:   5, step: 30350, speed: 183.57ms/b, train loss: 0.083
+epoch:   5, step: 30400, speed: 193.18ms/b, train loss: 0.078
+epoch:   5, step: 30450, speed: 181.42ms/b, train loss: 0.081
+epoch:   5, step: 30500, speed: 185.39ms/b, train loss: 0.086
+epoch:   5, step: 30550, speed: 184.66ms/b, train loss: 0.083
+epoch:   5, step: 30600, speed: 186.87ms/b, train loss: 0.085
+epoch:   5, step: 30650, speed: 195.29ms/b, train loss: 0.083
+epoch:   5, step: 30700, speed: 188.53ms/b, train loss: 0.079
+epoch:   5, step: 30750, speed: 184.13ms/b, train loss: 0.085
+epoch:   5, step: 30800, speed: 182.94ms/b, train loss: 0.076
+epoch:   5, step: 30850, speed: 186.20ms/b, train loss: 0.077
+epoch:   5, step: 30900, speed: 190.23ms/b, train loss: 0.084
+epoch:   5, step: 30950, speed: 186.12ms/b, train loss: 0.094
+epoch:   5, step: 31000, speed: 183.16ms/b, train loss: 0.085
+epoch:   5, step: 31050, speed: 180.90ms/b, train loss: 0.078
+epoch:   5, step: 31100, speed: 184.53ms/b, train loss: 0.080
+epoch:   5, step: 31150, speed: 193.88ms/b, train loss: 0.079
+epoch:   5, step: 31200, speed: 180.80ms/b, train loss: 0.077
+epoch:   5, step: 31250, speed: 183.35ms/b, train loss: 0.086
+epoch:   5, step: 31300, speed: 183.51ms/b, train loss: 0.081
+epoch:   5, step: 31350, speed: 183.88ms/b, train loss: 0.080
+epoch:   5, step: 31400, speed: 181.17ms/b, train loss: 0.081
+epoch:   5, step: 31450, speed: 184.32ms/b, train loss: 0.075
+epoch:   5, step: 31500, speed: 179.44ms/b, train loss: 0.082
+epoch:   5, step: 31550, speed: 184.84ms/b, train loss: 0.083
+epoch:   5, step: 31600, speed: 190.14ms/b, train loss: 0.078
+epoch:   5, step: 31650, speed: 182.48ms/b, train loss: 0.080
+epoch:   5, step: 31700, speed: 180.16ms/b, train loss: 0.086
+epoch:   5, step: 31750, speed: 188.95ms/b, train loss: 0.086
+epoch:   5, step: 31800, speed: 184.15ms/b, train loss: 0.083
+epoch:   5, step: 31850, speed: 185.13ms/b, train loss: 0.080
+epoch:   5, step: 31900, speed: 184.47ms/b, train loss: 0.075
+epoch:   5, step: 31950, speed: 183.24ms/b, train loss: 0.083
+epoch:   5, step: 32000, speed: 181.67ms/b, train loss: 0.077
+epoch:   5, step: 32050, speed: 182.45ms/b, train loss: 0.082
+epoch:   5, step: 32100, speed: 186.50ms/b, train loss: 0.082
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+/mnt/disk1/home/lujun/anaconda3/envs/py37/lib/python3.7/site-packages/transformers/tokenization_utils_base.py:2079: FutureWarning: The `pad_to_max_length` argument is deprecated and will be removed in a future version, use `padding=True` or `padding='longest'` to pad to the longest sequence in the batch, or use `padding='max_length'` to pad to a max length. In this case, you can give a specific length with `max_length` (e.g. `max_length=45`) or leave max_length to None to pad to the maximal input size of the model (e.g. 512 for Bert).
+  FutureWarning,
+correct_num: 24716, predict_num: 35285, gold_num: 38962
+epoch   5, eval time: 343.38s, f1: 0.67, precision: 0.70, recall: 0.63
+saving the model, epoch:   5, best f1: 0.67, precision: 0.70, recall: 0.63
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to 'longest_first' truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
