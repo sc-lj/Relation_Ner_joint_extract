@@ -150,6 +150,7 @@ class BaiduDataset(Dataset):
         self.prefix = prefix
         self.is_test = is_test
         self.tokenizer = BertTokenizer.from_pretrained(config.pretrain_path)
+        self.vocab = self.tokenizer.vocab
         if self.config.debug:
             with open(os.path.join(self.config.data_path, prefix + '.json'),'r',encoding="utf-8") as f:
                 self.json_data = f.readlines()[:500]
@@ -396,26 +397,35 @@ class BaiduDataset(Dataset):
     def __len__(self):
         return len(self.json_data)
     
-    def tokenize_(self,text):
+    def tokenize(self,text):
+        """以char级别进行预测"""
         tokens = text.split(" ")
         re_tokens = ['[CLS]']
-        cur_pos = 0
         new_index = [-1]
         start = 0
+
         for token in tokens:
-            root_tokens = self.tokenizer.basic_tokenizer.tokenize(token, never_split=self.tokenizer.all_special_tokens)
-            for t in root_tokens:
-                split_tokens = self.tokenizer.wordpiece_tokenizer.tokenize(t)
-                re_tokens += split_tokens
-                new_index.extend([start]*len(split_tokens))
-                start += len(t)
-            start += 1 # 表示有空格
+            for t in list(token):
+                if t not in self.vocab:
+                    re_tokens.append("[UNK]")
+                    new_index.append(start)
+                    start += 1
+                else:
+                    re_tokens.append(t)
+                    new_index.append(start)
+                    start += 1
+            re_tokens.append("[unused1]")
+            new_index.append(start)
+            start += 1
+        del new_index[-1]
+        del re_tokens[-1]
         start -= 1 # 最后一个list表示文本结束，后面不应有空格
         re_tokens.append('[SEP]')
         new_index.append(start)
         return re_tokens,new_index
     
-    def tokenize(self,text):
+    def tokenize_(self,text):
+        """按照tokenizer自行分词进行预测"""
         tokens = text.split(" ")
         re_tokens = ['[CLS]']
         cur_pos = 0
@@ -448,8 +458,9 @@ class BaiduDataset(Dataset):
 
     def check(self,pos_head,pos_tail,tokens,sub,text):
         substring = tokens[pos_head:pos_tail]
-        substring = [a.replace("##","") for a in substring if a!="[unused1]"]
-        subtoken = self.tokenizer.tokenize(strQ2B(sub))
+        substring = [a.replace("##","") if a!="[unused1]" else " " for a in substring]
+        # subtoken = self.tokenizer.tokenize(strQ2B(sub))
+        subtoken = list(strQ2B(sub))
         subtoken = [a.replace("##","") for a in subtoken]
         if subtoken != substring:
             print(substring,subtoken,text)
@@ -476,6 +487,15 @@ class BaiduDataset(Dataset):
                 print(new_pos)
             return new_pos
 
+    def pad_to_max_length(self,token_ids,max_length):
+        if len(token_ids)>max_length:
+            token_ids = token_ids[:max_length]
+            mask = [1]*max_length
+        else:
+            mask = [1]*len(token_ids) + [0]*(max_length-len(token_ids))
+            token_ids += [0]*(max_length-len(token_ids))
+        return np.array(token_ids),np.array(mask)
+
     def __getitem__(self,index):
         ins_json_data = self.json_data[index]
         text = ins_json_data['text']
@@ -498,10 +518,12 @@ class BaiduDataset(Dataset):
                 # triple = (triple['subject'], triple['predicate'], triple["object"]['@value'])
                 triple = (triple["object"]['@value'], triple['predicate'], triple['subject']) #百度的主语是用object表示的
                 triples.append(triple)
-                sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index)
-                self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
-                obj_head_idx,obj_tail_idx = self.get_index(pos_tail,new_index)
-                self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
+                # sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index) #按照tokenizer自行分词进行预测
+                sub_head_idx,sub_tail_idx = pos_head[0]+1,pos_head[1]+1 # 以char级别进行预测，加1是因为前面有[CLS]字符
+                # self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
+                # obj_head_idx,obj_tail_idx = self.get_index(pos_tail,new_index) # 按照tokenizer自行分词进行预测
+                obj_head_idx,obj_tail_idx = pos_tail[0]+1,pos_tail[1]+1 # 以char级别进行预测,加1是因为前面有[CLS]字符
+                # self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
                 if sub_head_idx != -1 and obj_head_idx != -1:
                     # sub = (sub_head_idx, sub_head_idx + len(triple[0]) - 1)
                     sub = (sub_head_idx, sub_tail_idx)
@@ -510,12 +532,14 @@ class BaiduDataset(Dataset):
                     s2ro_map[sub].append((obj_head_idx, obj_tail_idx, self.rel2id[triple[1]]))
 
             if s2ro_map:
-                outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
-                token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
+                # outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
+                # token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
+                token_ids = np.array(self.tokenizer.convert_tokens_to_ids(tokens))
+                # token_ids,masks = self.pad_to_max_length(input_ids,self.config.max_len)
+                masks = np.array([1]*len(token_ids))
                 if len(token_ids) > text_len:
                     token_ids = token_ids[:text_len]
                     masks = masks[:text_len]
-                token_ids = np.array(token_ids)
                 sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
                 # 所有 subject 的头尾index
                 for s in s2ro_map:
@@ -539,12 +563,14 @@ class BaiduDataset(Dataset):
             # 理由同上
             triples = [(triple["object"]['@value'], triple['predicate'], triple['subject']) for triple in ins_json_data['spo_list']]
 
-            outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
-            token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
+            # outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
+            # token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
+            token_ids = np.array(self.tokenizer.convert_tokens_to_ids(tokens))
+            # token_ids,masks = self.pad_to_max_length(input_ids,self.config.max_len)
+            masks = np.array([1]*len(token_ids))
             if len(token_ids) > text_len:
                 token_ids = token_ids[:text_len]
                 masks = masks[:text_len]
-            token_ids = np.array(token_ids)
             sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
             sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
             obj_heads, obj_tails = np.zeros((text_len, self.config.rel_num)), np.zeros((text_len, self.config.rel_num))
