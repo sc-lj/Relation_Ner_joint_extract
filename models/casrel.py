@@ -57,14 +57,24 @@ class Casrel(nn.Module):
         pred_sub_heads, pred_sub_tails = self.get_subs(encoded_text)
         if random.random()>self.config.teacher_pro: # teacher probability
             # [batch_size, 1, seq_len]
-            sub_head_mapping = pred_sub_heads.permute(0,2,1)
+            sub_head = pred_sub_heads.permute(0,2,1)
             # [batch_size, 1, seq_len]
-            sub_tail_mapping = pred_sub_tails.permute(0,2,1)
-            
-            # sub_head_mapping = torch.zeros_like(sub_head,dtype=sub_head.dtype)
-            # sub_tail_mapping = torch.zeros_like(sub_tail,dtype=sub_tail.dtype)
-            # sub_head_mapping.scatter_(-1,sub_head.argmax(-1,keepdim=True),1)
-            # sub_tail_mapping.scatter_(-1,sub_tail.argmax(-1,keepdim=True),1)
+            sub_tail = pred_sub_tails.permute(0,2,1)
+            if random.random()<0.5:
+                # [batch_size, 1, 1]
+                sub_heads, sub_tails = sub_head.argmax(-1,keepdim=True), sub_tail.argmax(-1,keepdim=True)
+                # [batch_size, 1, seq_len]
+                sub_head_mapping = torch.zeros_like(sub_head,dtype=sub_head.dtype)
+                # [batch_size, 1, seq_len]
+                sub_tail_mapping = torch.zeros_like(sub_tail,dtype=sub_tail.dtype)
+                sub_head_mapping.scatter_(-1,sub_heads,1)
+                sub_tail_mapping.scatter_(-1,sub_tails,1)
+                fuse = sub_heads>sub_tails
+                sub_head_mapping[fuse] = 0
+                sub_tail_mapping[fuse] = 0
+            else:
+                sub_head_mapping = sub_head
+                sub_tail_mapping = sub_tail
         else:
             # [batch_size, 1, seq_len]
             sub_head_mapping = data['sub_head'].unsqueeze(1)

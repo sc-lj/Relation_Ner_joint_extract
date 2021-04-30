@@ -14,6 +14,7 @@ class Config(object):
         self.weight_decay = args.weight_decay
         self.teacher_pro = 0.8  #teacher probability
         self.use_focal = True
+        self.sub_threhold = 0.5
 
         # dataset
         self.dataset = args.dataset

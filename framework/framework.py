@@ -104,8 +104,8 @@ class Framework(object):
             while data is not None:
                 pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails = model(data)
 
-                sub_heads_loss = loss(data['sub_heads'], pred_sub_heads, data['mask'])
-                sub_tails_loss = loss(data['sub_tails'], pred_sub_tails, data['mask'])
+                sub_heads_loss = loss(data['sub_heads'], pred_sub_heads, data['mask'],True)
+                sub_tails_loss = loss(data['sub_tails'], pred_sub_tails, data['mask'],True)
                 obj_heads_loss = loss(data['obj_heads'], pred_obj_heads, data['mask'])
                 obj_tails_loss = loss(data['obj_tails'], pred_obj_tails, data['mask'])
                 total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
@@ -224,7 +224,7 @@ class Framework(object):
                                     break
                     triple_set = set()
                     for s, r, o in triple_list:
-                        triple_set.add((s, r, o))
+                        triple_set.add((s.strip(), r.strip(), o.strip()))
                     pred_list = list(triple_set)
                 else:
                     pred_list = []
