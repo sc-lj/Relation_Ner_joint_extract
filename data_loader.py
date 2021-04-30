@@ -3,7 +3,7 @@ import json
 import os
 from transformers import BertTokenizer
 import torch
-from utils import HBTokenizer,strQ2B
+from utils import HBTokenizer,strQ2B,BDTokenizer
 import numpy as np
 from random import choice
 import ahocorasick
@@ -149,7 +149,7 @@ class BaiduDataset(Dataset):
         self.config = config
         self.prefix = prefix
         self.is_test = is_test
-        self.tokenizer = BertTokenizer.from_pretrained(config.pretrain_path)
+        self.tokenizer = BDTokenizer.from_pretrained(config.pretrain_path)
         self.vocab = self.tokenizer.vocab
         if self.config.debug:
             with open(os.path.join(self.config.data_path, prefix + '.json'),'r',encoding="utf-8") as f:
@@ -397,64 +397,6 @@ class BaiduDataset(Dataset):
     def __len__(self):
         return len(self.json_data)
     
-    def tokenize(self,text):
-        """以char级别进行预测"""
-        tokens = text.split(" ")
-        re_tokens = ['[CLS]']
-        new_index = [-1]
-        start = 0
-
-        for token in tokens:
-            for t in list(token):
-                if t not in self.vocab:
-                    re_tokens.append("[UNK]")
-                    new_index.append(start)
-                    start += 1
-                else:
-                    re_tokens.append(t)
-                    new_index.append(start)
-                    start += 1
-            re_tokens.append("[unused1]")
-            new_index.append(start)
-            start += 1
-        del new_index[-1]
-        del re_tokens[-1]
-        start -= 1 # 最后一个list表示文本结束，后面不应有空格
-        re_tokens.append('[SEP]')
-        new_index.append(start)
-        return re_tokens,new_index
-    
-    def tokenize_(self,text):
-        """按照tokenizer自行分词进行预测"""
-        tokens = text.split(" ")
-        re_tokens = ['[CLS]']
-        cur_pos = 0
-        new_index = [-1]
-        start = 0
-        for token in tokens:
-            root_tokens = self.tokenizer.basic_tokenizer.tokenize(token, never_split=self.tokenizer.all_special_tokens)
-            for t in root_tokens:
-                split_tokens = self.tokenizer.wordpiece_tokenizer.tokenize(t)
-                re_tokens += split_tokens
-                if len(split_tokens)==1:
-                        new_index.append(start)
-                        start += len(t.replace("##",""))
-                else:
-                    if "[UNK]" in split_tokens:
-                        print("[UNK] in ",split_tokens)
-                    for t1 in split_tokens:
-                            new_index.append(start)
-                            start += len(t1.replace("##",""))
-            re_tokens.append("[unused1]")
-            new_index.append(start)
-            start += 1 # 表示有空格
-        start -= 1 # 最后一个list表示文本结束，后面不应有空格
-        del new_index[-1]
-        del re_tokens[-1]
-        re_tokens.append('[SEP]')
-        new_index.append(start)
-        return re_tokens,new_index
-
 
     def check(self,pos_head,pos_tail,tokens,sub,text):
         substring = tokens[pos_head:pos_tail]
@@ -499,7 +441,7 @@ class BaiduDataset(Dataset):
     def __getitem__(self,index):
         ins_json_data = self.json_data[index]
         text = ins_json_data['text']
-        tokens,new_index = self.tokenize(text)
+        tokens,new_index = self.tokenizer.tokenize(text)
         if len(tokens) > BERT_MAX_LEN:
             tokens = tokens[:BERT_MAX_LEN]
         text_len = len(tokens)

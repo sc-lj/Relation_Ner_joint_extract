@@ -199,7 +199,7 @@ class Framework(object):
                     triple_list = []
                     # [subject_num, seq_len, bert_dim]
                     repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
-                    # [subject_num, 1, seq_len]
+                    # [subject_num, 1, seq_len],每个主语构建一个样本
                     sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
                     sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
                     for subject_idx, subject in enumerate(subjects):
