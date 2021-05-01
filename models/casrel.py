@@ -1,7 +1,9 @@
 from torch import nn
 from transformers import *
 import random
+import torch.nn.functional as F
 import torch
+from alignment import registry as attention
 
 
 class Casrel(nn.Module):
@@ -50,13 +52,13 @@ class Casrel(nn.Module):
         pred_sub_tails = torch.sigmoid(pred_sub_tails)
         return pred_sub_heads, pred_sub_tails
     
-    def head_attention(self,sub_head,encoded_text):
-        # 构建head 对tail 的attention weight
-        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(self.bert_dim)))
+    def head_tail_attention(self,head,tail):
+        # 构建head和tail的相互attention
+        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
         # [batch_size, seq_len, bert_dim(768)]
         sub_head = sub_head.repeat(1,1,self.bert_dim)
         # [batch_size, seq_len, seq_len]
-        weight = torch.matmul(sub_head,encoded_text.tranpose(2,1))/temperature  # head -> encoded_tex attention
+        weight = torch.matmul(sub_head,encoded_text.transpose(2,1))/temperature  # head -> encoded_tex attention
         weight = F.softmax(weight,dim=2)
         # [batch_size, seq_len, bert_dim(768)]
         attention = torch.matmul(weight,encoded_text)
@@ -64,10 +66,9 @@ class Casrel(nn.Module):
 
     def head_att_tails(self,head,tail):
         # 基于head 对tail的attention，并预测tail
-        repeat = tail.shape[2]
-        head = head.repeat(1,1,repeat)
+        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
         # [batch_size, seq_len, seq_len]
-        weight = torch.matmul(head,tail.tranpose(2,1))/repeat  # head -> encoded_tex attention
+        weight = torch.matmul(head,tail.transpose(2,1))/temperature  # head -> encoded_tex attention
         weight = F.softmax(weight,dim=2)
         # [batch_size, seq_len, 1]
         pred_tails = torch.matmul(weight,tail)
