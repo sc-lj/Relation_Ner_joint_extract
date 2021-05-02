@@ -43,11 +43,11 @@ class Alignment(nn.Module):
 
 @register('linear')
 class MappedAlignment(nn.Module):
-    def __init__(self, args, input_size):
+    def __init__(self, args, input_size,output_size):
         super().__init__()
         self.projection = nn.Sequential(
             nn.Dropout(args.dropout),
-            Linear(input_size, args.hidden_size, activations=True),
+            Linear(input_size, output_size, activations=True),
         )
 
     def forward(self, a, b):

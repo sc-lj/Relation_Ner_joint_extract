@@ -3,7 +3,8 @@ from transformers import *
 import random
 import torch.nn.functional as F
 import torch
-from alignment import registry as attention
+import math
+from .attention import registry as attention
 
 
 class Casrel(nn.Module):
@@ -28,11 +29,11 @@ class Casrel(nn.Module):
         encoded_text = encoded_text + sub
         # [batch_size, seq_len, rel_num]
         pred_obj_heads = self.obj_heads_linear(encoded_text)
-        pred_obj_heads = torch.sigmoid(pred_obj_heads)
         # [batch_size, seq_len, rel_num]
         pred_obj_tails = self.obj_tails_linear(encoded_text)
         # add attention
-        pred_obj_tails = self.head_att_tails(pred_obj_heads,pred_obj_tails)
+        # pred_obj_tails = self.head_att_tails(pred_obj_heads,pred_obj_tails)
+        pred_obj_heads = torch.sigmoid(pred_obj_heads)
         pred_obj_tails = torch.sigmoid(pred_obj_tails)
         return pred_obj_heads, pred_obj_tails
 
@@ -44,11 +45,11 @@ class Casrel(nn.Module):
     def get_subs(self, encoded_text):
         # [batch_size, seq_len, 1]
         pred_sub_heads = self.sub_heads_linear(encoded_text)
-        pred_sub_heads = torch.sigmoid(pred_sub_heads)
         # [batch_size, seq_len, 1]
         pred_sub_tails = self.sub_tails_linear(encoded_text)
         # add attention
-        pred_sub_tails = self.head_att_tails(pred_sub_heads,pred_sub_tails)
+        # pred_sub_tails = self.head_att_tails(pred_sub_heads,pred_sub_tails)
+        pred_sub_heads = torch.sigmoid(pred_sub_heads)
         pred_sub_tails = torch.sigmoid(pred_sub_tails)
         return pred_sub_heads, pred_sub_tails
     
