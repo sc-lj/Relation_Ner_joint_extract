@@ -1,23 +1,9 @@
 # coding=utf-8
-# Copyright (C) 2019 Alibaba Group Holding Limited
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 
 import math
 import torch
 import torch.nn as nn
-import torch.nn.functional as f
+import torch.nn.functional as F
 from functools import partial
 from utils.registry import register
 
@@ -25,47 +11,50 @@ registry = {}
 register = partial(register, registry=registry)
 
 
-@register('identity')
-class Alignment(nn.Module):
-    def __init__(self, args, input_size):
+@register('head_att_tail')
+class Attention(nn.Module):
+    def __init__(self, *args,**kwargs):
         super().__init__()
 
     def forward(self, head,tail):
         # 基于head 对tail的attention，并预测tail
         temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
         # [batch_size, seq_len, seq_len]
-        weight = torch.matmul(head,tail.transpose(2,1))/temperature  # head -> encoded_tex attention
+        weight = torch.matmul(tail,head.transpose(2,1))*temperature  # head -> encoded_tex attention
         weight = F.softmax(weight,dim=2)
-        # [batch_size, seq_len, 1]
+        # [batch_size, seq_len, tail.shape[2]]
         pred_tails = torch.matmul(weight,tail)
         return pred_tails
 
 
-@register('linear')
-class MappedAlignment(nn.Module):
-    def __init__(self, args, input_size,output_size):
+@register('head2tail')
+class MappedAttention(nn.Module):
+    def __init__(self, config, input_size,output_size):
         super().__init__()
         self.projection = nn.Sequential(
-            nn.Dropout(args.dropout),
+            nn.Dropout(config.dropout),
             Linear(input_size, output_size, activations=True),
         )
+        self.proj2 = Linear(output_size, input_size)
 
-    def forward(self, a, b):
-        a = self.projection(a)
-        b = self.projection(b)
-        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(b.shape[2])))
-        attn = torch.matmul(a, b.transpose(1, 2)) * temperature
+    def forward(self, head, tail):
+        head = self.projection(head)
+        tail = self.projection(tail)
+        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
+        attn = torch.matmul(head, tail.transpose(1, 2)) * temperature
         # mask = torch.matmul(mask_a.float(), mask_b.transpose(1, 2).float()).byte()
         # attn.masked_fill_(~mask.bool(), -1e7)
-        attn_a = f.softmax(attn, dim=1)
-        attn_b = f.softmax(attn, dim=2)
-        feature_b = torch.matmul(attn_a.transpose(1, 2), a)
-        feature_a = torch.matmul(attn_b, b)
-        return feature_a, feature_b
+        attn_head = F.softmax(attn, dim=1)
+        attn_tail = F.softmax(attn, dim=2)
+        pred_tail = torch.matmul(attn_head.transpose(1, 2), head)
+        pred_head = torch.matmul(attn_tail, tail)
+        pred_head, pred_tail = self.proj2(pred_head),self.proj2(pred_tail)
+        return pred_head, pred_tail
+
 
 @register('None')
-class NoneAlignment(nn.Module):
-    def __init__(self, args, input_size):
+class NoneAttention(nn.Module):
+    def __init__(self, *args,**kwargs):
         super().__init__()
 
     def forward(self, a, b):
@@ -84,3 +73,8 @@ class Linear(nn.Module):
 
     def forward(self, x):
         return self.model(x)
+
+class GeLU(nn.Module):
+    def forward(self, x):
+        return 0.5 * x * (1. + torch.tanh(x * 0.7978845608 * (1. + 0.044715 * x * x)))
+

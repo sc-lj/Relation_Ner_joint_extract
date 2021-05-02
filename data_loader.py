@@ -462,10 +462,10 @@ class BaiduDataset(Dataset):
                 triples.append(triple)
                 # sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index) #按照tokenizer自行分词进行预测
                 sub_head_idx,sub_tail_idx = pos_head[0]+1,pos_head[1]+1 # 以char级别进行预测，加1是因为前面有[CLS]字符
-                # self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
+                self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
                 # obj_head_idx,obj_tail_idx = self.get_index(pos_tail,new_index) # 按照tokenizer自行分词进行预测
                 obj_head_idx,obj_tail_idx = pos_tail[0]+1,pos_tail[1]+1 # 以char级别进行预测,加1是因为前面有[CLS]字符
-                # self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
+                self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
                 if sub_head_idx != -1 and obj_head_idx != -1:
                     # sub = (sub_head_idx, sub_head_idx + len(triple[0]) - 1)
                     sub = (sub_head_idx, sub_tail_idx)

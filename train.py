@@ -20,7 +20,7 @@ import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_name', type=str, default='Casrel', help='name of the model')
-parser.add_argument('--lr', type=float, default=2e-5)
+parser.add_argument('--lr', type=float, default=1e-5)
 parser.add_argument('--weight_decay', type=float, default=1e-5)
 parser.add_argument('--multi_gpu', type=bool, default=False)
 parser.add_argument('--dataset', type=str, default='baidu')

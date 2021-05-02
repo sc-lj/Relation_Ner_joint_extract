@@ -24,7 +24,7 @@ def get_tokenizer(vocab_path):
     return HBTokenizer(token_dict, cased=True)
 
 class BDTokenizer(BertTokenizer):
-    def tokenize(self,text):
+    def tokenize(self,text,return_index=True):
         """以char级别进行预测"""
         tokens = text.split(" ")
         re_tokens = ['[CLS]']
@@ -33,11 +33,8 @@ class BDTokenizer(BertTokenizer):
 
         for token in tokens:
             for t in list(token):
-                if t not in self.vocab:
-                    if "##"+t in self.vocab:
-                        re_tokens.append("##"+t)
-                    else:
-                        re_tokens.append("[UNK]")
+                if t not in self.vocab and "##"+t in self.vocab:
+                    re_tokens.append("##"+t)
                 else:
                     re_tokens.append(t)
                 new_index.append(start)
@@ -50,10 +47,13 @@ class BDTokenizer(BertTokenizer):
         start -= 1 # 最后一个list表示文本结束，后面不应有空格
         re_tokens.append('[SEP]')
         new_index.append(start)
-        return re_tokens,new_index
+        if return_index:
+            return re_tokens,new_index
+        else:
+            return re_tokens
 
 
-    def tokenize_(self,text):
+    def tokenize_(self,text,return_index=True):
         """按照tokenizer自行分词进行预测"""
         tokens = text.split(" ")
         re_tokens = ['[CLS]']

@@ -313,9 +313,9 @@ def is_over_lapping(epl):
 if __name__ == '__main__':
     text="<爱情不辛苦 >(我爱河东狮尾曲)唱/词:佟湘君.曲:刘鹏都说爱情盲目, / 大家好啊,我是DELLY我说难得糊涂, / 上传<爱情不辛苦>的歌词总要换个笑语, / 原版声音,希望大家喜欢 "
     text = '雷顿教授与魔神之笛》官网 http://www.layton.jp/majin/index.html2009年11月26日 剧场版《雷顿教授与永远的歌姬》官网 http://www.layton-movie.jp/12月19日上映、预定每年冬季出一部剧场版'
-    text = "(3)第4期 发行时间：2016-02-19http://y.qq.com/#type=song&mid=002hDpf51taXfa&tpl=yqq_song_detail"
+    text = "《约瑟芬·铁伊推理全集7:排队的人》讲述伦敦沃芬顿剧院门口大排长龙"
     text = strQ2B(text)
-    print(len(text))
+    print(text)
     text = keep_english_space(text)
     print(text)
     print(len(text.strip()))

@@ -17,6 +17,9 @@ class Casrel(nn.Module):
         self.sub_tails_linear = nn.Linear(self.bert_dim, 1)
         self.obj_heads_linear = nn.Linear(self.bert_dim, self.config.rel_num)
         self.obj_tails_linear = nn.Linear(self.bert_dim, self.config.rel_num)
+        self.sub_attention = attention[self.config.attention](config,1,64)
+        self.obj_attention = attention[self.config.attention](config,self.config.rel_num,self.config.rel_num)
+
 
     def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text):
         # [batch_size, 1, bert_dim]
@@ -32,7 +35,10 @@ class Casrel(nn.Module):
         # [batch_size, seq_len, rel_num]
         pred_obj_tails = self.obj_tails_linear(encoded_text)
         # add attention
-        # pred_obj_tails = self.head_att_tails(pred_obj_heads,pred_obj_tails)
+        # if self.config.attention == "head2tail":
+        #     pred_obj_heads,pred_obj_tails = self.obj_attention(pred_obj_heads,pred_obj_tails)
+        # else:
+        #     pred_obj_tails = self.obj_attention(pred_obj_heads,pred_obj_tails)
         pred_obj_heads = torch.sigmoid(pred_obj_heads)
         pred_obj_tails = torch.sigmoid(pred_obj_tails)
         return pred_obj_heads, pred_obj_tails
@@ -48,32 +54,13 @@ class Casrel(nn.Module):
         # [batch_size, seq_len, 1]
         pred_sub_tails = self.sub_tails_linear(encoded_text)
         # add attention
-        # pred_sub_tails = self.head_att_tails(pred_sub_heads,pred_sub_tails)
+        if self.config.attention == "head2tail":
+            pred_sub_heads,pred_sub_tails = self.sub_attention(pred_sub_heads,pred_sub_tails)
+        else:
+            pred_sub_tails = self.sub_attention(pred_sub_heads,pred_sub_tails)
         pred_sub_heads = torch.sigmoid(pred_sub_heads)
         pred_sub_tails = torch.sigmoid(pred_sub_tails)
         return pred_sub_heads, pred_sub_tails
-    
-    def head_tail_attention(self,head,tail):
-        # 构建head和tail的相互attention
-        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
-        # [batch_size, seq_len, bert_dim(768)]
-        sub_head = sub_head.repeat(1,1,self.bert_dim)
-        # [batch_size, seq_len, seq_len]
-        weight = torch.matmul(sub_head,encoded_text.transpose(2,1))/temperature  # head -> encoded_tex attention
-        weight = F.softmax(weight,dim=2)
-        # [batch_size, seq_len, bert_dim(768)]
-        attention = torch.matmul(weight,encoded_text)
-        return attention
-
-    def head_att_tails(self,head,tail):
-        # 基于head 对tail的attention，并预测tail
-        temperature = nn.Parameter(torch.tensor(1 / math.sqrt(tail.shape[2])))
-        # [batch_size, seq_len, seq_len]
-        weight = torch.matmul(head,tail.transpose(2,1))/temperature  # head -> encoded_tex attention
-        weight = F.softmax(weight,dim=2)
-        # [batch_size, seq_len, 1]
-        pred_tails = torch.matmul(weight,tail)
-        return pred_tails
 
     def forward(self, data):
         # [batch_size, seq_len]

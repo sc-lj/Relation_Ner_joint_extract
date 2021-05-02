@@ -15,6 +15,8 @@ class Config(object):
         self.teacher_pro = 0.8  #teacher probability
         self.use_focal = True
         self.sub_threhold = 0.5
+        self.dropout = 0.3
+        self.attention = "None" # head2tail,None
 
         # dataset
         self.dataset = args.dataset
