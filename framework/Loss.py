@@ -16,6 +16,46 @@ def _expand_binary_labels(labels, label_weights, label_channels):
     bin_label_weights = label_weights.view(-1, 1).expand(label_weights.size(0), label_channels)
     return bin_labels, bin_label_weights
 
+def global_pointer_f1_score(y_true, y_pred):
+    """给GlobalPointer设计的F1
+    """
+    y_pred = y_pred.gt(0).float()
+    return 2 * torch.sum(y_true * y_pred) / torch.sum(y_true + y_pred)
+
+@register("gpce")
+class GlobalCrossEntropy(nn.Module):
+    def multilabel_categorical_crossentropy(self,y_true, y_pred):
+        """多标签分类的交叉熵
+        说明：
+            1. y_true和y_pred的shape一致，y_true的元素非0即1，
+            1表示对应的类为目标类，0表示对应的类为非目标类；
+            2. 请保证y_pred的值域是全体实数，换言之一般情况下
+            y_pred不用加激活函数，尤其是不能加sigmoid或者
+            softmax；
+            3. 预测阶段则输出y_pred大于0的类；
+            4. 详情请看：https://kexue.fm/archives/7359 。
+        """
+        y_pred = (1 - 2 * y_true) * y_pred # 将标签为1的pred取反
+        y_pred_neg = y_pred - y_true * 1e12 # 将标签为1的pred取无限小
+        y_pred_pos = y_pred - (1 - y_true) * 1e12 # 将标签为0的pred 取无限小
+        zeros = torch.zeros_like(y_pred[..., :1])
+        y_pred_neg = torch.cat([y_pred_neg, zeros], axis=-1)
+        y_pred_pos = torch.cat([y_pred_pos, zeros], axis=-1)
+        neg_loss = torch.logsumexp(y_pred_neg, axis=-1)
+        pos_loss = torch.logsumexp(y_pred_pos, axis=-1)
+        return neg_loss + pos_loss
+
+    def forward(self,y_true, y_pred):
+        """给GlobalPointer设计的交叉熵
+        """
+        if y_pred.dim()>3:
+            bh = y_pred.shape[0]*y_pred.shape[1]
+        else:
+            bh = y_pred.shape[0]
+        y_true = torch.reshape(y_true, (bh, -1))
+        y_pred = torch.reshape(y_pred, (bh, -1))
+        return torch.mean(self.multilabel_categorical_crossentropy(y_true, y_pred))
+
 
 @register("ghmc")
 class GHMC(nn.Module):

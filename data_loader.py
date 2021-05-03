@@ -107,42 +107,6 @@ class CMEDDataset(Dataset):
             return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, ins_json_data['triple_list'], tokens
 
 
-def cmed_collate_fn(batch,rel_num):
-    batch = list(filter(lambda x: x is not None, batch))
-    batch.sort(key=lambda x: x[2], reverse=True)
-    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, triples, tokens = zip(*batch)
-    cur_batch = len(batch)
-    max_text_len = max(text_len)
-    batch_token_ids = torch.LongTensor(cur_batch, max_text_len).zero_()
-    batch_masks = torch.LongTensor(cur_batch, max_text_len).zero_()
-    batch_sub_heads = torch.Tensor(cur_batch, max_text_len).zero_()
-    batch_sub_tails = torch.Tensor(cur_batch, max_text_len).zero_()
-    batch_sub_head = torch.Tensor(cur_batch, max_text_len).zero_()
-    batch_sub_tail = torch.Tensor(cur_batch, max_text_len).zero_()
-    batch_obj_heads = torch.Tensor(cur_batch, max_text_len, rel_num).zero_() #数字表示是关系数量
-    batch_obj_tails = torch.Tensor(cur_batch, max_text_len, rel_num).zero_()
-
-    for i in range(cur_batch):
-        batch_token_ids[i, :text_len[i]].copy_(torch.from_numpy(token_ids[i]))
-        batch_masks[i, :text_len[i]].copy_(torch.from_numpy(masks[i]))
-        batch_sub_heads[i, :text_len[i]].copy_(torch.from_numpy(sub_heads[i]))
-        batch_sub_tails[i, :text_len[i]].copy_(torch.from_numpy(sub_tails[i]))
-        batch_sub_head[i, :text_len[i]].copy_(torch.from_numpy(sub_head[i]))
-        batch_sub_tail[i, :text_len[i]].copy_(torch.from_numpy(sub_tail[i]))
-        batch_obj_heads[i, :text_len[i], :].copy_(torch.from_numpy(obj_heads[i]))
-        batch_obj_tails[i, :text_len[i], :].copy_(torch.from_numpy(obj_tails[i]))
-
-    return {'token_ids': batch_token_ids,
-            'mask': batch_masks,
-            'sub_heads': batch_sub_heads,
-            'sub_tails': batch_sub_tails,
-            'sub_head': batch_sub_head,
-            'sub_tail': batch_sub_tail,
-            'obj_heads': batch_obj_heads,
-            'obj_tails': batch_obj_tails,
-            'triples': triples,
-            'tokens': tokens}
-
 @register("baidu")
 class BaiduDataset(Dataset):
     def __init__(self,config, prefix, is_test):
@@ -151,20 +115,21 @@ class BaiduDataset(Dataset):
         self.is_test = is_test
         self.tokenizer = BDTokenizer.from_pretrained(config.pretrain_path)
         self.vocab = self.tokenizer.vocab
+        self.rel2id = json.load(open(os.path.join(self.config.data_path, 'rel2id.json'),'r',encoding="utf-8"))
         if self.config.debug:
             with open(os.path.join(self.config.data_path, prefix + '.json'),'r',encoding="utf-8") as f:
                 self.json_data = f.readlines()[:500]
+                self.load_dataset()
         else:
-            with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
-                self.json_data = f.readlines()
-        self.rel2id = json.load(open(os.path.join(self.config.data_path, 'rel2id.json'),'r',encoding="utf-8"))
-        if not os.path.exists(os.path.join(self.config.data_path,prefix+".pkl")) or self.config.debug:
-            self.load_dataset()
-            with open(os.path.join(self.config.data_path,prefix+".pkl"),'wb') as f:
-                pickle.dump(self.json_data,f)
-        else:
-            with open(os.path.join(self.config.data_path,prefix+".pkl"),'rb') as f:
-                self.json_data = pickle.load(f)
+            if not os.path.exists(os.path.join(self.config.data_path,prefix+".pkl")):
+                with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
+                    self.json_data = f.readlines()
+                self.load_dataset()
+                with open(os.path.join(self.config.data_path,prefix+".pkl"),'wb') as f:
+                    pickle.dump(self.json_data,f)
+            else:
+                with open(os.path.join(self.config.data_path,prefix+".pkl"),'rb') as f:
+                    self.json_data = pickle.load(f)
 
     def load_dataset(self):
         for index,line in enumerate(self.json_data):
@@ -397,7 +362,6 @@ class BaiduDataset(Dataset):
     def __len__(self):
         return len(self.json_data)
     
-
     def check(self,pos_head,pos_tail,tokens,sub,text):
         substring = tokens[pos_head:pos_tail]
         substring = [a.replace("##","") if a!="[unused1]" else " " for a in substring]
@@ -462,10 +426,10 @@ class BaiduDataset(Dataset):
                 triples.append(triple)
                 # sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index) #按照tokenizer自行分词进行预测
                 sub_head_idx,sub_tail_idx = pos_head[0]+1,pos_head[1]+1 # 以char级别进行预测，加1是因为前面有[CLS]字符
-                self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
+                # self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
                 # obj_head_idx,obj_tail_idx = self.get_index(pos_tail,new_index) # 按照tokenizer自行分词进行预测
                 obj_head_idx,obj_tail_idx = pos_tail[0]+1,pos_tail[1]+1 # 以char级别进行预测,加1是因为前面有[CLS]字符
-                self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
+                # self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
                 if sub_head_idx != -1 and obj_head_idx != -1:
                     # sub = (sub_head_idx, sub_head_idx + len(triple[0]) - 1)
                     sub = (sub_head_idx, sub_tail_idx)
@@ -483,10 +447,12 @@ class BaiduDataset(Dataset):
                     token_ids = token_ids[:text_len]
                     masks = masks[:text_len]
                 sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
+                pointer_sub = np.zeros((text_len,text_len)) # for global pointer network
                 # 所有 subject 的头尾index
                 for s in s2ro_map:
                     sub_heads[s[0]] = 1
                     sub_tails[s[1]] = 1
+                    pointer_sub[s[0]][s[1]]=1
                 # 随机选择一个subject
                 sub_head_idx, sub_tail_idx = choice(list(s2ro_map.keys()))
                 sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
@@ -494,10 +460,12 @@ class BaiduDataset(Dataset):
                 sub_tail[sub_tail_idx] = 1
                 # 选择的某个subject 对应的所有 object的头尾index以及对应的关系
                 obj_heads, obj_tails = np.zeros((text_len, self.config.rel_num)), np.zeros((text_len, self.config.rel_num))
+                pointer_obj = np.zeros((self.config.rel_num,text_len,text_len)) # for global pointer network
                 for ro in s2ro_map.get((sub_head_idx, sub_tail_idx), []):
                     obj_heads[ro[0]][ro[2]] = 1
                     obj_tails[ro[1]][ro[2]] = 1
-                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, triples, tokens
+                    pointer_obj[ro[2]][ro[0]][ro[1]]=1
+                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
             else:
                 return None
         else:
@@ -514,15 +482,18 @@ class BaiduDataset(Dataset):
                 token_ids = token_ids[:text_len]
                 masks = masks[:text_len]
             sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
+            pointer_sub = np.zeros((text_len,text_len)) # for global pointer network
             sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
+            pointer_obj = np.zeros((self.config.rel_num,text_len,text_len)) # for global pointer network
             obj_heads, obj_tails = np.zeros((text_len, self.config.rel_num)), np.zeros((text_len, self.config.rel_num))
-            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, triples, tokens
+            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
 
 
 def get_loader(config, prefix, is_test=False, num_workers=0):
     # dataset = CMEDDataset(config, prefix, is_test)
     dataset = dataLoader[config.dataset](config, prefix, is_test)
-    collate_fn = lambda x: cmed_collate_fn(x,config.rel_num)
+    # collate_fn = lambda x: casrel_collate_fn(x,config.rel_num)
+    collate_fn = lambda x: collate_fn_register[config.model_name](x,config.rel_num)
     if not is_test:
         data_loader = DataLoader(dataset=dataset,
                                  batch_size=config.batch_size,
@@ -562,3 +533,77 @@ class DataPreFetcher(object):
         data = self.next_data
         self.preload()
         return data
+
+
+collate_fn_register = {}
+collate_register = partial(register,registry=collate_fn_register)
+
+
+@collate_register("casrel")
+def casrel_collate_fn(batch,rel_num):
+    batch = list(filter(lambda x: x is not None, batch))
+    batch.sort(key=lambda x: x[2], reverse=True)
+    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens = zip(*batch)
+    cur_batch = len(batch)
+    max_text_len = max(text_len)
+    batch_token_ids = torch.LongTensor(cur_batch, max_text_len).zero_()
+    batch_masks = torch.LongTensor(cur_batch, max_text_len).zero_()
+    batch_sub_heads = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_sub_tails = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_sub_head = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_sub_tail = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_obj_heads = torch.Tensor(cur_batch, max_text_len, rel_num).zero_() #数字表示是关系数量
+    batch_obj_tails = torch.Tensor(cur_batch, max_text_len, rel_num).zero_()
+
+    for i in range(cur_batch):
+        batch_token_ids[i, :text_len[i]].copy_(torch.from_numpy(token_ids[i]))
+        batch_masks[i, :text_len[i]].copy_(torch.from_numpy(masks[i]))
+        batch_sub_heads[i, :text_len[i]].copy_(torch.from_numpy(sub_heads[i]))
+        batch_sub_tails[i, :text_len[i]].copy_(torch.from_numpy(sub_tails[i]))
+        batch_sub_head[i, :text_len[i]].copy_(torch.from_numpy(sub_head[i]))
+        batch_sub_tail[i, :text_len[i]].copy_(torch.from_numpy(sub_tail[i]))
+        batch_obj_heads[i, :text_len[i], :].copy_(torch.from_numpy(obj_heads[i]))
+        batch_obj_tails[i, :text_len[i], :].copy_(torch.from_numpy(obj_tails[i]))
+
+    return {'token_ids': batch_token_ids,
+            'mask': batch_masks,
+            'sub_heads': batch_sub_heads,
+            'sub_tails': batch_sub_tails,
+            'sub_head': batch_sub_head,
+            'sub_tail': batch_sub_tail,
+            'obj_heads': batch_obj_heads,
+            'obj_tails': batch_obj_tails,
+            'triples': triples,
+            'tokens': tokens}
+
+
+@collate_register("globalpointer")
+def global_pointer_collate_fn(batch,rel_num):
+    batch = list(filter(lambda x: x is not None, batch))
+    batch.sort(key=lambda x: x[2], reverse=True)
+    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens = zip(*batch)
+    cur_batch = len(batch)
+    max_text_len = max(text_len)
+    batch_token_ids = torch.LongTensor(cur_batch, max_text_len).zero_()
+    batch_masks = torch.LongTensor(cur_batch, max_text_len).zero_()
+    batch_pointer_sub = torch.Tensor(cur_batch, max_text_len, max_text_len).zero_()
+    batch_sub_head = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_sub_tail = torch.Tensor(cur_batch, max_text_len).zero_()
+    batch_pointer_obj = torch.Tensor(cur_batch, rel_num, max_text_len, max_text_len).zero_() #数字表示是关系数量
+
+    for i in range(cur_batch):
+        batch_token_ids[i, :text_len[i]].copy_(torch.from_numpy(token_ids[i]))
+        batch_masks[i, :text_len[i]].copy_(torch.from_numpy(masks[i]))
+        batch_pointer_sub[i, :text_len[i],:text_len[i]].copy_(torch.from_numpy(pointer_sub[i]))
+        batch_sub_head[i, :text_len[i]].copy_(torch.from_numpy(sub_head[i]))
+        batch_sub_tail[i, :text_len[i]].copy_(torch.from_numpy(sub_tail[i]))
+        batch_pointer_obj[i, :, :text_len[i], :text_len[i]].copy_(torch.from_numpy(pointer_obj[i]))
+
+    return {'token_ids': batch_token_ids,
+            'mask': batch_masks,
+            'pointer_sub': batch_pointer_sub,
+            'sub_head': batch_sub_head,
+            'sub_tail': batch_sub_tail,
+            'pointer_obj': batch_pointer_obj,
+            'triples': triples,
+            'tokens': tokens}

@@ -5,6 +5,7 @@ import torch.nn.functional as F
 import torch
 import math
 from .attention import registry as attention
+from .globalpointer import GlobalPointer
 
 
 class Casrel(nn.Module):
@@ -99,3 +100,56 @@ class Casrel(nn.Module):
         # [batch_size, seq_len, rel_num]
         pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text)
         return pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails
+
+
+class GlobalPointerRel(nn.Module):
+    def __init__(self, config):
+        super(GlobalPointerRel, self).__init__()
+        self.config = config
+        self.bert_dim = 768
+        self.bert_encoder = BertModel.from_pretrained(config.pretrain_path)
+        self.obj_heads_linear = nn.Linear(self.bert_dim, self.config.rel_num)
+        self.obj_tails_linear = nn.Linear(self.bert_dim, self.config.rel_num)
+        self.sub_global = GlobalPointer(1,64)
+        self.obj_global = GlobalPointer(self.config.rel_num,64)
+
+
+    def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text,mask = None):
+        # [batch_size, 1, bert_dim]
+        sub_head = torch.matmul(sub_head_mapping, encoded_text)
+        # [batch_size, 1, bert_dim]
+        sub_tail = torch.matmul(sub_tail_mapping, encoded_text)
+        # [batch_size, 1, bert_dim]
+        sub = (sub_head + sub_tail) / 2
+        # [batch_size, seq_len, bert_dim]
+        encoded_text = encoded_text + sub
+        # [batch_size, rel_num, seq_len, seq_len]
+        pred_objs = self.obj_global(encoded_text,mask)
+        return pred_objs
+
+    def get_encoded_text(self, token_ids, mask):
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_text = self.bert_encoder(token_ids, attention_mask=mask)[0]
+        return encoded_text
+
+    def get_subs(self, encoded_text,mask):
+        # [batch_size,seq_len,seq_len]
+        pred_subs = self.sub_global(encoded_text,mask).squeeze(1)
+        return pred_subs
+
+    def forward(self, data):
+        # [batch_size, seq_len]
+        token_ids = data['token_ids']
+        # [batch_size, seq_len]
+        mask = data['mask']
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_text = self.get_encoded_text(token_ids, mask)
+        # [batch_size,seq_len,seq_len]
+        pred_subs = self.get_subs(encoded_text, mask)
+        # [batch_size, 1, seq_len]
+        sub_head_mapping = data['sub_head'].unsqueeze(1)
+        # [batch_size, 1, seq_len]
+        sub_tail_mapping = data['sub_tail'].unsqueeze(1)
+        # [batch_size, rel_num, seq_len, seq_len]
+        pred_objs = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text, mask)
+        return pred_subs, pred_objs

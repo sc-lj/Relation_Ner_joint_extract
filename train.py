@@ -19,8 +19,8 @@ import random
 # torch.backends.cudnn.benchmark = False
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_name', type=str, default='Casrel', help='name of the model')
-parser.add_argument('--lr', type=float, default=1e-5)
+parser.add_argument('--model_name', type=str, default='globalpointer', help='name of the model')
+parser.add_argument('--lr', type=float, default=2e-5)
 parser.add_argument('--weight_decay', type=float, default=1e-5)
 parser.add_argument('--multi_gpu', type=bool, default=False)
 parser.add_argument('--dataset', type=str, default='baidu')
@@ -35,7 +35,7 @@ parser.add_argument('--max_len', type=int, default=300)
 parser.add_argument('--rel_num', type=int, default=53)
 parser.add_argument('--period', type=int, default=50)
 parser.add_argument('--pretrain_path', type=str, default="../chinese_roberta_base")
-parser.add_argument('--debug', type=bool, default=False)
+parser.add_argument('--debug', type=bool, default=True)
 args = parser.parse_args()
 
 con = config.Config(args)
@@ -43,7 +43,8 @@ con = config.Config(args)
 fw = framework.Framework(con)
 
 model = {
-    'Casrel': models.Casrel
+    'casrel': models.Casrel,
+    "globalpointer":models.GlobalPointerRel
 }
 
 fw.train(model[args.model_name])

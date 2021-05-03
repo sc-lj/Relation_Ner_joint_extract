@@ -12,6 +12,7 @@ class Config(object):
         self.rel_num = args.rel_num
         self.optimizer = args.optimizer
         self.weight_decay = args.weight_decay
+        self.model_name = self.args.model_name
         self.teacher_pro = 0.8  #teacher probability
         self.use_focal = True
         self.sub_threhold = 0.5
