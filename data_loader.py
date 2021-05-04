@@ -1,6 +1,7 @@
 from torch.utils.data import DataLoader, Dataset
 import json
 import os
+import copy
 from transformers import BertTokenizer
 import torch
 from utils import HBTokenizer,strQ2B,BDTokenizer
@@ -11,6 +12,7 @@ import copy
 from utils.registry import register
 from functools import partial
 import re
+import itertools
 import pickle
 BERT_MAX_LEN = 512
 
@@ -137,6 +139,7 @@ class BaiduDataset(Dataset):
             line = self.parse_single_line(line)
             self.json_data[index] = line
 
+
     def parse_single_line(self, line):
         text = line['text']
         text = strQ2B(text)
@@ -187,13 +190,10 @@ class BaiduDataset(Dataset):
                     spo['h'] = subjects
                     spo['t'] = objects
             else:
-                for j, word in tree.iter(text):
-                    if word[1] == subject_value:
-                        if 'h' not in spo:
-                            spo['h'] = {"name": subject_value, "pos": [j-len(subject_value)+1, j+1]}
-                    elif word[1] == object_value:
-                        if "t" not in spo:
-                            spo['t'] = {"name": object_value, "pos": [j-len(object_value)+1, j+1]}
+                word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+                subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+                spo['h'] = subjects
+                spo['t'] = objects
             if "t" not in spo or "h" not in spo:
                 print(spo,text)
 
@@ -217,6 +217,7 @@ class BaiduDataset(Dataset):
         tree.make_automaton()
 
         for a in compiles1.finditer(text):
+            # 《左耳》是2015年由陈慧翎执导的青春电视剧,改编自饶雪漫同名小说《左耳》
             object_start = a.start(2)
             object_end = a.end(2)
             subject_start = a.start(1)
@@ -225,6 +226,7 @@ class BaiduDataset(Dataset):
             subjects = {"name": word, "pos": [subject_start, subject_end]}
             return objects,subjects
         for a in compiles2.finditer(text):
+            # 《历史的天空》,是根据同名长篇小说《历史的天空》改编,高希希执导,张丰毅、1李雪健、林永健、殷桃等主演的军事历史题材电视剧
             object_start = a.start(1)
             object_end = a.end(1)
             objects = {"name": word, "pos": [object_start, object_end]}
@@ -235,7 +237,7 @@ class BaiduDataset(Dataset):
             subjects = {"name": word, "pos": [word_index-len(word)+1, word_index+1]}
             return objects, subjects
 
-        for a in compiles3.finditer(text):
+        for a in compiles3.finditer(text):# 《将夜》（objects）是起点白金作家猫腻的第五部作品,现由杨阳导演改编同名电视剧《将夜》（subjects）杀青了,预告已经在腾讯视频播出
             subject_start = a.start(1)
             subject_end = a.end(1)
             subjects = {"name": word, "pos": [subject_start, subject_end]}
@@ -245,13 +247,14 @@ class BaiduDataset(Dataset):
             word_index = word_index[0][0]
             objects = {"name": word, "pos": [word_index-len(word)+1, word_index+1]}
             return objects, subjects
-
+        # 其他情况默认主语在前，谓语在后
         word_index = [index for index, _ in list(tree.iter(text))]
         subjects = {"name": word, "pos": [word_index[0] - len(word) + 1, word_index[0] + 1]}
         objects = {"name": word, "pos": [word_index[-1] - len(word) + 1, word_index[-1] + 1]}
         return objects, subjects
 
-    def match_album(self, text, word):
+    def match_album(self, text, word): 
+        """匹配‘所属专辑’关系中，obeject和suject相同的情况"""
         compiles1 = re.compile("[曲歌].{,5}(%s)" % (word))
         compiles2 = re.compile("(%s).{,5}专辑" % (word))
         compiles3 = re.compile("专辑.{,3}(%s)" % (word))
@@ -259,6 +262,7 @@ class BaiduDataset(Dataset):
         tree.add_word(word, (0, word))
         tree.make_automaton()
         for a in compiles3.finditer(text):
+            # 专辑名称《这般发生》（objects）专辑背景这是苏有朋1993年出的第二张专辑,其中专辑同名作《这般发生》
             object_start = a.start(1)
             object_end = a.end(1)
             objects = {"name": word, "pos": [object_start, object_end]}
@@ -270,6 +274,7 @@ class BaiduDataset(Dataset):
             return objects, subjects
 
         for a in compiles2.finditer(text):
+            # 出自《一场游戏一场梦》（objects）专辑的有五首:《故事的角色》(《一场游戏一场梦》)
             object_start = a.start(1)
             object_end = a.end(1)
             objects = {"name": word, "pos": [object_start, object_end]}
@@ -281,6 +286,7 @@ class BaiduDataset(Dataset):
             return objects, subjects
 
         for a in compiles1.finditer(text):
+            # 《我们的爱情》是李承铉所演唱的一张专辑,该专辑由华音鼎天(北京)音乐文化有限公司于2012年发行,该专辑共收录三首歌曲,分别为《我们的爱情》《妮可与国王》
             subject_start = a.start(1)
             subject_end = a.end(1)
             subjects = {"name": word, "pos": [subject_start, subject_end]}
@@ -299,12 +305,13 @@ class BaiduDataset(Dataset):
         subjects = {"name": word, "pos": [word_index[-1] - len(word) + 1, word_index[-1] + 1]}
         return objects, subjects
 
-    def match_theme(self, text, word):
+    def match_theme(self, text, word): # 主题曲
         compiles1 = re.compile("[剧影目].{,5}(%s)" % (word))
         tree = ahocorasick.Automaton()
         tree.add_word(word, (0, word))
         tree.make_automaton()
         for a in compiles1.finditer(text):
+            # 电影《绝世高手》（subjects）曝同名主题曲赵英俊作词作曲又献唱电影明晚开启全国万场点映由卢正雨自导自演的暑期爆笑喜剧电影《绝世高手》今日曝光同名主题曲《绝世高手》该首主题曲由赵英俊作词作曲并演唱
             subject_start = a.start(1)
             subject_end = a.end(1)
             subjects = {"name": word, "pos": [subject_start, subject_end]}
@@ -338,26 +345,87 @@ class BaiduDataset(Dataset):
                 index += 1
                 tree.add_word(subject_value, (index, subject_value))
                 tree.make_automaton()
-                if object_value == subject_value:
-                    word_index = [index for index, _ in list(tree.iter(text))]
-                    objects = {"name": object_value, "pos": [word_index[0] - len(object_value) + 1, word_index[0] + 1]}
-                    subjects = {"name": subject_value, "pos": [word_index[-1] - len(subject_value) + 1, word_index[-1] + 1]}
-                    spo_['h'] = subjects
-                    spo_['t'] = objects
-                else:
-                    for index, word in tree.iter(text):
-                        if word[1] == subject_value:
-                            spo_['h'] = {"name": subject_value, "pos": [index - len(subject_value) + 1, index + 1]}
-                        elif word[1] == object_value:
-                            spo_['t'] = {"name": object_value, "pos": [index - len(object_value) + 1, index + 1]}
-                    if "t" not in spo_ or "h" not in spo_:
-                        print(spo_,text)
+                word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+                subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+                spo_['h'] = subjects
+                spo_['t'] = objects
 
                 spo_['object_type']["@value"] = object_type
                 spo_['object']["@value"] = object_value
                 spo_['predicate'] = predicate
                 new = True
         return spo_, new
+
+    def choice_subject_object(self,object_value,subject_value,word_index,text):
+        if  object_value == subject_value:
+            word_index = [index for index, _ in word_index]
+            if len(word_index)==1:
+                objects = {"name": object_value, "pos": [word_index[-1] - len(object_value) + 1, word_index[-1] + 1]}
+                subjects = {"name": subject_value, "pos": [word_index[0] - len(subject_value) + 1, word_index[0] + 1]}
+            else:
+                # 主语在前，谓语在后
+                subject_index = choice(list(range(len(word_index)-1)))
+                object_index = subject_index+1
+                objects = {"name": object_value, "pos": [word_index[object_index] - len(object_value) + 1, word_index[object_index] + 1]}
+                subjects = {"name": subject_value, "pos": [word_index[subject_index] - len(subject_value) + 1, word_index[subject_index] + 1]}
+        else:
+            is_nest = False
+            if subject_value in object_value or object_value in subject_value:
+                print(text)
+                is_nest = True
+                subjects,objects = self.drop_nest_words(word_index,subject_value,object_value)
+            else:
+                subjects = [(index,w)for index,w in word_index if w == subject_value]
+                objects = [(index,w)for index,w in word_index if w == object_value]
+            sub_obj = list(itertools.product(subjects, objects))
+            
+            sub_obj = sorted(sub_obj,key=lambda x:abs(x[0][0]-x[1][0]))
+            subjects,objects = choice(sub_obj)
+            subjects = {"name": subject_value, "pos": [subjects[0] - len(subject_value) + 1, subjects[0] + 1]}
+            objects = {"name": object_value, "pos": [objects[0] - len(object_value) + 1, objects[0] + 1]}
+        return subjects,objects
+
+    def drop_nest_words(self,word_index,subject_value,object_value):
+        old_word_index = copy.deepcopy(word_index)
+        nest_word_index = set()
+        number = len(word_index)
+        for i in range(number-1):
+            for j in range(i+1,number):
+                if self.is_nest(word_index[i],word_index[j]):
+                    nest_word_index.add(word_index[i] if len(word_index[i][1])<len(word_index[j][1]) else word_index[j])
+        
+        for nest in nest_word_index:
+            word_index.remove(nest)
+        
+        subjects = [(index,w)for index,w in word_index if w == subject_value]
+        objects = [(index,w)for index,w in word_index if w == object_value]
+        if len(subjects)==0:
+            subjects = []
+            new_objects = []
+            for nest in nest_word_index:
+                if nest[1] == subject_value:
+                    for o in objects:
+                        if self.is_nest(nest,o):
+                            subjects.append(nest)
+                            new_objects.append(o)
+            objects = new_objects
+        elif len(objects) == 0:
+            objects  = []
+            new_subjects = []
+            for nest in nest_word_index:
+                if nest[1] == object_value:
+                    for s in subjects:
+                        if self.is_nest(nest,s):
+                            objects.append(nest)
+                            new_subjects.append(s)
+            subjects = new_subjects
+
+        return subjects,objects
+
+    def is_nest(self,s,o):
+        if (s[0]-len(s[1]))<=o[0]<=s[0] or (o[0]-len(o[1]))<=s[0]<=o[0]:
+            return True
+        return False
 
     def __len__(self):
         return len(self.json_data)
@@ -426,10 +494,10 @@ class BaiduDataset(Dataset):
                 triples.append(triple)
                 # sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index) #按照tokenizer自行分词进行预测
                 sub_head_idx,sub_tail_idx = pos_head[0]+1,pos_head[1]+1 # 以char级别进行预测，加1是因为前面有[CLS]字符
-                # self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
+                self.check(sub_head_idx,sub_tail_idx,tokens,triple[0],text)
                 # obj_head_idx,obj_tail_idx = self.get_index(pos_tail,new_index) # 按照tokenizer自行分词进行预测
                 obj_head_idx,obj_tail_idx = pos_tail[0]+1,pos_tail[1]+1 # 以char级别进行预测,加1是因为前面有[CLS]字符
-                # self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
+                self.check(obj_head_idx,obj_tail_idx,tokens, triple[2],text)
                 if sub_head_idx != -1 and obj_head_idx != -1:
                     # sub = (sub_head_idx, sub_head_idx + len(triple[0]) - 1)
                     sub = (sub_head_idx, sub_tail_idx)

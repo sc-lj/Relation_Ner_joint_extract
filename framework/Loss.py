@@ -24,7 +24,11 @@ def global_pointer_f1_score(y_true, y_pred):
 
 @register("gpce")
 class GlobalCrossEntropy(nn.Module):
-    def multilabel_categorical_crossentropy(self,y_true, y_pred):
+    def __init__(self,threshold=0):
+        super(GlobalCrossEntropy,self).__init__()
+        self.threshold = threshold
+
+    def multilabel_categorical_crossentropy(self,y_true, y_pred,threshold):
         """多标签分类的交叉熵
         说明：
             1. y_true和y_pred的shape一致，y_true的元素非0即1，
@@ -38,23 +42,26 @@ class GlobalCrossEntropy(nn.Module):
         y_pred = (1 - 2 * y_true) * y_pred # 将标签为1的pred取反
         y_pred_neg = y_pred - y_true * 1e12 # 将标签为1的pred取无限小
         y_pred_pos = y_pred - (1 - y_true) * 1e12 # 将标签为0的pred 取无限小
-        zeros = torch.zeros_like(y_pred[..., :1])
-        y_pred_neg = torch.cat([y_pred_neg, zeros], axis=-1)
-        y_pred_pos = torch.cat([y_pred_pos, zeros], axis=-1)
-        neg_loss = torch.logsumexp(y_pred_neg, axis=-1)
-        pos_loss = torch.logsumexp(y_pred_pos, axis=-1)
+        thresh = torch.zeros_like(y_pred[..., :1])
+        thresh[:] = threshold
+        y_pred_neg = torch.cat([y_pred_neg, thresh], axis=-1)
+        y_pred_pos = torch.cat([y_pred_pos, -thresh], axis=-1)
+        neg_loss = torch.logsumexp(y_pred_neg, dim=-1)
+        pos_loss = torch.logsumexp(y_pred_pos, dim=-1)
         return neg_loss + pos_loss
 
-    def forward(self,y_true, y_pred):
+    def forward(self,y_true, y_pred,threshold=0):
         """给GlobalPointer设计的交叉熵
         """
         if y_pred.dim()>3:
-            bh = y_pred.shape[0]*y_pred.shape[1]
+            batch_size, rel_num = y_pred.shape[0],y_pred.shape[1]
+            bh = batch_size*rel_num
         else:
             bh = y_pred.shape[0]
         y_true = torch.reshape(y_true, (bh, -1))
         y_pred = torch.reshape(y_pred, (bh, -1))
-        return torch.mean(self.multilabel_categorical_crossentropy(y_true, y_pred))
+        loss = self.multilabel_categorical_crossentropy(y_true, y_pred,threshold)
+        return torch.mean(loss)
 
 
 @register("ghmc")

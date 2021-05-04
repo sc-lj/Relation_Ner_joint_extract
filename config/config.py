@@ -1,18 +1,20 @@
 import time
+import os
+import json
 class Config(object):
     def __init__(self, args):
-        self.args = args
+        # self.args = args
 
         # train hyper parameter
         self.multi_gpu = args.multi_gpu
-        self.learning_rate = args.lr
+        self.learning_rate = args.learning_rate
         self.batch_size = args.batch_size
         self.max_epoch = args.max_epoch
         self.max_len = args.max_len
         self.rel_num = args.rel_num
         self.optimizer = args.optimizer
         self.weight_decay = args.weight_decay
-        self.model_name = self.args.model_name
+        self.model_name = args.model_name
         self.teacher_pro = 0.8  #teacher probability
         self.use_focal = True
         self.sub_threhold = 0.5
@@ -33,9 +35,10 @@ class Config(object):
         self.dev_prefix = args.dev_prefix
         self.test_prefix = args.test_prefix
         self.time_postfix = time.strftime("%m%d%H%M",time.localtime(time.time()))
-        self.model_save_name = args.model_name + '_DATASET_' + self.dataset + "_LR_" + str(self.learning_rate) + "_BS_" + str(self.batch_size)+"_T_"+self.time_postfix
-        self.log_save_name = 'LOG_' + args.model_name + '_DATASET_' + self.dataset + "_LR_" + str(self.learning_rate) + "_BS_" + str(self.batch_size)+"_T_"+self.time_postfix
-        self.result_save_name = 'RESULT_' + args.model_name + '_DATASET_' + self.dataset + "_LR_" + str(self.learning_rate) + "_BS_" + str(self.batch_size) +"_T_"+self.time_postfix+ ".json"
+        self.model_save_name = args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix
+        self.log_save_name = 'LOG_' + args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix
+        self.result_save_name = 'RESULT_' + args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix+ ".json"
+        self.config_file_name = "CONFIG_" + args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix+ ".json"
 
         # log setting
         self.period = args.period
@@ -46,4 +49,14 @@ class Config(object):
         if self.debug:
             self.dev_prefix = self.train_prefix
             self.test_prefix = self.train_prefix
+
+        for name,value in args.__dict__.items():
+            setattr(self,name,value)
+
+    def dump_to(self):
+        if not os.path.exists(self.checkpoint_dir):
+            os.makedirs(self.checkpoint_dir)
+        with open(self.checkpoint_dir+"/"+self.config_file_name, 'w', encoding='utf-8') as fout:
+            json.dump(self.__dict__, fout,ensure_ascii=False,indent=2)
+
 

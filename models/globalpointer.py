@@ -4,7 +4,8 @@ from transformers import BertModel
 
 class GlobalPointer(nn.Module):
     """全局指针模块
-    将序列的每个(start, end)作为整体来进行判断
+    将序列的每个(start, end)作为整体来进行判断,
+    详情请看：https://kexue.fm/archives/8373
     """
     def __init__(self, heads, head_size, RoPE=True, **kwargs):
         # heads 一般设置为关系数量或者实体类别数量

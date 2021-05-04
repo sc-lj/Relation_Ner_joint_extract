@@ -72,9 +72,9 @@ class Framework(object):
                 los += self.focal_loss(pred,gold,mask)
             return los
         
-        def pointer_loss(gold,pred):
+        def pointer_loss(gold,pred,threshold=0):
             loss_func = GlobalCrossEntropy()
-            loss = loss_func(gold,pred)
+            loss = loss_func(gold,pred,threshold)
             return loss
 
         # check the checkpoint dir
@@ -117,7 +117,8 @@ class Framework(object):
                     total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
                 elif self.config.model_name == "globalpointer":
                     pred_subs, pred_objs = model(data)
-                    sub_loss = pointer_loss(data['pointer_sub'], pred_subs)
+                    # sub_loss = pointer_loss(data['pointer_sub'], pred_subs)
+                    sub_loss = loss(data['pointer_sub'], pred_subs, data['mask'])
                     obj_loss = pointer_loss(data['pointer_obj'], pred_objs)
                     total_loss = sub_loss+obj_loss
                 else:
@@ -161,6 +162,7 @@ class Framework(object):
                     path = os.path.join(self.config.checkpoint_dir, self.config.model_save_name)
                     if not self.config.debug:
                         torch.save(ori_model.state_dict(), path)
+                        self.config.dump_to()
 
             # manually release the unused cache
             torch.cuda.empty_cache()
