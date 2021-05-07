@@ -26,7 +26,7 @@ def find_head_idx(source, target):
     return -1
 
 
-@register("cmed")
+@register("CMED")
 class CMEDDataset(Dataset):
     def __init__(self, config, prefix, is_test):
         self.config = config
@@ -51,7 +51,7 @@ class CMEDDataset(Dataset):
         if len(tokens) > BERT_MAX_LEN:
             tokens = tokens[: BERT_MAX_LEN]
         text_len = len(tokens)
-
+        pointer_sub, pointer_obj= [],[]
         if not self.is_test:
             s2ro_map = {}
             for triple in ins_json_data['triple_list']:
@@ -90,7 +90,7 @@ class CMEDDataset(Dataset):
                 for ro in s2ro_map.get((sub_head_idx, sub_tail_idx), []):
                     obj_heads[ro[0]][ro[2]] = 1
                     obj_tails[ro[1]][ro[2]] = 1
-                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, ins_json_data['triple_list'], tokens
+                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails,pointer_sub, pointer_obj, ins_json_data['triple_list'], tokens
             else:
                 return None
         else:
@@ -106,7 +106,7 @@ class CMEDDataset(Dataset):
             sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
             sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
             obj_heads, obj_tails = np.zeros((text_len, self.config.rel_num)), np.zeros((text_len, self.config.rel_num))
-            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, ins_json_data['triple_list'], tokens
+            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails,pointer_sub, pointer_obj, ins_json_data['triple_list'], tokens
 
 
 @register("baidu")
@@ -132,13 +132,14 @@ class BaiduDataset(Dataset):
             else:
                 with open(os.path.join(self.config.data_path,prefix+".pkl"),'rb') as f:
                     self.json_data = pickle.load(f)
+        # with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
+        #     self.json_data = f.readlines()
 
     def load_dataset(self):
         for index,line in enumerate(self.json_data):
             line = json.loads(line)
             line = self.parse_single_line(line)
             self.json_data[index] = line
-
 
     def parse_single_line(self, line):
         text = line['text']
@@ -152,9 +153,11 @@ class BaiduDataset(Dataset):
             relation = spo['predicate']
             relid = self.rel2id[relation]
             object_value = strQ2B(spo['object']['@value']) #主语
-            spo_, new = self.get_complex(spo, text)
-            if new:
-                new_spo.append(spo_)
+            if len(spo['object'])==2:
+                spo_1 = self.get_complex_1(spo)
+                spo_2 = self.get_complex_2(spo)
+                new_spo.append(spo_1)
+                new_spo.append(spo_2)
             spo['object']['@value'] = object_value
             subject_value = strQ2B(spo['subject']) #谓语
             spo['subject'] = subject_value
@@ -186,7 +189,7 @@ class BaiduDataset(Dataset):
                 else:
                     word_index = [index for index, _ in list(tree.iter(text))]
                     objects = {"name": object_value, "pos": [word_index[0] - len(object_value) + 1, word_index[0] + 1]}
-                    subjects = {"name": objects, "pos": [word_index[-1] - len(objects) + 1, word_index[-1] + 1]}
+                    subjects = {"name": subject_value, "pos": [word_index[-1] - len(subject_value) + 1, word_index[-1] + 1]}
                     spo['h'] = subjects
                     spo['t'] = objects
             else:
@@ -327,34 +330,56 @@ class BaiduDataset(Dataset):
         subjects = {"name": word, "pos": [word_index[-1] - len(word) + 1, word_index[-1] + 1]}
         return objects, subjects
 
-    def get_complex(self, spo,  text):
-        """添加复杂关系"""
+    def get_complex_1(self,spo):
+        # 构建复杂关系中{"predicate": "获奖", "object": {"inWork": "线", "@value": "十大金曲"}, "subject": "刘惜君"} 构建(刘惜君,获奖-inWork,线)三元组
         spo_ = copy.deepcopy(spo)
-        new = False
-        del spo_['object_type']['@value']
-        if len(spo_['object_type']) == 1:
-            tree = ahocorasick.Automaton()
-            index = 0
-            items = copy.deepcopy(spo_['object_type'])
-            for k, v in items.items():
-                predicate = k.lower()+"_"+v.lower()
-                object_type = v
-                object_value = strQ2B(spo_['object'][k])
-                subject_value = strQ2B(spo_['subject'])
-                tree.add_word(object_value, (index, object_value))
-                index += 1
-                tree.add_word(subject_value, (index, subject_value))
-                tree.make_automaton()
-                word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
-                subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
-                spo_['h'] = subjects
-                spo_['t'] = objects
+        tree = ahocorasick.Automaton()
+        index = 0
+        old_predicate = spo_['predicate']
+        items = copy.deepcopy(spo_['object_type'])
+        k, v = items.items()
+        predicate = old_predicate+"-"+k.lower()
+        object_type = v
+        object_value = strQ2B(spo_['object'][k])
+        subject_value = strQ2B(spo_['subject'])
+        tree.add_word(object_value, (index, object_value))
+        index += 1
+        tree.add_word(subject_value, (index, subject_value))
+        tree.make_automaton()
+        word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+        subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+        spo_['h'] = subjects
+        spo_['t'] = objects
 
-                spo_['object_type']["@value"] = object_type
-                spo_['object']["@value"] = object_value
-                spo_['predicate'] = predicate
-                new = True
-        return spo_, new
+        spo_['object_type']["@value"] = object_type
+        spo_['object']["@value"] = object_value
+        spo_['predicate'] = predicate
+        return spo_
+
+    def get_complex_2(self,spo):
+        # 获取复杂关系中，{"inWork": "线", "@value": "十大金曲"} 构建(十大金曲,inWork,线)三元组
+        spo_ = copy.deepcopy(spo)
+        tree = ahocorasick.Automaton()
+        index = 0
+        items = copy.deepcopy(spo_['object_type'])
+        k, v = items.items()
+        predicate = k.lower()
+        object_type = v
+        object_value = strQ2B(spo_['object'][k])
+        subject_value = strQ2B(spo_['object']["@value"])
+        tree.add_word(object_value, (index, object_value))
+        index += 1
+        tree.add_word(subject_value, (index, subject_value))
+        tree.make_automaton()
+        word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+        subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+        spo_['h'] = subjects
+        spo_['t'] = objects
+
+        spo_['object_type']["@value"] = object_type
+        spo_['object']["@value"] = object_value
+        spo_['predicate'] = predicate
+        return spo_
 
     def choice_subject_object(self,object_value,subject_value,word_index,text):
         if  object_value == subject_value:
@@ -371,7 +396,6 @@ class BaiduDataset(Dataset):
         else:
             is_nest = False
             if subject_value in object_value or object_value in subject_value:
-                print(text)
                 is_nest = True
                 subjects,objects = self.drop_nest_words(word_index,subject_value,object_value)
             else:
@@ -439,6 +463,9 @@ class BaiduDataset(Dataset):
         if subtoken != substring:
             print(substring,subtoken,text)
             print()
+        if pos_head <=0 or pos_tail<1:
+            print(substring,subtoken,text)
+            print()
 
     def get_index(self,pos,new_index):
             new_pos = [-1,-1]
@@ -472,6 +499,8 @@ class BaiduDataset(Dataset):
 
     def __getitem__(self,index):
         ins_json_data = self.json_data[index]
+        # line = json.loads(ins_json_data)
+        # ins_json_data = self.parse_single_line(line)
         text = ins_json_data['text']
         tokens,new_index = self.tokenizer.tokenize(text)
         if len(tokens) > BERT_MAX_LEN:
@@ -482,15 +511,15 @@ class BaiduDataset(Dataset):
             s2ro_map = {}
             triples = []
             for triple in ins_json_data['spo_list']:
-                # pos_head = triple["h"]['pos']
-                # pos_tail = triple['t']['pos']
-                pos_head = triple["t"]['pos'] # 这是object
-                pos_tail = triple['h']['pos'] # 这是subject
+                pos_head = triple["h"]['pos']
+                pos_tail = triple['t']['pos']
+                # pos_head = triple["t"]['pos'] # 这是object
+                # pos_tail = triple['h']['pos'] # 这是subject
                 # triple = (self.tokenizer.tokenize(triple['subject'])[1:-1], triple[1], self.tokenizer.tokenize(triple["object"]['@value'])[1:-1])
                 # sub_head_idx = find_head_idx(tokens, triple[0])
                 # obj_head_idx = find_head_idx(tokens, triple[2])
-                # triple = (triple['subject'], triple['predicate'], triple["object"]['@value'])
-                triple = (triple["object"]['@value'], triple['predicate'], triple['subject']) #百度的主语是用object表示的
+                triple = (triple['subject'], triple['predicate'], triple["object"]['@value'])
+                # triple = (triple["object"]['@value'], triple['predicate'], triple['subject']) #百度的主语是用object表示的
                 triples.append(triple)
                 # sub_head_idx,sub_tail_idx = self.get_index(pos_head,new_index) #按照tokenizer自行分词进行预测
                 sub_head_idx,sub_tail_idx = pos_head[0]+1,pos_head[1]+1 # 以char级别进行预测，加1是因为前面有[CLS]字符
@@ -537,9 +566,9 @@ class BaiduDataset(Dataset):
             else:
                 return None
         else:
-            # triples = [(triple['subject'], triple['predicate'], triple["object"]['@value']) for triple in ins_json_data['spo_list']]
+            triples = [(triple['subject'], triple['predicate'], triple["object"]['@value']) for triple in ins_json_data['spo_list']]
             # 理由同上
-            triples = [(triple["object"]['@value'], triple['predicate'], triple['subject']) for triple in ins_json_data['spo_list']]
+            # triples = [(triple["object"]['@value'], triple['predicate'], triple['subject']) for triple in ins_json_data['spo_list']]
 
             # outputs = self.tokenizer.encode_plus(text,max_length=self.config.max_len,pad_to_max_length=True,return_attention_mask=True)
             # token_ids, masks = np.array(outputs['input_ids']),np.array(outputs['attention_mask'])
@@ -595,6 +624,7 @@ class DataPreFetcher(object):
             for k, v in self.next_data.items():
                 if isinstance(v, torch.Tensor):
                     self.next_data[k] = self.next_data[k].cuda(non_blocking=True)
+                    # self.next_data[k] = self.next_data[k]
 
     def next(self):
         torch.cuda.current_stream().wait_stream(self.stream)

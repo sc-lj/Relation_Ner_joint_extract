@@ -69,13 +69,19 @@ class Framework(object):
                 mask = mask.unsqueeze(-1)
             los = torch.sum(los * mask) / torch.sum(mask)
             if self.config.use_focal and use_focal:
-                los += self.focal_loss(pred,gold,mask)
+                los += self.focal_loss(pred,gold,None)
             return los
         
         def pointer_loss(gold,pred,threshold=0):
             loss_func = GlobalCrossEntropy()
-            loss = loss_func(gold,pred,threshold)
-            return loss
+            los = loss_func(gold,pred,threshold)
+            return los
+        
+        def pointer_sub_loss(gold,pred,use_focal=False):
+            los = F.binary_cross_entropy(pred, gold)
+            if self.config.use_focal and use_focal:
+                los += self.focal_loss(pred,gold)
+            return los
 
         # check the checkpoint dir
         if not os.path.exists(self.config.checkpoint_dir):
@@ -93,6 +99,8 @@ class Framework(object):
         model.train()
         global_step = 0
         loss_sum = 0
+        sub_loss_sum = 0
+        rel_loss_sum = 0
 
         best_f1_score = 0
         best_precision = 0
@@ -117,10 +125,11 @@ class Framework(object):
                     total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
                 elif self.config.model_name == "globalpointer":
                     pred_subs, pred_objs = model(data)
-                    # sub_loss = pointer_loss(data['pointer_sub'], pred_subs)
-                    sub_loss = loss(data['pointer_sub'], pred_subs, data['mask'])
+                    sub_loss = pointer_loss(data['pointer_sub'], pred_subs)
+                    # pred_subs = torch.sigmoid(pred_subs)
+                    # sub_loss = pointer_sub_loss(data['pointer_sub'], pred_subs,True)
                     obj_loss = pointer_loss(data['pointer_obj'], pred_objs)
-                    total_loss = sub_loss+obj_loss
+                    total_loss = 1.2*sub_loss+1.*obj_loss
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
 
@@ -131,13 +140,19 @@ class Framework(object):
 
                 global_step += 1
                 loss_sum += total_loss.item()
+                sub_loss_sum += sub_loss.item()
+                rel_loss_sum += obj_loss.item()
 
                 if global_step % self.config.period == 0:
                     cur_loss = loss_sum / self.config.period
+                    cur_sub_loss = sub_loss_sum / self.config.period
+                    cur_rel_loss = rel_loss_sum / self.config.period
                     elapsed = time.time() - start_time
-                    self.logging("epoch: {:3d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.3f}".
-                                 format(epoch, global_step, elapsed * 1000 / self.config.period, cur_loss))
+                    self.logging("epoch: {:3d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.3f},subject loss:{:5.3f},rel_object_loss:{:5.3f}".
+                                 format(epoch, global_step, elapsed * 1000 / self.config.period, cur_loss,cur_sub_loss,cur_rel_loss))
                     loss_sum = 0
+                    sub_loss_sum = 0
+                    rel_loss_sum = 0
                     start_time = time.time()
 
                 data = train_data_prefetcher.next()
@@ -146,10 +161,10 @@ class Framework(object):
                 eval_start_time = time.time()
                 model.eval()
                 # call the test function
-                precision, recall, f1_score = self.test(dev_data_loader, model)
+                precision, recall, f1_score,sub_precision,sub_recall,sub_f1_score = self.test(dev_data_loader, model)
                 model.train()
-                self.logging('epoch {:3d}, eval time: {:5.2f}s, f1: {:4.2f}, precision: {:4.2f}, recall: {:4.2f}'.
-                             format(epoch, time.time() - eval_start_time, f1_score, precision, recall))
+                self.logging('epoch {:3d}, eval time: {:5.2f}s, f1: {:4.2f}, precision: {:4.2f}, recall: {:4.2f}, sub_f1: {:4.2f}, sub_precision: {:4.2f}, sub_recall: {:4.2f}'.
+                             format(epoch, time.time() - eval_start_time, f1_score, precision, recall,sub_f1_score,sub_precision,sub_recall))
 
                 if f1_score > best_f1_score:
                     best_f1_score = f1_score
@@ -203,17 +218,22 @@ class Framework(object):
                 mask = data['mask']
                 encoded_text = model.get_encoded_text(token_ids, mask)
                 if self.config.model_name == "casrel":
-                    pred_list = self.casrel_test(model,encoded_text,tokens,id2rel,h_bar=0.5, t_bar=0.5)
+                    pred_list,pred_sub_list = self.casrel_test(model,encoded_text,tokens,id2rel,h_bar=0.5, t_bar=0.5)
                 elif self.config.model_name == 'globalpointer':
-                    pred_list = self.globalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0)
+                    pred_list,pred_sub_list = self.globalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0)
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
                 pred_triples = set(pred_list)
                 gold_triples = set(to_tup(data['triples'][0]))
+                gold_sub = set([line[0] for line in data['triples'][0]])
 
                 correct_num += len(pred_triples & gold_triples)
                 predict_num += len(pred_triples)
                 gold_num += len(gold_triples)
+
+                correct_sub_num += len(pred_sub_list & gold_sub)
+                predict_sub_num += len(pred_sub_list)
+                gold_sub_num += len(gold_sub)
 
                 if output:
                     result = json.dumps({
@@ -236,11 +256,16 @@ class Framework(object):
                 data = test_data_prefetcher.next()
 
         print("correct_num: {:3d}, predict_num: {:3d}, gold_num: {:3d}".format(correct_num, predict_num, gold_num))
+        print("correct_sub_num: {:3d}, predict_sub_num: {:3d}, gold_sub_num: {:3d}".format(correct_sub_num, predict_sub_num, gold_sub_num))
 
         precision = correct_num / (predict_num + 1e-10)
         recall = correct_num / (gold_num + 1e-10)
         f1_score = 2 * precision * recall / (precision + recall + 1e-10)
-        return precision, recall, f1_score
+        
+        sub_precision = correct_sub_num / (predict_sub_num + 1e-10)
+        sub_recall = correct_sub_num / (gold_sub_num + 1e-10)
+        sub_f1_score = 2 * sub_precision * sub_recall / (sub_precision + sub_recall + 1e-10)
+        return precision, recall, f1_score,sub_precision,sub_recall,sub_f1_score
 
     def testall(self, model_pattern):
         model = model_pattern(self.config)
@@ -249,8 +274,9 @@ class Framework(object):
         model.cuda()
         model.eval()
         test_data_loader = data_loader.get_loader(self.config, prefix=self.config.test_prefix, is_test=True)
-        precision, recall, f1_score = self.test(test_data_loader, model, True)
+        precision, recall, f1_score,sub_precision,sub_recall,sub_f1_score = self.test(test_data_loader, model, True)
         print("f1: {:4.2f}, precision: {:4.2f}, recall: {:4.2f}".format(f1_score, precision, recall))
+        print("sub_f1: {:4.2f}, sub_precision: {:4.2f}, sub_recall: {:4.2f}".format(sub_f1_score, sub_precision,sub_recall))
 
 
     def casrel_test(self,model,encoded_text,tokens,id2rel,h_bar=0.5,t_bar=0.5):
@@ -265,6 +291,7 @@ class Framework(object):
                 subjects.append((subject, sub_head, sub_tail))
         if subjects:
             triple_list = []
+            sub_list= []
             # [subject_num, seq_len, bert_dim]
             repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
             # [subject_num, 1, seq_len],每个主语构建一个样本
@@ -280,6 +307,7 @@ class Framework(object):
                 sub = subject[0]
                 sub = ''.join([i.lstrip("##") for i in sub])
                 sub = ' '.join(sub.split('[unused1]'))
+                sub_list.append(sub)
                 obj_heads, obj_tails = np.where(pred_obj_heads.cpu()[subject_idx] > h_bar), np.where(pred_obj_tails.cpu()[subject_idx] > t_bar)
                 for obj_head, rel_head in zip(*obj_heads):
                     for obj_tail, rel_tail in zip(*obj_tails):
@@ -294,9 +322,11 @@ class Framework(object):
             for s, r, o in triple_list:
                 triple_set.add((s.strip(), r.strip(), o.strip()))
             pred_list = list(triple_set)
+            sub_list = list(set(sub_list))
         else:
             pred_list = []
-        return pred_list
+            sub_list = []
+        return pred_list,sub_list
 
     def globalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0):
         pred_subs = model.get_subs(encoded_text,mask)
@@ -310,6 +340,7 @@ class Framework(object):
 
         if subjects:
             triple_list = []
+            sub_list = []
             # [subject_num, seq_len, bert_dim]
             repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
             # [subject_num, 1, seq_len],每个主语构建一个样本
@@ -325,6 +356,7 @@ class Framework(object):
                 sub = subject[0]
                 sub = ''.join([i.lstrip("##") for i in sub])
                 sub = ' '.join(sub.split('[unused1]'))
+                sub_list.append(sub)
                 for rel_id, obj_head, obj_tail in zip(*np.where(pred_objs.cpu()[subject_idx] > threshold)):
                     rel = id2rel[str(int(rel_id))]
                     obj = tokens[obj_head: obj_tail]
@@ -336,6 +368,8 @@ class Framework(object):
             for s, r, o in triple_list:
                 triple_set.add((s.strip(), r.strip(), o.strip()))
             pred_list = list(triple_set)
+            sub_list = list(set(sub_list))
         else:
             pred_list = []
-        return pred_list
+            sub_list = []
+        return pred_list,sub_list

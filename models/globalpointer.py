@@ -11,7 +11,7 @@ class GlobalPointer(nn.Module):
         # heads 一般设置为关系数量或者实体类别数量
         super(GlobalPointer, self).__init__()
         self.heads = heads
-        self.bert_dim = 768
+        self.bert_dim = 1024 # 768
         self.head_size = head_size
         self.RoPE = RoPE
         self.dense = nn.Linear(self.bert_dim,self.head_size * self.heads*2)

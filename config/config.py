@@ -3,8 +3,6 @@ import os
 import json
 class Config(object):
     def __init__(self, args):
-        # self.args = args
-
         # train hyper parameter
         self.multi_gpu = args.multi_gpu
         self.learning_rate = args.learning_rate
@@ -54,8 +52,6 @@ class Config(object):
             setattr(self,name,value)
 
     def dump_to(self):
-        if not os.path.exists(self.checkpoint_dir):
-            os.makedirs(self.checkpoint_dir)
         with open(self.checkpoint_dir+"/"+self.config_file_name, 'w', encoding='utf-8') as fout:
             json.dump(self.__dict__, fout,ensure_ascii=False,indent=2)
 
