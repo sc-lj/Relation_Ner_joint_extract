@@ -35,20 +35,26 @@ class Framework(object):
             from transformers import AdamW
             params = list(ori_model.named_parameters())
             no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
-            grouped_params = [
-                {
-                    'params': [p for n, p in params if not any(nd in n for nd in no_decay)],
-                    'weight_decay': 0.01,
-                    'lr': self.config.learning_rate,
-                    'ori_lr': self.config.learning_rate
-                },
-                {
-                    'params': [p for n, p in params if any(nd in n for nd in no_decay)],
-                    'weight_decay': 0.0,
-                    'lr': self.config.learning_rate,
-                    'ori_lr': self.config.learning_rate
-                }
-            ]
+            if self.config.discr:
+                group1=['layer.0.','layer.1.','layer.2.','layer.3.']
+                group2=['layer.4.','layer.5.','layer.6.','layer.7.']
+                group3=['layer.8.','layer.9.','layer.10.','layer.11.']
+                group_all=['layer.0.','layer.1.','layer.2.','layer.3.','layer.4.','layer.5.','layer.6.','layer.7.','layer.8.','layer.9.','layer.10.','layer.11.']
+                grouped_params = [
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.01},
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.01, 'lr': self.config.learning_rate/1.6},
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.01, 'lr': self.config.learning_rate},
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.01, 'lr': self.config.learning_rate*1.6},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.0},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.0, 'lr': self.config.learning_rate/1.6},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.0, 'lr': self.config.learning_rate},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.0, 'lr': self.config.learning_rate*1.6},
+                ]
+            else:
+                grouped_params = [
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay)], 'weight_decay': 0.01},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
+                    ]
             optimizer = AdamW(grouped_params, correct_bias=False)
         else:
             raise Exception("Invalid optimizer. Must be 'sgd' or 'adam' or 'adamw'.")
@@ -191,7 +197,7 @@ class Framework(object):
         if output:
             # check the result dir
             if not os.path.exists(self.config.result_dir):
-                os.mkdir(self.config.result_dir)
+                os.makedirs(self.config.result_dir)
 
             path = os.path.join(self.config.result_dir, self.config.result_save_name)
 
@@ -210,7 +216,7 @@ class Framework(object):
         rel2id = json.load(open(os.path.join(self.config.data_path, 'rel2id.json')))
         id2rel = {str(v):k for k,v in rel2id.items()}
         correct_num, predict_num, gold_num = 0, 0, 0
-
+        correct_sub_num,predict_sub_num,gold_sub_num = 0,0,0
         while data is not None:
             with torch.no_grad():
                 token_ids = data['token_ids']
@@ -224,6 +230,7 @@ class Framework(object):
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
                 pred_triples = set(pred_list)
+                pred_sub_list = set(pred_sub_list)
                 gold_triples = set(to_tup(data['triples'][0]))
                 gold_sub = set([line[0] for line in data['triples'][0]])
 

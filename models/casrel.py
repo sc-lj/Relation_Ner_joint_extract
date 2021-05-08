@@ -106,12 +106,12 @@ class GlobalPointerRel(nn.Module):
     def __init__(self, config):
         super(GlobalPointerRel, self).__init__()
         self.config = config
-        self.bert_dim = 768
         self.bert_encoder = BertModel.from_pretrained(config.pretrain_path)
+        self.bert_dim = self.bert_encoder.config.hidden_size
         self.obj_heads_linear = nn.Linear(self.bert_dim, self.config.rel_num)
         self.obj_tails_linear = nn.Linear(self.bert_dim, self.config.rel_num)
-        self.sub_global = GlobalPointer(1,64)
-        self.obj_global = GlobalPointer(self.config.rel_num,64)
+        self.sub_global = GlobalPointer(1,self.config.head_size,self.bert_dim)
+        self.obj_global = GlobalPointer(self.config.rel_num,self.config.head_size, self.bert_dim)
 
 
     def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text,mask = None):

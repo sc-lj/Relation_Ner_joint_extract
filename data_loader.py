@@ -154,10 +154,10 @@ class BaiduDataset(Dataset):
             relid = self.rel2id[relation]
             object_value = strQ2B(spo['object']['@value']) #主语
             if len(spo['object'])==2:
-                spo_1 = self.get_complex_1(spo)
-                spo_2 = self.get_complex_2(spo)
-                new_spo.append(spo_1)
-                new_spo.append(spo_2)
+                spo_1 = self.get_complex_1(spo,text)
+                spo_2 = self.get_complex_2(spo,text)
+                new_spo.extend(spo_1)
+                new_spo.extend(spo_2)
             spo['object']['@value'] = object_value
             subject_value = strQ2B(spo['subject']) #谓语
             spo['subject'] = subject_value
@@ -330,56 +330,63 @@ class BaiduDataset(Dataset):
         subjects = {"name": word, "pos": [word_index[-1] - len(word) + 1, word_index[-1] + 1]}
         return objects, subjects
 
-    def get_complex_1(self,spo):
+    def get_complex_1(self,spo,text):
         # 构建复杂关系中{"predicate": "获奖", "object": {"inWork": "线", "@value": "十大金曲"}, "subject": "刘惜君"} 构建(刘惜君,获奖-inWork,线)三元组
         spo_ = copy.deepcopy(spo)
-        tree = ahocorasick.Automaton()
-        index = 0
+        spos = []
         old_predicate = spo_['predicate']
         items = copy.deepcopy(spo_['object_type'])
-        k, v = items.items()
-        predicate = old_predicate+"-"+k.lower()
-        object_type = v
-        object_value = strQ2B(spo_['object'][k])
+        value_ = items.pop("@value")
         subject_value = strQ2B(spo_['subject'])
-        tree.add_word(object_value, (index, object_value))
-        index += 1
-        tree.add_word(subject_value, (index, subject_value))
-        tree.make_automaton()
-        word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
-        subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
-        spo_['h'] = subjects
-        spo_['t'] = objects
+        for k,v in items.items():
+            tree = ahocorasick.Automaton()
+            index = 0
+            predicate = old_predicate+"_"+k.lower()
+            object_type = v
+            object_value = strQ2B(spo_['object'][k])
+            tree.add_word(object_value, (index, object_value))
+            index += 1
+            tree.add_word(subject_value, (index, subject_value))
+            tree.make_automaton()
+            word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+            subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+            spo_['h'] = subjects
+            spo_['t'] = objects
 
-        spo_['object_type']["@value"] = object_type
-        spo_['object']["@value"] = object_value
-        spo_['predicate'] = predicate
-        return spo_
+            spo_['object_type']["@value"] = object_type
+            spo_['object']["@value"] = object_value
+            spo_['predicate'] = predicate
+            spos.append(spo_)
+        return spos
 
-    def get_complex_2(self,spo):
+    def get_complex_2(self,spo,text):
         # 获取复杂关系中，{"inWork": "线", "@value": "十大金曲"} 构建(十大金曲,inWork,线)三元组
         spo_ = copy.deepcopy(spo)
-        tree = ahocorasick.Automaton()
-        index = 0
         items = copy.deepcopy(spo_['object_type'])
-        k, v = items.items()
-        predicate = k.lower()
-        object_type = v
-        object_value = strQ2B(spo_['object'][k])
+        spos = []
+        value_ = items.pop("@value")
         subject_value = strQ2B(spo_['object']["@value"])
-        tree.add_word(object_value, (index, object_value))
-        index += 1
-        tree.add_word(subject_value, (index, subject_value))
-        tree.make_automaton()
-        word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
-        subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
-        spo_['h'] = subjects
-        spo_['t'] = objects
+        for k,v in items.items():
+            tree = ahocorasick.Automaton()
+            index = 0
+            predicate = k.lower()
+            object_type = v
+            object_value = strQ2B(spo_['object'][k])
+            tree.add_word(object_value, (index, object_value))
+            index += 1
+            tree.add_word(subject_value, (index, subject_value))
+            tree.make_automaton()
+            word_index = [(index,w[1]) for index, w in list(tree.iter(text))]
+            subjects,objects = self.choice_subject_object(object_value,subject_value,word_index,text)
+            spo_['h'] = subjects
+            spo_['t'] = objects
 
-        spo_['object_type']["@value"] = object_type
-        spo_['object']["@value"] = object_value
-        spo_['predicate'] = predicate
-        return spo_
+            spo_['object_type']["@value"] = object_type
+            spo_['object']["@value"] = object_value
+            spo_['predicate'] = predicate
+            spo_['subject'] = subject_value
+            spos.append(spo_)
+        return spos
 
     def choice_subject_object(self,object_value,subject_value,word_index,text):
         if  object_value == subject_value:

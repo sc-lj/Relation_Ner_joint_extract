@@ -7,11 +7,11 @@ class GlobalPointer(nn.Module):
     将序列的每个(start, end)作为整体来进行判断,
     详情请看：https://kexue.fm/archives/8373
     """
-    def __init__(self, heads, head_size, RoPE=True, **kwargs):
+    def __init__(self, heads, head_size, bert_dim, RoPE=True, **kwargs):
         # heads 一般设置为关系数量或者实体类别数量
         super(GlobalPointer, self).__init__()
         self.heads = heads
-        self.bert_dim = 1024 # 768
+        self.bert_dim = bert_dim
         self.head_size = head_size
         self.RoPE = RoPE
         self.dense = nn.Linear(self.bert_dim,self.head_size * self.heads*2)
