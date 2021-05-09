@@ -1,15 +1,20 @@
 import time
 import os
 import json
+import torch
+
 class Config(object):
     def __init__(self, args):
         # train hyper parameter
+        
+        for name,value in args.__dict__.items():
+            setattr(self,name,value)
         self.multi_gpu = args.multi_gpu
         self.learning_rate = args.learning_rate
-        self.batch_size = args.batch_size
+        if self.gradient_accumulation_steps > 1:
+            self.batch_size = int(self.batch_size/self.gradient_accumulation_steps)
         self.max_epoch = args.max_epoch
         self.max_len = args.max_len
-        self.rel_num = args.rel_num
         self.optimizer = args.optimizer
         self.weight_decay = args.weight_decay
         self.model_name = args.model_name
@@ -18,6 +23,10 @@ class Config(object):
         self.sub_threhold = 0.5
         self.dropout = 0.3
         self.attention = "None" # head2tail,None
+        self.discr = True # 是否对bert分层设置学习率
+        self.head_size = 32 # head size of globale pointer network
+        self.warmup_proportion = 0.01
+        self.fuse16 = True # 混合半精度训练
 
         # dataset
         self.dataset = args.dataset
@@ -38,6 +47,8 @@ class Config(object):
         self.result_save_name = 'RESULT_' + args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix+ ".json"
         self.config_file_name = "CONFIG_" + args.model_name + '_DATASET_' + self.dataset +"_T_"+self.time_postfix+ ".json"
 
+        self.rel_num = len(json.load(open(os.path.join(self.data_path, 'rel2id.json'),'r',encoding="utf-8")))
+        
         # log setting
         self.period = args.period
         self.test_epoch = args.test_epoch
@@ -47,9 +58,6 @@ class Config(object):
         if self.debug:
             self.dev_prefix = self.train_prefix
             self.test_prefix = self.train_prefix
-
-        for name,value in args.__dict__.items():
-            setattr(self,name,value)
 
     def dump_to(self):
         with open(self.checkpoint_dir+"/"+self.config_file_name, 'w', encoding='utf-8') as fout:

@@ -3,7 +3,9 @@ from torch import nn
 import os
 import data_loader
 import torch.nn.functional as F
-from .Loss import FocalLoss,GlobalCrossEntropy
+import torch.distributed as dist
+from apex import amp
+from transformers import get_polynomial_decay_schedule_with_warmup,get_cosine_schedule_with_warmup
 import torch
 import numpy as np
 import json
@@ -13,19 +15,36 @@ import time
 class Framework(object):
     def __init__(self, con):
         self.config = con
-        self.focal_loss = FocalLoss()
+        if int(self.config.local_rank) == -1:
+            self.device = torch.device("cuda")
+        else:
+            self.device = torch.device("cuda",int(self.config.local_rank))
+            torch.distributed.init_process_group(backend=self.backend,world_size=int(self.config.world_size))
+        if int(self.config.local_rank)!=-1:
+            self.set_environment_variables_for_nccl_backend()
+    
+    def set_environment_variables_for_nccl_backend(self):
+        os.environ['RANK'] = str(self.config.local_rank)
+        os.environ['WORLD_SIZE'] = str(self.config.world_size)
+        # os.environ['MASTER_ADDR'] = str(addr)
+        # Do not overwrite master port with that defined in AZ_BATCH_MASTER_NODE
+        # os.environ['MASTER_PORT'] = str(master_port)
+
+        # TODO make this parameterizable
+        os.environ['NCCL_SOCKET_IFNAME'] = '^docker0,lo'
 
     def logging(self, s, print_=True, log_=True):
-        if print_:
-            print(s)
-        if log_:
-            with open(os.path.join(self.config.log_dir, self.config.log_save_name), 'a+') as f_log:
-                f_log.write(s + '\n')
+        if int(self.config.local_rank) == -1 or(int(self.config.local_rank) > -1 and dist.get_rank()==0):
+            if print_:
+                print(s)
+            if log_:
+                with open(os.path.join(self.config.log_dir, self.config.log_save_name), 'a+') as f_log:
+                    f_log.write(s + '\n')
 
     def train(self, model_pattern):
         # initialize the model
         ori_model = model_pattern(self.config)
-        ori_model.cuda()
+        ori_model.to(self.device)
         params = ori_model.parameters()
         if self.config.optimizer == 'sgd':
             optimizer = optim.SGD(params, self.config.learning_rate, weight_decay=self.config.weight_decay)
@@ -36,20 +55,27 @@ class Framework(object):
             params = list(ori_model.named_parameters())
             no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
             if self.config.discr:
-                group1=['layer.0.','layer.1.','layer.2.','layer.3.']
-                group2=['layer.4.','layer.5.','layer.6.','layer.7.']
-                group3=['layer.8.','layer.9.','layer.10.','layer.11.']
-                group_all=['layer.0.','layer.1.','layer.2.','layer.3.','layer.4.','layer.5.','layer.6.','layer.7.','layer.8.','layer.9.','layer.10.','layer.11.']
+                # group1=['layer.0.','layer.1.','layer.2.','layer.3.']
+                # group2=['layer.4.','layer.5.','layer.6.','layer.7.']
+                # group3=['layer.8.','layer.9.','layer.10.','layer.11.']
+                # group_all=['layer.0.','layer.1.','layer.2.','layer.3.','layer.4.','layer.5.','layer.6.','layer.7.','layer.8.','layer.9.','layer.10.','layer.11.']
+                # grouped_params = [
+                #     {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.01},
+                #     {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.01, 'lr': self.config.learning_rate/1.6},
+                #     {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.01, 'lr': self.config.learning_rate},
+                #     {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.01, 'lr': self.config.learning_rate*1.6},
+                #     {'params': [p for n, p in params if any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.0},
+                #     {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.0, 'lr': self.config.learning_rate/1.6},
+                #     {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.0, 'lr': self.config.learning_rate},
+                #     {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.0, 'lr': self.config.learning_rate*1.6},
+                # ]
+                bert_group = ["bert"]
                 grouped_params = [
-                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.01},
-                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.01, 'lr': self.config.learning_rate/1.6},
-                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.01, 'lr': self.config.learning_rate},
-                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.01, 'lr': self.config.learning_rate*1.6},
-                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and not any(nd in n for nd in group_all)],'weight_decay': 0.0},
-                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group1)],'weight_decay': 0.0, 'lr': self.config.learning_rate/1.6},
-                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group2)],'weight_decay': 0.0, 'lr': self.config.learning_rate},
-                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in group3)],'weight_decay': 0.0, 'lr': self.config.learning_rate*1.6},
-                ]
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and any(nd in n for nd in bert_group)], 'weight_decay': 0.01, 'lr': self.config.learning_rate},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and any(nd in n for nd in bert_group)], 'weight_decay': 0.0, 'lr': self.config.learning_rate},
+                    {'params': [p for n, p in params if not any(nd in n for nd in no_decay) and not any(nd in n for nd in bert_group)],'weight_decay': 0.01, 'lr': self.config.learning_rate*20},
+                    {'params': [p for n, p in params if any(nd in n for nd in no_decay) and not any(nd in n for nd in bert_group)],'weight_decay': 0.0, 'lr': self.config.learning_rate*20},
+                    ]
             else:
                 grouped_params = [
                     {'params': [p for n, p in params if not any(nd in n for nd in no_decay)], 'weight_decay': 0.01},
@@ -61,33 +87,22 @@ class Framework(object):
         # define the optimizer
         # optimizer = optim.Adam(filter(lambda p: p.requires_grad, ori_model.parameters()), lr=self.config.learning_rate)
 
+        # 如果要使用分布式混合半精度训练，混合半精度要在分布式前面进行声明
+        if self.config.fuse16:
+            model, optimizer = amp.initialize(ori_model, optimizer, opt_level='O1')
+
         # whether use multi GPU
         if self.config.multi_gpu:
-            model = nn.DataParallel(ori_model)
+            if self.config.fuse16:
+                from apex.parallel import DistributedDataParallel as DDP
+                # DDP模块同时也计算整体的平均梯度, 这样我们就不需要在训练步骤计算平均梯度。
+                model = DDP(ori_model, delay_allreduce=True)
+            else:
+                # model = nn.DataParallel(ori_model)
+                model = nn.parallel.DistributedDataParallel(ori_model,device_ids=[int(self.config.local_rank)],find_unused_parameters=True)
         else:
             model = ori_model
-
-        # define the loss function
-        def loss(gold, pred, mask,use_focal=False):
-            pred = pred.squeeze(-1)
-            los = F.binary_cross_entropy(pred, gold, reduction='none')
-            if los.shape != mask.shape:
-                mask = mask.unsqueeze(-1)
-            los = torch.sum(los * mask) / torch.sum(mask)
-            if self.config.use_focal and use_focal:
-                los += self.focal_loss(pred,gold,None)
-            return los
         
-        def pointer_loss(gold,pred,threshold=0):
-            loss_func = GlobalCrossEntropy()
-            los = loss_func(gold,pred,threshold)
-            return los
-        
-        def pointer_sub_loss(gold,pred,use_focal=False):
-            los = F.binary_cross_entropy(pred, gold)
-            if self.config.use_focal and use_focal:
-                los += self.focal_loss(pred,gold)
-            return los
 
         # check the checkpoint dir
         if not os.path.exists(self.config.checkpoint_dir):
@@ -97,9 +112,13 @@ class Framework(object):
         if not os.path.exists(self.config.log_dir):
             os.makedirs(self.config.log_dir)
 
+        train_dataset = data_loader.dataLoader[self.config.dataset](self.config, self.config.train_prefix, is_test=False)
+        dev_dataset = data_loader.dataLoader[self.config.dataset](self.config, self.config.dev_prefix, is_test=True)
         # get the data loader
-        train_data_loader = data_loader.get_loader(self.config, prefix=self.config.train_prefix,num_workers=5)
-        dev_data_loader = data_loader.get_loader(self.config, prefix=self.config.dev_prefix, is_test=True,num_workers=5)
+        dev_data_loader = data_loader.get_loader(dev_dataset, self.config, is_test=True,num_workers=5)
+        num_training_steps = int(len(train_dataset)/self.config.batch_size*50)
+        num_warmup_steps = self.config.warmup_proportion * num_training_steps
+        schedule = get_polynomial_decay_schedule_with_warmup(optimizer,num_warmup_steps=num_warmup_steps,num_training_steps=num_training_steps)
 
         # other
         model.train()
@@ -118,51 +137,63 @@ class Framework(object):
 
         # the training loop
         for epoch in range(self.config.max_epoch):
+            train_data_loader = data_loader.get_loader(train_dataset, self.config, num_workers=5, epochs = epoch)
             train_data_prefetcher = data_loader.DataPreFetcher(train_data_loader)
             data = train_data_prefetcher.next()
+            step = 0
             while data is not None:
+            # for step,data in enumerate(train_data_loader):
+                # for k, v in data.items():
+                #     if isinstance(v, torch.Tensor):
+                #         data[k] = data[k].cuda()
                 if self.config.model_name == "casrel":
-                    pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails = model(data)
-
-                    sub_heads_loss = loss(data['sub_heads'], pred_sub_heads, data['mask'],True)
-                    sub_tails_loss = loss(data['sub_tails'], pred_sub_tails, data['mask'],True)
-                    obj_heads_loss = loss(data['obj_heads'], pred_obj_heads, data['mask'])
-                    obj_tails_loss = loss(data['obj_tails'], pred_obj_tails, data['mask'])
+                    sub_heads_loss,sub_tails_loss,obj_heads_loss,obj_tails_loss = model(data)
                     total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
+                    sub_loss = sub_heads_loss + sub_tails_loss
+                    obj_loss = obj_heads_loss + obj_tails_loss
                 elif self.config.model_name == "globalpointer":
-                    pred_subs, pred_objs = model(data)
-                    sub_loss = pointer_loss(data['pointer_sub'], pred_subs)
-                    # pred_subs = torch.sigmoid(pred_subs)
-                    # sub_loss = pointer_sub_loss(data['pointer_sub'], pred_subs,True)
-                    obj_loss = pointer_loss(data['pointer_obj'], pred_objs)
-                    total_loss = 1.2*sub_loss+1.*obj_loss
+                    sub_loss,obj_loss = model(data)
+                    total_loss = 1.5*sub_loss+1.*obj_loss
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
 
+                if self.config.gradient_accumulation_steps > 1:
+                    total_loss /= self.config.gradient_accumulation_steps
+                    sub_loss /= self.config.gradient_accumulation_steps
+                    obj_loss /= self.config.gradient_accumulation_steps
 
-                optimizer.zero_grad()
-                total_loss.backward()
-                optimizer.step()
+                if self.config.fuse16:
+                    with amp.scale_loss(total_loss,optimizer) as scale_loss:
+                        scale_loss.backward()
+                else:
+                    total_loss.backward()
+
+                if (step+1)%self.config.gradient_accumulation_steps == 0:
+                    optimizer.step()
+                    schedule.step()
+                    optimizer.zero_grad()
+
 
                 global_step += 1
                 loss_sum += total_loss.item()
                 sub_loss_sum += sub_loss.item()
                 rel_loss_sum += obj_loss.item()
 
-                if global_step % self.config.period == 0:
+                if (step+1) % (self.config.period*self.config.gradient_accumulation_steps) == 0:
                     cur_loss = loss_sum / self.config.period
                     cur_sub_loss = sub_loss_sum / self.config.period
                     cur_rel_loss = rel_loss_sum / self.config.period
                     elapsed = time.time() - start_time
-                    self.logging("epoch: {:3d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.3f},subject loss:{:5.3f},rel_object_loss:{:5.3f}".
-                                 format(epoch, global_step, elapsed * 1000 / self.config.period, cur_loss,cur_sub_loss,cur_rel_loss))
+                    self.logging("epoch: {:3d}, global_step: {:4d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.3f},subject loss:{:5.3f},rel_object_loss:{:5.3f}".
+                                 format(epoch, global_step, step+1, elapsed * 1000 / self.config.period, cur_loss,cur_sub_loss,cur_rel_loss))
                     loss_sum = 0
                     sub_loss_sum = 0
                     rel_loss_sum = 0
                     start_time = time.time()
 
                 data = train_data_prefetcher.next()
-
+                step += 1
+            
             if (epoch + 1) % self.config.test_epoch == 0:
                 eval_start_time = time.time()
                 model.eval()
@@ -181,8 +212,11 @@ class Framework(object):
                                  format(best_epoch, best_f1_score, precision, recall))
                     # save the best model
                     path = os.path.join(self.config.checkpoint_dir, self.config.model_save_name)
-                    if not self.config.debug:
-                        torch.save(ori_model.state_dict(), path)
+                    if not self.config.debug and ((int(self.config.local_rank) > -1 and dist.get_rank()==0) or int(self.config.local_rank) == -1):
+                        if int(self.config.local_rank) == -1:
+                            torch.save(model.state_dict(), path)
+                        else:
+                            torch.save(model.modules.state_dict(), path)
                         self.config.dump_to()
 
             # manually release the unused cache
@@ -262,8 +296,8 @@ class Framework(object):
 
                 data = test_data_prefetcher.next()
 
-        print("correct_num: {:3d}, predict_num: {:3d}, gold_num: {:3d}".format(correct_num, predict_num, gold_num))
-        print("correct_sub_num: {:3d}, predict_sub_num: {:3d}, gold_sub_num: {:3d}".format(correct_sub_num, predict_sub_num, gold_sub_num))
+        self.logging("correct_num: {:3d}, predict_num: {:3d}, gold_num: {:3d}".format(correct_num, predict_num, gold_num))
+        self.logging("correct_sub_num: {:3d}, predict_sub_num: {:3d}, gold_sub_num: {:3d}".format(correct_sub_num, predict_sub_num, gold_sub_num))
 
         precision = correct_num / (predict_num + 1e-10)
         recall = correct_num / (gold_num + 1e-10)

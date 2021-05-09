@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch
 from transformers import BertModel
 
+
 class GlobalPointer(nn.Module):
     """全局指针模块
     将序列的每个(start, end)作为整体来进行判断,

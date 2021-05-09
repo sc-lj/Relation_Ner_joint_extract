@@ -1,4 +1,4 @@
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, distributed
 import json
 import os
 import copy
@@ -118,22 +118,22 @@ class BaiduDataset(Dataset):
         self.tokenizer = BDTokenizer.from_pretrained(config.pretrain_path)
         self.vocab = self.tokenizer.vocab
         self.rel2id = json.load(open(os.path.join(self.config.data_path, 'rel2id.json'),'r',encoding="utf-8"))
-        if self.config.debug:
-            with open(os.path.join(self.config.data_path, prefix + '.json'),'r',encoding="utf-8") as f:
-                self.json_data = f.readlines()[:500]
-                self.load_dataset()
-        else:
-            if not os.path.exists(os.path.join(self.config.data_path,prefix+".pkl")):
-                with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
-                    self.json_data = f.readlines()
-                self.load_dataset()
-                with open(os.path.join(self.config.data_path,prefix+".pkl"),'wb') as f:
-                    pickle.dump(self.json_data,f)
-            else:
-                with open(os.path.join(self.config.data_path,prefix+".pkl"),'rb') as f:
-                    self.json_data = pickle.load(f)
-        # with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
-        #     self.json_data = f.readlines()
+        # if self.config.debug:
+        #     with open(os.path.join(self.config.data_path, prefix + '.json'),'r',encoding="utf-8") as f:
+        #         self.json_data = f.readlines()[:500]
+        #         self.load_dataset()
+        # else:
+        #     if not os.path.exists(os.path.join(self.config.data_path,prefix+".pkl")):
+        #         with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
+        #             self.json_data = f.readlines()
+        #         self.load_dataset()
+        #         with open(os.path.join(self.config.data_path,prefix+".pkl"),'wb') as f:
+        #             pickle.dump(self.json_data,f)
+        #     else:
+        #         with open(os.path.join(self.config.data_path,prefix+".pkl"),'rb') as f:
+        #             self.json_data = pickle.load(f)
+        with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
+            self.json_data = f.readlines()
 
     def load_dataset(self):
         for index,line in enumerate(self.json_data):
@@ -506,8 +506,8 @@ class BaiduDataset(Dataset):
 
     def __getitem__(self,index):
         ins_json_data = self.json_data[index]
-        # line = json.loads(ins_json_data)
-        # ins_json_data = self.parse_single_line(line)
+        line = json.loads(ins_json_data)
+        ins_json_data = self.parse_single_line(line)
         text = ins_json_data['text']
         tokens,new_index = self.tokenizer.tokenize(text)
         if len(tokens) > BERT_MAX_LEN:
@@ -593,18 +593,23 @@ class BaiduDataset(Dataset):
             return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
 
 
-def get_loader(config, prefix, is_test=False, num_workers=0):
+def get_loader(dataset, config, is_test=False, num_workers=0,epochs = 0):
     # dataset = CMEDDataset(config, prefix, is_test)
-    dataset = dataLoader[config.dataset](config, prefix, is_test)
+    # dataset = dataLoader[config.dataset](config, prefix, is_test)
     # collate_fn = lambda x: casrel_collate_fn(x,config.rel_num)
     collate_fn = lambda x: collate_fn_register[config.model_name](x,config.rel_num)
+    train_sampler = None
+    if int(config.local_rank) !=-1:
+        train_sampler = distributed.DistributedSampler(dataset)
+        train_sampler.set_epoch(epochs) #是在DDP模式下shuffle数据集的方式；
     if not is_test:
         data_loader = DataLoader(dataset=dataset,
                                  batch_size=config.batch_size,
-                                 shuffle=True,
+                                 shuffle=True if train_sampler is None else None,
                                  pin_memory=True,
                                  num_workers=num_workers,
-                                 collate_fn=collate_fn)
+                                 collate_fn=collate_fn,
+                                 sampler=train_sampler)
     else:
         data_loader = DataLoader(dataset=dataset,
                                  batch_size=1,

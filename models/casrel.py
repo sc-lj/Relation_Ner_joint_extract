@@ -6,11 +6,13 @@ import torch
 import math
 from .attention import registry as attention
 from .globalpointer import GlobalPointer
+from .Loss import FocalLoss,GlobalCrossEntropy
 
 
 class Casrel(nn.Module):
     def __init__(self, config):
         super(Casrel, self).__init__()
+        self.focal_loss = FocalLoss()
         self.config = config
         self.bert_dim = 768
         self.bert_encoder = BertModel.from_pretrained(config.pretrain_path)
@@ -99,7 +101,24 @@ class Casrel(nn.Module):
         sub_tail_mapping = data['sub_tail'].unsqueeze(1)
         # [batch_size, seq_len, rel_num]
         pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text)
-        return pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails
+        sub_heads_loss = self.loss(data['sub_heads'], pred_sub_heads, data['mask'],True)
+        sub_tails_loss = self.loss(data['sub_tails'], pred_sub_tails, data['mask'],True)
+        obj_heads_loss = self.loss(data['obj_heads'], pred_obj_heads, data['mask'])
+        obj_tails_loss = self.loss(data['obj_tails'], pred_obj_tails, data['mask'])
+        total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
+        # return pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails
+        return sub_heads_loss,sub_tails_loss,obj_heads_loss,obj_tails_loss
+
+    # define the loss function
+    def loss(self,gold, pred, mask,use_focal=False):
+        pred = pred.squeeze(-1)
+        los = F.binary_cross_entropy(pred, gold, reduction='none')
+        if los.shape != mask.shape:
+            mask = mask.unsqueeze(-1)
+        los = torch.sum(los * mask) / torch.sum(mask)
+        if self.config.use_focal and use_focal:
+            los += self.focal_loss(pred,gold,None)
+        return los
 
 
 class GlobalPointerRel(nn.Module):
@@ -108,8 +127,8 @@ class GlobalPointerRel(nn.Module):
         self.config = config
         self.bert_encoder = BertModel.from_pretrained(config.pretrain_path)
         self.bert_dim = self.bert_encoder.config.hidden_size
-        self.obj_heads_linear = nn.Linear(self.bert_dim, self.config.rel_num)
-        self.obj_tails_linear = nn.Linear(self.bert_dim, self.config.rel_num)
+        # self.obj_heads_linear = nn.Linear(self.bert_dim, self.config.rel_num)
+        # self.obj_tails_linear = nn.Linear(self.bert_dim, self.config.rel_num)
         self.sub_global = GlobalPointer(1,self.config.head_size,self.bert_dim)
         self.obj_global = GlobalPointer(self.config.rel_num,self.config.head_size, self.bert_dim)
 
@@ -152,4 +171,20 @@ class GlobalPointerRel(nn.Module):
         sub_tail_mapping = data['sub_tail'].unsqueeze(1)
         # [batch_size, rel_num, seq_len, seq_len]
         pred_objs = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text, mask)
-        return pred_subs, pred_objs
+        sub_loss = self.pointer_loss(data['pointer_sub'], pred_subs)
+        # pred_subs = torch.sigmoid(pred_subs)
+        # sub_loss = self.pointer_sub_loss(data['pointer_sub'], pred_subs,True)
+        obj_loss = self.pointer_loss(data['pointer_obj'], pred_objs)
+        total_loss = 1.2*sub_loss+1.*obj_loss
+        # return pred_subs, pred_objs
+        return sub_loss,obj_loss
+
+    def pointer_loss(self,gold,pred,threshold=0):
+        loss_func = GlobalCrossEntropy()
+        los = loss_func(gold,pred,threshold)
+        return los
+    def pointer_sub_loss(self,gold,pred,use_focal=False):
+        los = F.binary_cross_entropy(pred, gold)
+        if self.config.use_focal and use_focal:
+            los += self.focal_loss(pred,gold)
+        return los
