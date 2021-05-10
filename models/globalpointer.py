@@ -8,13 +8,14 @@ class GlobalPointer(nn.Module):
     将序列的每个(start, end)作为整体来进行判断,
     详情请看：https://kexue.fm/archives/8373
     """
-    def __init__(self, heads, head_size, bert_dim, RoPE=True, **kwargs):
+    def __init__(self, heads, head_size, bert_dim,rel_weight=None, RoPE=True, **kwargs):
         # heads 一般设置为关系数量或者实体类别数量
         super(GlobalPointer, self).__init__()
         self.heads = heads
         self.bert_dim = bert_dim
         self.head_size = head_size
         self.RoPE = RoPE
+        self.rel_weight = rel_weight
         self.dense = nn.Linear(self.bert_dim,self.head_size * self.heads*2)
         self.position = SinusoidalPositionEmbedding(self.head_size, 'zero')
 
@@ -41,9 +42,17 @@ class GlobalPointer(nn.Module):
         # [batch_size,seq_len,heads,head_size]
         kw2 = torch.reshape(kw2, kw.shape)
         kw = kw * cos_pos + kw2 * sin_pos
+        # [batch_size,heads,seq_len,head_size]
+        qw = qw.permute(0,2,1,3)
+        if self.rel_weight is not None:
+            rel_weight = self.rel_weight.unsqueeze(1)
+            rel_weight = rel_weight.repeat(1,20,1)
+            qw = rel_weight*qw
+            if self.heads == 1:
+                qw = qw.mean(1,keepdim =True)
         # 计算内积
         # [batch_size,heads,seq_len,seq_len]
-        logits = torch.matmul(qw.permute(0,2,1,3),kw.permute(0,2,3,1))
+        logits = torch.matmul(qw,kw.permute(0,2,3,1))
         # 排除padding
         logits = sequence_masking(logits, mask, '-inf', 2)
         logits = sequence_masking(logits, mask, '-inf', 3)

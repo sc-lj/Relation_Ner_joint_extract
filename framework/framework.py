@@ -116,7 +116,7 @@ class Framework(object):
         dev_dataset = data_loader.dataLoader[self.config.dataset](self.config, self.config.dev_prefix, is_test=True)
         # get the data loader
         dev_data_loader = data_loader.get_loader(dev_dataset, self.config, is_test=True,num_workers=5)
-        num_training_steps = int(len(train_dataset)/self.config.batch_size*50)
+        num_training_steps = int(len(train_dataset)/self.config.batch_size*self.config.max_epoch)
         num_warmup_steps = self.config.warmup_proportion * num_training_steps
         schedule = get_polynomial_decay_schedule_with_warmup(optimizer,num_warmup_steps=num_warmup_steps,num_training_steps=num_training_steps)
 

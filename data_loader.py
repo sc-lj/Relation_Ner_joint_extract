@@ -1,7 +1,6 @@
 from torch.utils.data import DataLoader, Dataset, distributed
 import json
 import os
-import copy
 from transformers import BertTokenizer
 import torch
 from utils import HBTokenizer,strQ2B,BDTokenizer
@@ -593,7 +592,7 @@ class BaiduDataset(Dataset):
             return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
 
 
-def get_loader(dataset, config, is_test=False, num_workers=0,epochs = 0):
+def get_loader(dataset, config, is_test=False, num_workers=5,epochs = 0):
     # dataset = CMEDDataset(config, prefix, is_test)
     # dataset = dataLoader[config.dataset](config, prefix, is_test)
     # collate_fn = lambda x: casrel_collate_fn(x,config.rel_num)
