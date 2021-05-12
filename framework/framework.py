@@ -261,8 +261,10 @@ class Framework(object):
                     pred_list,pred_sub_list = self.casrel_test(model,encoded_text,tokens,id2rel,h_bar=0.5, t_bar=0.5)
                 elif self.config.model_name == 'globalpointer':
                     pred_list,pred_sub_list = self.globalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0)
+                elif self.config.model_name == "casglobal":
+                    pred_list,pred_sub_list = casglobalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5, t_bar=0.5)
                 else:
-                    raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
+                    raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer,casglobal]")
                 pred_triples = set(pred_list)
                 pred_sub_list = set(pred_sub_list)
                 gold_triples = set(to_tup(data['triples'][0]))
@@ -414,3 +416,56 @@ class Framework(object):
             pred_list = []
             sub_list = []
         return pred_list,sub_list
+
+
+    def casglobalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5,t_bar):
+        pred_sub_heads,pred_sub_tails = model.get_subs(encoded_text,mask)
+        sub_heads, sub_tails = np.where(pred_sub_heads.cpu()[0] > h_bar)[0], np.where(pred_sub_tails.cpu()[0] > t_bar)[0]
+        subjects = []
+        for sub_head in sub_heads:
+            sub_tail = sub_tails[sub_tails >= sub_head]
+            if len(sub_tail) > 0:
+                sub_tail = sub_tail[0]
+                subject = tokens[sub_head: sub_tail]
+                subjects.append((subject, sub_head, sub_tail))
+
+        if subjects:
+            triple_list = []
+            sub_list = []
+            # [subject_num, seq_len, bert_dim]
+            repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
+            # [subject_num, 1, seq_len],每个主语构建一个样本
+            sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
+            sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
+            for subject_idx, subject in enumerate(subjects):
+                sub_head_mapping[subject_idx][0][subject[1]] = 1
+                sub_tail_mapping[subject_idx][0][subject[2]] = 1
+            sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)
+            sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
+            pred_objs = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text, mask)
+            for subject_idx, subject in enumerate(subjects):
+                sub = subject[0]
+                sub = ''.join([i.lstrip("##") for i in sub])
+                sub = ' '.join(sub.split('[unused1]'))
+                sub_list.append(sub)
+                for rel_id, obj_head, obj_tail in zip(*np.where(pred_objs.cpu()[subject_idx] > threshold)):
+                    rel = id2rel[str(int(rel_id))]
+                    obj = tokens[obj_head: obj_tail]
+                    obj = ''.join([i.lstrip("##") for i in obj])
+                    obj = ' '.join(obj.split('[unused1]'))
+                    triple_list.append((sub, rel, obj))
+
+            triple_set = set()
+            for s, r, o in triple_list:
+                triple_set.add((s.strip(), r.strip(), o.strip()))
+            pred_list = list(triple_set)
+            sub_list = list(set(sub_list))
+        else:
+            pred_list = []
+            sub_list = []
+        return pred_list,sub_list
+
+
+
+
+

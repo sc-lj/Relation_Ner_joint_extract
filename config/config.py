@@ -19,15 +19,15 @@ class Config(object):
         self.weight_decay = args.weight_decay
         self.model_name = args.model_name
         self.teacher_pro = 0.3  #teacher probability
-        self.is_fill = True #使用将训练时，主语的首尾之间的词用于预测谓语
+        self.is_fill = False #使用将训练时，主语的首尾之间的词用于预测谓语
         self.use_focal = True
         self.sub_threhold = 0.5
         self.dropout = 0.3
         self.attention = "None" # head2tail,None
         self.discr = True # 是否对bert分层设置学习率
-        self.head_size = 32 # head size of globale pointer network
+        self.head_size = 64 # head size of globale pointer network
         self.warmup_proportion = 0.01
-        self.fuse16 = True # 混合半精度训练
+        self.fuse16 = False # 混合半精度训练
 
         # dataset
         self.dataset = args.dataset
