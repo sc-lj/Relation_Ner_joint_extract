@@ -148,12 +148,15 @@ class Framework(object):
                 #         data[k] = data[k].cuda()
                 if self.config.model_name == "casrel":
                     sub_heads_loss,sub_tails_loss,obj_heads_loss,obj_tails_loss = model(data)
-                    total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
                     sub_loss = sub_heads_loss + sub_tails_loss
                     obj_loss = obj_heads_loss + obj_tails_loss
+                    total_loss = 12*sub_loss + obj_loss
                 elif self.config.model_name == "globalpointer":
                     sub_loss,obj_loss = model(data)
-                    total_loss = 1.5*sub_loss+1.*obj_loss
+                    total_loss = 8*sub_loss+1.*obj_loss
+                elif self.config.model_name == "casglobal":
+                    sub_loss,obj_loss = model(data)
+                    total_loss = 8*sub_loss+1.*obj_loss
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
 
@@ -262,7 +265,7 @@ class Framework(object):
                 elif self.config.model_name == 'globalpointer':
                     pred_list,pred_sub_list = self.globalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0)
                 elif self.config.model_name == "casglobal":
-                    pred_list,pred_sub_list = casglobalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5, t_bar=0.5)
+                    pred_list,pred_sub_list = self.casglobalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5, t_bar=0.5)
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer,casglobal]")
                 pred_triples = set(pred_list)
@@ -418,8 +421,8 @@ class Framework(object):
         return pred_list,sub_list
 
 
-    def casglobalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5,t_bar):
-        pred_sub_heads,pred_sub_tails = model.get_subs(encoded_text,mask)
+    def casglobalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5,t_bar=0.5):
+        pred_sub_heads,pred_sub_tails = model.get_subs(encoded_text)
         sub_heads, sub_tails = np.where(pred_sub_heads.cpu()[0] > h_bar)[0], np.where(pred_sub_tails.cpu()[0] > t_bar)[0]
         subjects = []
         for sub_head in sub_heads:

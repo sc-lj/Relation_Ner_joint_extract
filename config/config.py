@@ -18,8 +18,7 @@ class Config(object):
         self.optimizer = args.optimizer
         self.weight_decay = args.weight_decay
         self.model_name = args.model_name
-        self.teacher_pro = 0.3  #teacher probability
-        self.is_fill = False #使用将训练时，主语的首尾之间的词用于预测谓语
+        self.teacher_pro = 0.5  #teacher probability
         self.use_focal = True
         self.sub_threhold = 0.5
         self.dropout = 0.3
@@ -28,6 +27,11 @@ class Config(object):
         self.head_size = 64 # head size of globale pointer network
         self.warmup_proportion = 0.01
         self.fuse16 = False # 混合半精度训练
+        self.add_layernormal = False
+        self.identiy = True
+        self.head_inter_tail = False #使用将训练时，主语的首尾之间的词用于预测谓语， 不能和identiy同时为True
+        self.fusion = True # 使用subject与encoded的交互矩阵
+
 
         # dataset
         self.dataset = args.dataset

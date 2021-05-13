@@ -27,7 +27,6 @@ class Attention(nn.Module):
         return pred_tails
 
 
-@register('head2tail')
 class MappedAttention(nn.Module):
     def __init__(self, config, input_size,output_size):
         super().__init__()
@@ -78,3 +77,55 @@ class GeLU(nn.Module):
     def forward(self, x):
         return 0.5 * x * (1. + torch.tanh(x * 0.7978845608 * (1. + 0.044715 * x * x)))
 
+
+
+class ConditionalLayerNorm(nn.Module):
+    """条件layer normal"""
+    def __init__(self, hidden_size, eps=1e-12):
+        """Construct a layernorm module in the TF style (epsilon inside the square root).
+        """
+        super(ConditionalLayerNorm, self).__init__()
+
+        self.weight = nn.Parameter(torch.ones(hidden_size))
+        self.bias = nn.Parameter(torch.zeros(hidden_size))
+        self.variance_epsilon = eps
+
+        self.beta_dense = nn.Linear(hidden_size , hidden_size, bias=False)
+        self.gamma_dense = nn.Linear(hidden_size , hidden_size, bias=False)
+
+    def forward(self, x, cond):
+        # cond: [batch_size,1,bert_dim]
+        # cond = cond.unsqueeze(1)
+        beta = self.beta_dense(cond)
+        gamma = self.gamma_dense(cond)
+        weight = self.weight + gamma
+        bias = self.bias + beta
+
+        u = x.mean(-1, keepdim=True)
+        s = (x - u).pow(2).mean(-1, keepdim=True)
+        x = (x - u) / torch.sqrt(s + self.variance_epsilon)
+        return weight * x + bias
+
+class SubLayerNorm(nn.Module):
+    """带主语的layer normal"""
+    def __init__(self, hidden_size, eps=1e-12):
+        """Construct a layernorm module in the TF style (epsilon inside the square root).
+        """
+        super(ConditionalLayerNorm, self).__init__()
+
+        self.weight = nn.Parameter(torch.ones(hidden_size))
+        self.bias = nn.Parameter(torch.zeros(hidden_size))
+        self.variance_epsilon = eps
+
+    def forward(self, x, cond):
+        # cond: [batch_size,1,bert_dim]
+        # cond = cond.unsqueeze(1)
+        beta = self.beta_dense(cond)
+        gamma = self.gamma_dense(cond)
+        weight = self.weight + gamma
+        bias = self.bias + beta
+
+        u = x.mean(-1, keepdim=True)
+        s = (x - u).pow(2).mean(-1, keepdim=True)
+        x = (x - u) / torch.sqrt(s + self.variance_epsilon)
+        return weight * x + bias

@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 import config
 import framework
@@ -19,14 +19,14 @@ import random
 # torch.backends.cudnn.benchmark = False
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_name', type=str, default='globalpointer', help='name of the model')
+parser.add_argument('--model_name', type=str, default='casrel', help='name of the model')
 parser.add_argument('--learning_rate', type=float, default=5e-6)
 parser.add_argument('--weight_decay', type=float, default=1e-5)
 parser.add_argument('--multi_gpu', type=bool, default=False)
 parser.add_argument('--dataset', type=str, default='baidu')
 parser.add_argument('--optimizer', type=str, default='adamw',choices=['adamw',"adam","sgd"])
-parser.add_argument('--batch_size', type=int, default=30)
-parser.add_argument('--max_epoch', type=int, default=20)
+parser.add_argument('--batch_size', type=int, default=33)
+parser.add_argument('--max_epoch', type=int, default=30)
 parser.add_argument('--test_epoch', type=int, default=1)
 parser.add_argument('--train_prefix', type=str, default='duie_train')
 parser.add_argument('--dev_prefix', type=str, default='duie_dev')
@@ -47,7 +47,8 @@ fw = framework.Framework(con)
 
 model = {
     'casrel': models.Casrel,
-    "globalpointer":models.GlobalPointerRel
+    "globalpointer":models.GlobalPointerRel,
+    "casglobal":models.CasGlobalPointer
 }
 
 fw.train(model[args.model_name])
