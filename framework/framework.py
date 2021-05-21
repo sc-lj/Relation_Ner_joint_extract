@@ -115,7 +115,7 @@ class Framework(object):
         train_dataset = data_loader.dataLoader[self.config.dataset](self.config, self.config.train_prefix, is_test=False)
         dev_dataset = data_loader.dataLoader[self.config.dataset](self.config, self.config.dev_prefix, is_test=True)
         # get the data loader
-        dev_data_loader = data_loader.get_loader(dev_dataset, self.config, is_test=True,num_workers=5)
+        dev_data_loader = data_loader.get_loader(dev_dataset, self.config, is_test=True)
         num_training_steps = int(len(train_dataset)/self.config.batch_size*self.config.max_epoch)
         num_warmup_steps = self.config.warmup_proportion * num_training_steps
         schedule = get_polynomial_decay_schedule_with_warmup(optimizer,num_warmup_steps=num_warmup_steps,num_training_steps=num_training_steps)
@@ -137,7 +137,7 @@ class Framework(object):
 
         # the training loop
         for epoch in range(self.config.max_epoch):
-            train_data_loader = data_loader.get_loader(train_dataset, self.config, num_workers=5, epochs = epoch)
+            train_data_loader = data_loader.get_loader(train_dataset, self.config, epochs = epoch)
             train_data_prefetcher = data_loader.DataPreFetcher(train_data_loader)
             data = train_data_prefetcher.next()
             step = 0
@@ -146,19 +146,12 @@ class Framework(object):
                 # for k, v in data.items():
                 #     if isinstance(v, torch.Tensor):
                 #         data[k] = data[k].cuda()
-                if self.config.model_name == "casrel":
-                    sub_heads_loss,sub_tails_loss,obj_heads_loss,obj_tails_loss = model(data)
-                    sub_loss = sub_heads_loss + sub_tails_loss
-                    obj_loss = obj_heads_loss + obj_tails_loss
-                    total_loss = 12*sub_loss + obj_loss
-                elif self.config.model_name == "globalpointer":
-                    sub_loss,obj_loss = model(data)
-                    total_loss = 8*sub_loss+1.*obj_loss
-                elif self.config.model_name == "casglobal":
-                    sub_loss,obj_loss = model(data)
-                    total_loss = 8*sub_loss+1.*obj_loss
+                if self.config.model_name == "joint":
+                    total_loss = model(data)
+                    sub_loss,obj_loss = torch.tensor([0],dtype=torch.float),torch.tensor([0],dtype=torch.float)
                 else:
-                    raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer]")
+                    sub_loss,obj_loss = model(data)
+                    total_loss = 12*sub_loss + obj_loss
 
                 if self.config.gradient_accumulation_steps > 1:
                     total_loss /= self.config.gradient_accumulation_steps
@@ -187,7 +180,7 @@ class Framework(object):
                     cur_sub_loss = sub_loss_sum / self.config.period
                     cur_rel_loss = rel_loss_sum / self.config.period
                     elapsed = time.time() - start_time
-                    self.logging("epoch: {:3d}, global_step: {:4d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.3f},subject loss:{:5.3f},rel_object_loss:{:5.3f}".
+                    self.logging("epoch: {:3d}, global_step: {:4d}, step: {:4d}, speed: {:5.2f}ms/b, train loss: {:5.5f},subject loss:{:5.5f},rel_object_loss:{:5.5f}".
                                  format(epoch, global_step, step+1, elapsed * 1000 / self.config.period, cur_loss,cur_sub_loss,cur_rel_loss))
                     loss_sum = 0
                     sub_loss_sum = 0
@@ -203,7 +196,7 @@ class Framework(object):
                 # call the test function
                 precision, recall, f1_score,sub_precision,sub_recall,sub_f1_score = self.test(dev_data_loader, model)
                 model.train()
-                self.logging('epoch {:3d}, eval time: {:5.2f}s, f1: {:4.2f}, precision: {:4.2f}, recall: {:4.2f}, sub_f1: {:4.2f}, sub_precision: {:4.2f}, sub_recall: {:4.2f}'.
+                self.logging('epoch {:3d}, eval time: {:5.2f}s, f1: {:4.5f}, precision: {:4.5f}, recall: {:4.5f}, sub_f1: {:4.5f}, sub_precision: {:4.5f}, sub_recall: {:4.5f}'.
                              format(epoch, time.time() - eval_start_time, f1_score, precision, recall,sub_f1_score,sub_precision,sub_recall))
 
                 if f1_score > best_f1_score:
@@ -211,7 +204,7 @@ class Framework(object):
                     best_epoch = epoch
                     best_precision = precision
                     best_recall = recall
-                    self.logging("saving the model, epoch: {:3d}, best f1: {:4.2f}, precision: {:4.2f}, recall: {:4.2f}".
+                    self.logging("saving the model, epoch: {:3d}, best f1: {:4.5f}, precision: {:4.5f}, recall: {:4.5f}".
                                  format(best_epoch, best_f1_score, precision, recall))
                     # save the best model
                     path = os.path.join(self.config.checkpoint_dir, self.config.model_save_name)
@@ -264,8 +257,14 @@ class Framework(object):
                     pred_list,pred_sub_list = self.casrel_test(model,encoded_text,tokens,id2rel,h_bar=0.5, t_bar=0.5)
                 elif self.config.model_name == 'globalpointer':
                     pred_list,pred_sub_list = self.globalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0)
-                elif self.config.model_name == "casglobal":
+                elif self.config.model_name == "casglobalpointer":
                     pred_list,pred_sub_list = self.casglobalpointer_test(model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5, t_bar=0.5)
+                elif self.config.model_name == "casnew":
+                    pred_list,pred_sub_list = self.casnewsub_test(model,encoded_text,tokens,id2rel,mask)
+                elif self.config.model_name == "joint":
+                    pred_list,pred_sub_list = self.joint_test(model,encoded_text,tokens,id2rel,mask)
+                elif self.config.model_name == "casglobal":
+                    pred_list,pred_sub_list = self.casrel_test(model,encoded_text,tokens,id2rel,h_bar=0, t_bar=0,mask=mask)
                 else:
                     raise ValueError(f"{self.config.model_name} not in [casrel,globalpointer,casglobal]")
                 pred_triples = set(pred_list)
@@ -273,15 +272,17 @@ class Framework(object):
                 gold_triples = set(to_tup(data['triples'][0]))
                 gold_sub = set([line[0] for line in data['triples'][0]])
 
-                correct_num += len(pred_triples & gold_triples)
+                current_correct_num = len(pred_triples & gold_triples)
+                correct_num += current_correct_num
                 predict_num += len(pred_triples)
                 gold_num += len(gold_triples)
 
                 correct_sub_num += len(pred_sub_list & gold_sub)
                 predict_sub_num += len(pred_sub_list)
                 gold_sub_num += len(gold_sub)
-
-                if output:
+                
+                # 只输出预测有误的
+                if output and not (current_correct_num==len(gold_triples) and len(gold_triples) == len(pred_triples)):
                     result = json.dumps({
                         'text': ' '.join(''.join([i.lstrip("##") for i in tokens]).split('[unused1]')).replace("[CLS]","").replace("[SEP]",""),
                         'triple_list_gold': [
@@ -295,14 +296,14 @@ class Framework(object):
                         ],
                         'lack': [
                             dict(zip(orders, triple)) for triple in gold_triples - pred_triples
-                        ]
+                        ],
+                        "sub_pred": list(pred_sub_list)
                     }, ensure_ascii=False)
                     fw.write(result + '\n')
 
                 data = test_data_prefetcher.next()
 
-        self.logging("correct_num: {:3d}, predict_num: {:3d}, gold_num: {:3d}".format(correct_num, predict_num, gold_num))
-        self.logging("correct_sub_num: {:3d}, predict_sub_num: {:3d}, gold_sub_num: {:3d}".format(correct_sub_num, predict_sub_num, gold_sub_num))
+        self.logging("correct_num: {:5d}, predict_num: {:5d}, gold_num: {:5d},\tcorrect_sub_num: {:5d}, predict_sub_num: {:5d}, gold_sub_num: {:5d}".format(correct_num, predict_num, gold_num,correct_sub_num, predict_sub_num, gold_sub_num))
 
         precision = correct_num / (predict_num + 1e-10)
         recall = correct_num / (gold_num + 1e-10)
@@ -325,8 +326,8 @@ class Framework(object):
         print("sub_f1: {:4.2f}, sub_precision: {:4.2f}, sub_recall: {:4.2f}".format(sub_f1_score, sub_precision,sub_recall))
 
 
-    def casrel_test(self,model,encoded_text,tokens,id2rel,h_bar=0.5,t_bar=0.5):
-        pred_sub_heads, pred_sub_tails = model.get_subs(encoded_text)
+    def casrel_sub_predict(self,model,encoded_text,tokens,h_bar=0.5,t_bar=0.5,mask=None):
+        pred_sub_heads, pred_sub_tails = model.get_subs(encoded_text,mask)
         sub_heads, sub_tails = np.where(pred_sub_heads.cpu()[0] > h_bar)[0], np.where(pred_sub_tails.cpu()[0] > t_bar)[0]
         subjects = []
         for sub_head in sub_heads:
@@ -335,35 +336,81 @@ class Framework(object):
                 sub_tail = sub_tail[0]
                 subject = tokens[sub_head: sub_tail]
                 subjects.append((subject, sub_head, sub_tail))
+        return subjects
+
+
+    def casrel_object_predict(self,model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,h_bar=0.5,t_bar=0.5,mask=None):
+        sub_list= []
+        triple_list = []
+        pred_obj_heads, pred_obj_tails = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text,mask=mask)
+        for subject_idx, subject in enumerate(subjects):
+            sub = subject[0]
+            sub = ''.join([i.lstrip("##") for i in sub])
+            sub = ' '.join(sub.split('[unused1]'))
+            sub_list.append(sub)
+            obj_heads, obj_tails = np.where(pred_obj_heads.cpu()[subject_idx] > h_bar), np.where(pred_obj_tails.cpu()[subject_idx] > t_bar)
+            for obj_head, rel_head in zip(*obj_heads):
+                for obj_tail, rel_tail in zip(*obj_tails):
+                    if obj_head <= obj_tail and rel_head == rel_tail:
+                        rel = id2rel[str(int(rel_head))]
+                        obj = tokens[obj_head: obj_tail]
+                        obj = ''.join([i.lstrip("##") for i in obj])
+                        obj = ' '.join(obj.split('[unused1]'))
+                        triple_list.append((sub, rel, obj))
+                        break
+        return triple_list,sub_list
+
+
+    def global_subject_predict(self,model,encoded_text,tokens,mask,threshold=0):
+        pred_subs = model.get_subs(encoded_text,mask)
+        pred_subs[:, [0, -1]] -= np.inf
+        pred_subs[:, :, [0, -1]] -= np.inf
+        sub_head_tail = np.where(pred_subs.cpu()[0] > 0)
+        subjects = []
+        for sub_head, sub_tail in zip(*np.where(pred_subs.cpu()[0] > threshold)):
+            subject = tokens[sub_head: sub_tail]
+            subjects.append((subject, sub_head, sub_tail))
+        return subjects
+    
+
+    def global_object_predict(self,model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,mask,threshold=0):
+        triple_list = []
+        sub_list = []
+        pred_objs = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text, mask)
+        for subject_idx, subject in enumerate(subjects):
+            sub = subject[0]
+            sub = ''.join([i.lstrip("##") for i in sub])
+            sub = ' '.join(sub.split('[unused1]'))
+            sub_list.append(sub)
+            for rel_id, obj_head, obj_tail in zip(*np.where(pred_objs.cpu()[subject_idx] > threshold)):
+                rel = id2rel[str(int(rel_id))]
+                obj = tokens[obj_head: obj_tail]
+                obj = ''.join([i.lstrip("##") for i in obj])
+                obj = ' '.join(obj.split('[unused1]'))
+                triple_list.append((sub, rel, obj))
+        return triple_list,sub_list
+
+
+    def subject_map_array(self,subjects,encoded_text):
+        # [subject_num, seq_len, bert_dim]
+        repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
+        # [subject_num, 1, seq_len],每个主语构建一个样本
+        sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
+        sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
+        for subject_idx, subject in enumerate(subjects):
+            sub_head_mapping[subject_idx][0][subject[1]] = 1
+            sub_tail_mapping[subject_idx][0][subject[2]] = 1
+        sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)
+        sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
+        return repeated_encoded_text,sub_tail_mapping,sub_head_mapping
+
+
+    def globalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0):
+        subjects = self.global_subject_predict(model,encoded_text,tokens,mask,threshold=0)
         if subjects:
-            triple_list = []
-            sub_list= []
-            # [subject_num, seq_len, bert_dim]
-            repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
-            # [subject_num, 1, seq_len],每个主语构建一个样本
-            sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            for subject_idx, subject in enumerate(subjects):
-                sub_head_mapping[subject_idx][0][subject[1]] = 1
-                sub_tail_mapping[subject_idx][0][subject[2]] = 1
-            sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)
-            sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
-            pred_obj_heads, pred_obj_tails = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text)
-            for subject_idx, subject in enumerate(subjects):
-                sub = subject[0]
-                sub = ''.join([i.lstrip("##") for i in sub])
-                sub = ' '.join(sub.split('[unused1]'))
-                sub_list.append(sub)
-                obj_heads, obj_tails = np.where(pred_obj_heads.cpu()[subject_idx] > h_bar), np.where(pred_obj_tails.cpu()[subject_idx] > t_bar)
-                for obj_head, rel_head in zip(*obj_heads):
-                    for obj_tail, rel_tail in zip(*obj_tails):
-                        if obj_head <= obj_tail and rel_head == rel_tail:
-                            rel = id2rel[str(int(rel_head))]
-                            obj = tokens[obj_head: obj_tail]
-                            obj = ''.join([i.lstrip("##") for i in obj])
-                            obj = ' '.join(obj.split('[unused1]'))
-                            triple_list.append((sub, rel, obj))
-                            break
+            repeated_encoded_text,sub_tail_mapping,sub_head_mapping = self.subject_map_array(subjects,encoded_text)
+            triple_list,sub_list = self.global_object_predict(model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,mask,threshold=0)
+
             triple_set = set()
             for s, r, o in triple_list:
                 triple_set.add((s.strip(), r.strip(), o.strip()))
@@ -374,42 +421,13 @@ class Framework(object):
             sub_list = []
         return pred_list,sub_list
 
-    def globalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0):
-        pred_subs = model.get_subs(encoded_text,mask)
-        pred_subs[:, [0, -1]] -= np.inf
-        pred_subs[:, :, [0, -1]] -= np.inf
-        sub_head_tail = np.where(pred_subs.cpu()[0] > 0)
-        subjects = []
-        for sub_head, sub_tail in zip(*np.where(pred_subs.cpu()[0] > threshold)):
-            subject = tokens[sub_head: sub_tail]
-            subjects.append((subject, sub_head, sub_tail))
 
+    def casrel_test(self,model,encoded_text,tokens,id2rel,h_bar,t_bar,mask=None):
+        subjects = self.casrel_sub_predict(model,encoded_text,tokens,h_bar=h_bar,t_bar=t_bar,mask=mask)
         if subjects:
-            triple_list = []
-            sub_list = []
-            # [subject_num, seq_len, bert_dim]
-            repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
-            # [subject_num, 1, seq_len],每个主语构建一个样本
-            sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            for subject_idx, subject in enumerate(subjects):
-                sub_head_mapping[subject_idx][0][subject[1]] = 1
-                sub_tail_mapping[subject_idx][0][subject[2]] = 1
-            sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)
-            sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
-            pred_objs = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text, mask)
-            for subject_idx, subject in enumerate(subjects):
-                sub = subject[0]
-                sub = ''.join([i.lstrip("##") for i in sub])
-                sub = ' '.join(sub.split('[unused1]'))
-                sub_list.append(sub)
-                for rel_id, obj_head, obj_tail in zip(*np.where(pred_objs.cpu()[subject_idx] > threshold)):
-                    rel = id2rel[str(int(rel_id))]
-                    obj = tokens[obj_head: obj_tail]
-                    obj = ''.join([i.lstrip("##") for i in obj])
-                    obj = ' '.join(obj.split('[unused1]'))
-                    triple_list.append((sub, rel, obj))
-
+            repeated_encoded_text,sub_tail_mapping,sub_head_mapping = self.subject_map_array(subjects,encoded_text)
+            triple_list,sub_list = self.casrel_object_predict(model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,h_bar=h_bar,t_bar=t_bar,mask=mask)
+            
             triple_set = set()
             for s, r, o in triple_list:
                 triple_set.add((s.strip(), r.strip(), o.strip()))
@@ -422,41 +440,18 @@ class Framework(object):
 
 
     def casglobalpointer_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0,h_bar=0.5,t_bar=0.5):
-        pred_sub_heads,pred_sub_tails = model.get_subs(encoded_text)
-        sub_heads, sub_tails = np.where(pred_sub_heads.cpu()[0] > h_bar)[0], np.where(pred_sub_tails.cpu()[0] > t_bar)[0]
-        subjects = []
-        for sub_head in sub_heads:
-            sub_tail = sub_tails[sub_tails >= sub_head]
-            if len(sub_tail) > 0:
-                sub_tail = sub_tail[0]
-                subject = tokens[sub_head: sub_tail]
-                subjects.append((subject, sub_head, sub_tail))
+        subject_encoded_text = None
+        if isinstance(encoded_text,tuple):
+            encoded_text,subject_encoded_text = encoded_text
+        
+        if subject_encoded_text is not None:
+            subjects = self.casrel_sub_predict(model,subject_encoded_text,tokens,h_bar=0.5,t_bar=0.5)
+        else:
+            subjects = self.casrel_sub_predict(model,encoded_text,tokens,h_bar=0.5,t_bar=0.5)
 
         if subjects:
-            triple_list = []
-            sub_list = []
-            # [subject_num, seq_len, bert_dim]
-            repeated_encoded_text = encoded_text.repeat(len(subjects), 1, 1)
-            # [subject_num, 1, seq_len],每个主语构建一个样本
-            sub_head_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            sub_tail_mapping = torch.Tensor(len(subjects), 1, encoded_text.size(1)).zero_()
-            for subject_idx, subject in enumerate(subjects):
-                sub_head_mapping[subject_idx][0][subject[1]] = 1
-                sub_tail_mapping[subject_idx][0][subject[2]] = 1
-            sub_tail_mapping = sub_tail_mapping.to(repeated_encoded_text)
-            sub_head_mapping = sub_head_mapping.to(repeated_encoded_text)
-            pred_objs = model.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, repeated_encoded_text, mask)
-            for subject_idx, subject in enumerate(subjects):
-                sub = subject[0]
-                sub = ''.join([i.lstrip("##") for i in sub])
-                sub = ' '.join(sub.split('[unused1]'))
-                sub_list.append(sub)
-                for rel_id, obj_head, obj_tail in zip(*np.where(pred_objs.cpu()[subject_idx] > threshold)):
-                    rel = id2rel[str(int(rel_id))]
-                    obj = tokens[obj_head: obj_tail]
-                    obj = ''.join([i.lstrip("##") for i in obj])
-                    obj = ' '.join(obj.split('[unused1]'))
-                    triple_list.append((sub, rel, obj))
+            repeated_encoded_text,sub_tail_mapping,sub_head_mapping = self.subject_map_array(subjects,encoded_text)
+            triple_list,sub_list = self.global_object_predict(model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,mask,threshold=0)
 
             triple_set = set()
             for s, r, o in triple_list:
@@ -469,6 +464,103 @@ class Framework(object):
         return pred_list,sub_list
 
 
+    def casnew_sub_predict(self,model,encoded_text,tokens,mask):
+        pred_sub_heads, pred_sub_tails, pred_sub_span = model.get_subs(encoded_text)
+        start_preds = pred_sub_heads.squeeze(-1)>0
+        end_preds = pred_sub_tails.squeeze(-1)>0
+        start_label_mask = mask.bool()
+        end_label_mask = mask.bool()
+        bsz, seq_len = start_label_mask.size()
+        # [bsz, seq_len, seq_len]
+        match_preds = pred_sub_span > 0
+        # [bsz, seq_len]
+        start_preds = start_preds.bool()
+        # [bsz, seq_len]
+        end_preds = end_preds.bool()
+
+        match_preds = (match_preds
+                    & start_preds.unsqueeze(-1).expand(-1, -1, seq_len)
+                    & end_preds.unsqueeze(1).expand(-1, seq_len, -1))
+        match_label_mask = (start_label_mask.unsqueeze(-1).expand(-1, -1, seq_len)
+                            & end_label_mask.unsqueeze(1).expand(-1, seq_len, -1))
+        match_label_mask = torch.triu(match_label_mask, 0)  # start should be less or equal to end
+        match_preds = match_label_mask & match_preds
+
+        subjects = []
+        for sub_head, sub_tail in zip(*np.where(match_preds.cpu()[0] > 0)):
+            subject = tokens[sub_head: sub_tail]
+            subjects.append((subject, sub_head, sub_tail))
+        return subjects
 
 
+    def casnewsub_test(self,model,encoded_text,tokens,id2rel,mask):
+        subject_encoded_text = None
+        if isinstance(encoded_text,tuple):
+            encoded_text,subject_encoded_text = encoded_text
 
+        if subject_encoded_text is not None:
+            subjects = self.casnew_sub_predict(model,subject_encoded_text,tokens,mask)
+        else:
+            subjects = self.casnew_sub_predict(model,encoded_text,tokens, mask)
+
+        if subjects:
+            repeated_encoded_text,sub_tail_mapping,sub_head_mapping = self.subject_map_array(subjects,encoded_text)    
+            triple_list,sub_list = self.casrel_object_predict(model,subjects,sub_head_mapping, sub_tail_mapping,repeated_encoded_text,tokens,id2rel,h_bar=0.5,t_bar=0.5)
+    
+            triple_set = set()
+            for s, r, o in triple_list:
+                triple_set.add((s.strip(), r.strip(), o.strip()))
+            pred_list = list(triple_set)
+            sub_list = list(set(sub_list))
+        else:
+            pred_list = []
+            sub_list = []
+        return pred_list,sub_list
+
+
+    def joint_test(self,model,encoded_text,tokens,id2rel,mask,threshold=0.5):
+        subject_encoded_text = None
+        if isinstance(encoded_text,tuple):
+            encoded_text,subject_encoded_text = encoded_text
+        
+        logits = model.get_logit(encoded_text,encoded_text,mask)
+        logits =  torch.sigmoid(logits)
+        logits = logits.cpu().numpy()>threshold
+        triple_list,sub_list = self.extract_bboxes(logits,tokens,id2rel)
+        if len(triple_list):
+            triple_set = set()
+            for s, r, o in triple_list:
+                triple_set.add((s.strip(), r.strip(), o.strip()))
+            pred_list = list(triple_set)
+            sub_list = list(set(sub_list))
+        else:
+            pred_list = []
+            sub_list = []
+        return pred_list,sub_list
+
+
+    def extract_bboxes(self,mask,tokens,id2rel):
+        triple_listes = []
+        subjectes = []
+        for i in range(mask.shape[0]):
+            triple_list = []
+            subject = []
+            for j in range(mask.shape[1]):
+                m = mask[i,j,:,:]
+                h = np.where(np.any(m,axis = 0))[0]
+                v = np.where(np.any(m,axis = 1))[0]
+                if h.shape[0]:
+                    object_head,object_tail = h[[0,-1]]
+                    subject_head,subject_tail = v[[0,-1]]
+                    sub = tokens[subject_head: subject_tail]
+                    sub = ''.join([i.lstrip("##") for i in sub if i != "[unused2]"])
+                    sub = ' '.join(sub.split('[unused1]'))
+                    subject.append(sub)
+                    rel = id2rel[str(int(j))]
+                    obj = tokens[object_head: object_tail]
+                    obj = ''.join([i.lstrip("##") for i in obj if i != "[unused2]"])
+                    obj = ' '.join(obj.split('[unused1]'))
+                    triple_list.append((sub, rel, obj))
+            triple_listes.extend(triple_list)
+            subjectes.extend(subject)
+        return triple_listes,subjectes

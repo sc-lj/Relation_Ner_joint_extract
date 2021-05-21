@@ -6,9 +6,9 @@ from torch.cuda.amp import custom_fwd,autocast
 import torch
 import math
 from .attention import registry as attention
-from .attention import ConditionalLayerNorm,Linear
-from .globalpointer import GlobalPointer
-from .Loss import FocalLoss,GlobalCrossEntropy
+from .attention import ConditionalLayerNorm,Linear,MultiNonLinearClassifier
+from .globalpointer import GlobalPointer,JointGlobalPointer,sequence_masking
+from .Loss import FocalLoss,GlobalCrossEntropy,CompLoss
 
 
 class FullFusion(nn.Module):
@@ -54,7 +54,7 @@ class BaseModel(nn.Module):
         return encoded_text
     
 
-    def get_subs(self, encoded_text):
+    def get_subs(self, encoded_text,mask=None):
         # [batch_size, seq_len, 1]
         pred_sub_heads = self.sub_heads_linear(encoded_text)
         # [batch_size, seq_len, 1]
@@ -64,12 +64,15 @@ class BaseModel(nn.Module):
         return pred_sub_heads, pred_sub_tails
 
     # define the loss function
-    def sub_loss(self,gold, pred, mask,use_focal=False):
+    def sub_loss(self,gold, pred, mask,weight=1,use_focal=False):
         pred = pred.squeeze(-1)
+        weights = torch.zeros_like(gold)
+        weights = torch.fill_(weights, 1)
+        weights[gold > 0] = weight
         los = F.binary_cross_entropy(pred, gold, reduction='none')
         if los.shape != mask.shape:
             mask = mask.unsqueeze(-1)
-        los = torch.sum(los * mask) / torch.sum(mask)
+        los = torch.sum(los *weights* mask) / torch.sum(mask)
         if self.config.use_focal and use_focal:
             los += self.focal_loss(pred,gold,None)
         return los
@@ -123,11 +126,7 @@ class BaseModel(nn.Module):
             # [batch_size, seq_len, bert_dim]
             encoded_text = encoded_text + sub
         return encoded_text
-
-class Casrel(BaseModel):
-    def __init__(self,config):
-        super(Casrel,self).__init__(config)
-
+    
     def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text):
         encoded_text = self.sub2obj(encoded_text,sub_head_mapping,sub_tail_mapping)
         # [batch_size, seq_len, rel_num]
@@ -137,6 +136,12 @@ class Casrel(BaseModel):
         pred_obj_heads = torch.sigmoid(pred_obj_heads)
         pred_obj_tails = torch.sigmoid(pred_obj_tails)
         return pred_obj_heads, pred_obj_tails
+
+
+class Casrel(BaseModel):
+    def __init__(self,config):
+        super(Casrel,self).__init__(config)
+
 
     def forward(self, data):
         # [batch_size, seq_len]
@@ -163,9 +168,9 @@ class Casrel(BaseModel):
         sub_tails_loss = self.sub_loss(data['sub_tails'], pred_sub_tails, data['mask'],True)
         obj_heads_loss = self.sub_loss(data['obj_heads'], pred_obj_heads, data['mask'])
         obj_tails_loss = self.sub_loss(data['obj_tails'], pred_obj_tails, data['mask'])
-        total_loss = (sub_heads_loss + sub_tails_loss) + (obj_heads_loss + obj_tails_loss)
-        # return pred_sub_heads, pred_sub_tails, pred_obj_heads, pred_obj_tails
-        return sub_heads_loss,sub_tails_loss,obj_heads_loss,obj_tails_loss
+        sub_loss = sub_heads_loss + sub_tails_loss
+        obj_loss = obj_heads_loss + obj_tails_loss
+        return sub_loss,obj_loss
 
 
 class GlobalPointerRel(BaseModel):
@@ -177,8 +182,6 @@ class GlobalPointerRel(BaseModel):
 
     def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text,mask = None):
         encoded_text = self.sub2obj(encoded_text,sub_head_mapping,sub_tail_mapping)
-        # [batch_size, seq_len, bert_dim]
-        encoded_text = encoded_text + sub
         # [batch_size, rel_num, seq_len, seq_len]
         pred_objs = self.obj_global(encoded_text,mask)
         return pred_objs
@@ -218,7 +221,7 @@ class GlobalPointerRel(BaseModel):
         # pred_subs = torch.sigmoid(pred_subs)
         # sub_loss = self.pointer_sub_loss(data['pointer_sub'], pred_subs,True)
         obj_loss = self.pointer_loss(data['pointer_obj'], pred_objs)
-        total_loss = 1.2*sub_loss+1.*obj_loss
+        # total_loss = 1.2*sub_loss+1.*obj_loss
         # return pred_subs, pred_objs
         return sub_loss,obj_loss
 
@@ -264,11 +267,34 @@ class GlobalPointerRel(BaseModel):
         return x_gather
 
 
-class CasGlobalPointer(GlobalPointerRel):
+class CasGlobal(BaseModel):
     def __init__(self, config):
-        super(CasGlobalPointer, self).__init__(config)
-        self.focal_loss = FocalLoss()
+        super(CasGlobal, self).__init__(config)
+        self.pointer_loss = GlobalCrossEntropy()
 
+    def get_subs(self, encoded_text,mask):
+        # [batch_size, seq_len, 1]
+        pred_sub_heads = self.sub_heads_linear(encoded_text)
+        # [batch_size, seq_len, 1]
+        pred_sub_tails = self.sub_tails_linear(encoded_text+pred_sub_heads)
+        pred_sub_heads = sequence_masking(pred_sub_heads,mask)
+        pred_sub_tails = sequence_masking(pred_sub_tails,mask)
+        return pred_sub_heads, pred_sub_tails
+
+    def get_objs_for_specific_sub(self, sub_head_mapping, sub_tail_mapping, encoded_text,mask):
+        encoded_text = self.sub2obj(encoded_text,sub_head_mapping,sub_tail_mapping)
+        # [batch_size, seq_len, rel_num]
+        pred_obj_heads = self.obj_heads_linear(encoded_text)
+        # [batch_size, seq_len, rel_num]
+        pred_obj_tails = self.obj_tails_linear(encoded_text)
+        # [batch_size, seq_len, 1]
+        mask = mask.unsqueeze(-1)
+        # [batch_size, seq_len, rel_num]
+        mask = mask.repeat(1,1,self.config.rel_num)
+        pred_obj_heads = sequence_masking(pred_obj_heads,mask)
+        pred_obj_tails = sequence_masking(pred_obj_tails,mask)
+        return pred_obj_heads, pred_obj_tails
+        
     def forward(self, data):
         # [batch_size, seq_len]
         token_ids = data['token_ids']
@@ -277,7 +303,67 @@ class CasGlobalPointer(GlobalPointerRel):
         # [batch_size, seq_len, bert_dim(768)]
         encoded_text = self.get_encoded_text(token_ids, mask)
         # [batch_size,seq_len,1]
-        pred_sub_heads, pred_sub_tails = BaseModel.get_subs(encoded_text)
+        pred_sub_heads, pred_sub_tails = self.get_subs(encoded_text,mask)
+        # [batch_size, seq_len]
+        sub_head_mapping = data['sub_head']
+        # [batch_size, seq_len]
+        sub_tail_mapping = data['sub_tail']
+
+        if self.config.teacher_pro <= random.random():
+            # 将主语的部分信息带入到下游，谓语预测中
+            # [batch_size, 1, seq_len]
+            sub_head_mapping = pred_sub_heads.permute(0,2,1)*data['sub_head'].unsqueeze(1)
+            # [batch_size, 1, seq_len]
+            sub_tail_mapping = pred_sub_tails.permute(0,2,1) *data['sub_tail'].unsqueeze(1)
+        else:
+            # [batch_size, 1, seq_len]
+            sub_head_mapping = sub_head_mapping.unsqueeze(1)
+            sub_tail_mapping = sub_tail_mapping.unsqueeze(1)
+
+        # [batch_size, seq_len, rel_num]
+        pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text, mask)
+        sub_heads_loss = self.pointer_loss(data['sub_heads'], pred_sub_heads)
+        sub_tails_loss = self.pointer_loss(data['sub_tails'], pred_sub_tails)
+        sub_loss = sub_heads_loss + sub_tails_loss
+        obj_heads_loss = self.pointer_loss(data['obj_heads'], pred_obj_heads)
+        obj_tails_loss = self.pointer_loss(data['obj_tails'], pred_obj_tails)
+        obj_loss = obj_heads_loss + obj_tails_loss
+        return sub_loss,obj_loss
+
+
+class CasGlobalPointer(GlobalPointerRel):
+    def __init__(self, config):
+        super(CasGlobalPointer, self).__init__(config)
+        self.focal_loss = FocalLoss()
+
+    def get_encoded_text(self,token_ids, mask):
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_output = self.bert_encoder(token_ids, attention_mask=mask,return_dict=True,output_hidden_states=True)
+        encoded_text = encoded_output['last_hidden_state']
+        subject_encoded_text = encoded_output["hidden_states"][6]
+        # encoded_text = (encoded_text+subject_encoded_text)/2
+        return encoded_text,subject_encoded_text
+
+
+    def get_subs(self, encoded_text,mask=None):
+        # [batch_size, seq_len, 1]
+        pred_sub_heads = self.sub_heads_linear(encoded_text)
+        # [batch_size, seq_len, 1]
+        pred_sub_tails = self.sub_tails_linear(encoded_text+pred_sub_heads)
+        pred_sub_heads = torch.sigmoid(pred_sub_heads)
+        pred_sub_tails = torch.sigmoid(pred_sub_tails)
+        return pred_sub_heads, pred_sub_tails
+
+        
+    def forward(self, data):
+        # [batch_size, seq_len]
+        token_ids = data['token_ids']
+        # [batch_size, seq_len]
+        mask = data['mask']
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_text,subject_encoded_text = self.get_encoded_text(token_ids, mask)
+        # [batch_size,seq_len,1]
+        pred_sub_heads, pred_sub_tails = self.get_subs(subject_encoded_text)
         # [batch_size, seq_len]
         sub_head_mapping = data['sub_head']
         # [batch_size, seq_len]
@@ -303,4 +389,189 @@ class CasGlobalPointer(GlobalPointerRel):
         # return pred_subs, pred_objs
         return sub_loss,obj_loss
 
+
+class CasNewSub(BaseModel):
+    def __init__(self, config):
+        super(CasNewSub, self).__init__(config)
+        self.focal_loss = FocalLoss()
+        self.span_embedding = MultiNonLinearClassifier(self.bert_dim * 2, 1, config.dropout)
+        self.bce_loss = nn.BCEWithLogitsLoss(reduction='none')
+
+
+    def get_encoded_text(self,token_ids, mask):
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_output = self.bert_encoder(token_ids, attention_mask=mask,return_dict=True,output_hidden_states=True)
+        encoded_text = encoded_output['last_hidden_state']
+        subject_encoded_text = encoded_output["hidden_states"][6]
+        # encoded_text = (encoded_text+subject_encoded_text)/2
+        return encoded_text,subject_encoded_text
+
+
+    def get_subs(self, encoded_text):
+        # [batch_size, seq_len, 1]
+        pred_sub_heads = self.sub_heads_linear(encoded_text)
+        seq_len = encoded_text.shape[1]
+        # [batch_size, seq_len, 1]
+        pred_sub_tails = self.sub_tails_linear(encoded_text+pred_sub_heads)
+        # for every position $i$ in sequence, should concate $j$ to
+        # predict if $i$ and $j$ are start_pos and end_pos for an entity.
+        # [batch, seq_len, seq_len, hidden]
+        start_extend = encoded_text.unsqueeze(2).expand(-1, -1, seq_len, -1)
+        # [batch, seq_len, seq_len, hidden]
+        end_extend = encoded_text.unsqueeze(1).expand(-1, seq_len, -1, -1)
+        # [batch, seq_len, seq_len, hidden*2]
+        span_matrix = torch.cat([start_extend, end_extend], 3)
+        # [batch, seq_len, seq_len]
+        pred_sub_span = self.span_embedding(span_matrix).squeeze(-1)
+        # pred_sub_heads = torch.sigmoid(pred_sub_heads)
+        # pred_sub_tails = torch.sigmoid(pred_sub_tails)
+        # pred_sub_span = torch.sigmoid(pred_sub_span)
+        return pred_sub_heads, pred_sub_tails, pred_sub_span
+
+    def compute_loss(self, start_logits, end_logits, span_logits,
+                     start_labels, end_labels, match_labels, start_label_mask, end_label_mask):
+        start_logits = start_logits.squeeze()
+        end_logits = end_logits.squeeze()
+        batch_size, seq_len = start_logits.size()
+        start_labels = start_labels.bool()
+        end_labels = end_labels.bool()
+        match_labels = match_labels.bool()
+
+        start_float_label_mask = start_label_mask.view(-1).float()
+        end_float_label_mask = end_label_mask.view(-1).float()
+        match_label_row_mask = start_label_mask.bool().unsqueeze(-1).expand(-1, -1, seq_len)
+        match_label_col_mask = end_label_mask.bool().unsqueeze(-2).expand(-1, seq_len, -1)
+        match_label_mask = match_label_row_mask & match_label_col_mask
+        match_label_mask = torch.triu(match_label_mask, 0)  # start should be less equal to end
+
+        # use only pred or golden start/end to compute match loss
+        start_preds = start_logits > 0
+        end_preds = end_logits > 0
+        if self.config.teacher_pro <= random.random():
+            match_candidates = ((start_labels.unsqueeze(-1).expand(-1, -1, seq_len) > 0)
+                                & (end_labels.unsqueeze(-2).expand(-1, seq_len, -1) > 0))
+        else:
+            match_candidates = torch.logical_or(
+                (start_preds.unsqueeze(-1).expand(-1, -1, seq_len)
+                    & end_preds.unsqueeze(-2).expand(-1, seq_len, -1)),
+                (start_labels.unsqueeze(-1).expand(-1, -1, seq_len)
+                    & end_labels.unsqueeze(-2).expand(-1, seq_len, -1))
+            )
+        match_label_mask = match_label_mask & match_candidates
+        float_match_label_mask = match_label_mask.view(batch_size, -1).float()
+        start_loss = self.bce_loss(start_logits.view(-1), start_labels.view(-1).float())
+        start_loss = (start_loss * start_float_label_mask).sum() / start_float_label_mask.sum()
+        end_loss = self.bce_loss(end_logits.view(-1), end_labels.view(-1).float())
+        end_loss = (end_loss * end_float_label_mask).sum() / end_float_label_mask.sum()
+        match_loss = self.bce_loss(span_logits.view(batch_size, -1), match_labels.view(batch_size, -1).float())
+        match_loss = match_loss * float_match_label_mask
+        match_loss = match_loss.sum() / (float_match_label_mask.sum() + 1e-10)
+
+        return start_loss, end_loss, match_loss
+        
+    def forward(self, data):
+        # [batch_size, seq_len]
+        token_ids = data['token_ids']
+        # [batch_size, seq_len]
+        mask = data['mask']
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_text,subject_encoded_text = self.get_encoded_text(token_ids, mask)
+        # [batch_size,seq_len,1]
+        pred_sub_heads, pred_sub_tails, pred_sub_span = self.get_subs(subject_encoded_text)
+        # [batch_size, seq_len]
+        sub_head_mapping = data['sub_head']
+        # [batch_size, seq_len]
+        sub_tail_mapping = data['sub_tail']
+
+        if self.config.teacher_pro <= random.random():
+            # 将主语的部分信息带入到下游，谓语预测中
+            # [batch_size, 1, seq_len]
+            sub_head_mapping = pred_sub_heads.permute(0,2,1)*data['sub_head'].unsqueeze(1)
+            # [batch_size, 1, seq_len]
+            sub_tail_mapping = pred_sub_tails.permute(0,2,1) *data['sub_tail'].unsqueeze(1)
+        else:
+            # [batch_size, 1, seq_len]
+            sub_head_mapping = sub_head_mapping.unsqueeze(1)
+            sub_tail_mapping = sub_tail_mapping.unsqueeze(1)
+
+        pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text)
+        sub_heads_loss, sub_tails_loss, match_loss = self.compute_loss(pred_sub_heads, pred_sub_tails, pred_sub_span, data['sub_heads'], data['sub_tails'], data['pointer_sub'], data['mask'], data['mask'])
+        sub_loss = sub_heads_loss + sub_tails_loss + match_loss
+
+        obj_heads_loss = self.sub_loss(data['obj_heads'], pred_obj_heads, data['mask'])
+        obj_tails_loss = self.sub_loss(data['obj_tails'], pred_obj_tails, data['mask'])
+        obj_loss = obj_heads_loss + obj_tails_loss
+        # return pred_subs, pred_objs
+        return sub_loss,obj_loss
+
+
+class JointSubObj(nn.Module):
+    def __init__(self,config):
+        super(JointSubObj, self).__init__()
+        self.focal_loss = FocalLoss()
+        self.config = config
+        self.bert_encoder = BertModel.from_pretrained(config.pretrain_path)
+        self.bert_dim = self.bert_encoder.config.hidden_size
+        self.tails_linear = nn.Linear(self.bert_dim, self.bert_dim)
+        self.sub_obj = JointGlobalPointer(self.config.rel_num,self.config.head_size, self.bert_dim)
+        self.m1 = nn.LayerNorm(self.bert_dim)
+
+    def get_encoded_text(self,token_ids, mask):
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_output = self.bert_encoder(token_ids, attention_mask=mask,return_dict=True,output_hidden_states=True)
+        encoded_text = encoded_output['last_hidden_state']
+        subject_encoded_text = encoded_output["hidden_states"][12]
+        # encoded_text = (encoded_text+subject_encoded_text)/2
+        return encoded_text,subject_encoded_text
+    
+    def get_logit(self,encoded_text,subject_encoded_text=None,mask=None):
+        # [batch_size, seq_len, bert_dim(768)]
+        objects = self.tails_linear(encoded_text)
+        objects = F.relu(objects)
+        logits = self.sub_obj(subject_encoded_text,objects,mask=mask)
+        m2 = nn.LayerNorm(logits.size()[2:],elementwise_affine=False)
+        logits = m2(logits)
+        return logits
+
+
+    def forward(self,data):
+        # [batch_size, seq_len]
+        token_ids = data['token_ids']
+        # [batch_size, seq_len]
+        mask = data['mask']
+        # [batch_size, seq_len, bert_dim(768)]
+        encoded_text,subject_encoded_text = self.get_encoded_text(token_ids, mask)
+        logits = self.get_logit(encoded_text,encoded_text,mask)
+        # loss = self.pointer_loss(data['joint'], logits)
+        logits =  torch.sigmoid(logits)
+        # loss = self.sub_loss(data['joint'], logits,mask)
+        loss = self.combloss(data['joint'], logits,mask)
+        return loss
+
+    def pointer_loss(self,gold,pred,threshold=0):
+        loss_func = GlobalCrossEntropy()
+        los = loss_func(gold,pred,threshold)
+        return los
+
+    # define the loss function
+    def sub_loss(self,gold, pred, mask):
+        los = F.binary_cross_entropy(pred, gold, reduction='none')
+    
+        weight = torch.zeros_like(gold)
+        weight = torch.fill_(weight, 0.2)
+        weight[gold > 0] = 0.8
+        weight = sequence_masking(weight, mask, 0, 2)
+        weight = sequence_masking(weight, mask, 0, 3)
+
+        los = sequence_masking(los, mask, 0, 2)
+        los = sequence_masking(los, mask, 0, 3)
+        # los = torch.mean(los*weight) 
+        los = torch.sum(los*weight) 
+        return los
+    
+    def combloss(self,gold,pred,mask):
+        loss_func = CompLoss()
+        los = loss_func(gold,pred,mask)
+        return los
+    
 

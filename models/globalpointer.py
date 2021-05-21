@@ -41,15 +41,9 @@ class GlobalPointer(nn.Module):
         kw2 = torch.stack([-kw[..., 1::2], kw[..., ::2]], 4)
         # [batch_size,seq_len,heads,head_size]
         kw2 = torch.reshape(kw2, kw.shape)
-        kw = kw * cos_pos + kw2 * sin_pos
+        # kw = kw * cos_pos + kw2 * sin_pos
         # [batch_size,heads,seq_len,head_size]
         qw = qw.permute(0,2,1,3)
-        if self.rel_weight is not None:
-            rel_weight = self.rel_weight.unsqueeze(1)
-            rel_weight = rel_weight.repeat(1,20,1)
-            qw = rel_weight*qw
-            if self.heads == 1:
-                qw = qw.mean(1,keepdim =True)
         # 计算内积
         # [batch_size,heads,seq_len,seq_len]
         logits = torch.matmul(qw,kw.permute(0,2,3,1))
@@ -118,3 +112,53 @@ def sequence_masking(x, mask, value=0.0, axis=None):
     for _ in range(x.dim()- mask.dim()):
         mask = mask.unsqueeze(-1)
     return x * mask + value * (1 - mask)
+
+
+class JointGlobalPointer(nn.Module):
+    """全局指针模块
+    将序列的每个(start, end)作为整体来进行判断,
+    详情请看：https://kexue.fm/archives/8373
+    """
+    def __init__(self, heads, head_size, bert_dim, **kwargs):
+        # heads 一般设置为关系数量或者实体类别数量
+        super(JointGlobalPointer, self).__init__()
+        self.heads = heads
+        self.bert_dim = bert_dim
+        self.head_size = head_size
+        self.linear_head = nn.Linear(self.bert_dim,self.head_size * self.heads)
+        self.linear_tail = nn.Linear(self.bert_dim,self.head_size * self.heads)
+        self.position = SinusoidalPositionEmbedding(self.head_size, 'zero')
+
+    def forward(self,head,tail,mask=None):
+        batch_size = head.size(0)
+        # [batch_size,seq_len,heads,head_size]
+        head = self.linear_head(head).view(batch_size,-1,self.heads,self.head_size)
+        tail = self.linear_tail(tail).view(batch_size,-1,self.heads,self.head_size)
+        # [1,seq_len,head_size]
+        pos = self.position(head)
+        # [1,seq_len,1,head_size],进行元素级别的复制，[1,2]->[1,1,2,2]
+        cos_pos = torch.reshape(pos[..., 1::2].unsqueeze(-1).expand(-1,-1,-1,2),pos.shape).unsqueeze(2)
+        sin_pos = torch.reshape(pos[..., ::2].unsqueeze(-1).expand(-1,-1,-1,2),pos.shape).unsqueeze(2)
+        # [batch_size,seq_len,heads,head_size//2,2]
+        head2 = torch.stack([-head[..., 1::2], head[..., ::2]], 4)
+        # [batch_size,seq_len,heads,head_size]
+        head2 = torch.reshape(head2, head.shape)
+        head = head * cos_pos + head2 * sin_pos
+        # [batch_size,seq_len,heads,head_size//2,2]
+        tail2 = torch.stack([-tail[..., 1::2], tail[..., ::2]], 4)
+        # [batch_size,seq_len,heads,head_size]
+        tail2 = torch.reshape(tail2, tail.shape)
+        tail = tail * cos_pos + tail2 * sin_pos
+        # [batch_size,heads,seq_len,head_size]
+        head = head.permute(0,2,1,3)
+
+        # 计算内积
+        # [batch_size,heads,seq_len,seq_len]
+        logits = torch.matmul(head,tail.permute(0,2,3,1))
+        # 排除padding
+        # logits = sequence_masking(logits, mask, '-inf', 2)
+        # logits = sequence_masking(logits, mask, '-inf', 3)
+        # scale返回
+        # [batch_size,heads,seq_len,seq_len]
+        return logits / self.head_size**0.5
+

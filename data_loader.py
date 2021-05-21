@@ -10,6 +10,7 @@ import ahocorasick
 import copy
 from utils.registry import register
 from functools import partial
+from collections import defaultdict
 import re
 import itertools
 import pickle
@@ -134,10 +135,66 @@ class BaiduDataset(Dataset):
         # with open(os.path.join(self.config.data_path, prefix + '.json'),'r') as f:
         #     self.json_data = f.readlines()
 
+    def judge_(self,sub_obj,candidate):
+        same = False
+        can_sub,can_obj = candidate
+        sam_index = -1
+        for i,(sub,obj) in enumerate(sub_obj):
+            if can_sub.lower() in sub.lower() and can_obj.lower() in obj.lower():
+                same = True
+                break
+            elif sub.lower() in can_sub.lower() and obj.lower() in can_obj.lower():
+                same = True
+                sam_index = i
+                break
+            elif sub.lower() in can_sub.lower() and can_obj.lower() in obj.lower():
+                same = True
+                break
+            elif can_sub.lower() in sub.lower() and obj.lower() in can_obj.lower():
+                same = True
+                break
+
+        return same,sam_index
+
+    def judge_same_sub_obj(self,spos,line):
+        sub_obj = []
+        new_spos = []
+        for spo in spos:
+            sub = spo['subject']
+            obj = spo['object']['@value']
+            if len(sub_obj)==0:
+                sub_obj.append((sub,obj))
+                new_spos.append(spo)
+            else:
+                same,sam_index = self.judge_(sub_obj,(sub,obj))
+                if same:
+                    if sam_index !=-1:
+                        sub_obj[sam_index] = (sub,obj)
+                        new_spos[sam_index] = spo
+                else:
+                    new_spos.append(spo)
+                    sub_obj.append((sub,obj))
+                
+        return new_spos
+    
+    def filter_data(self,line):
+        spo_lists = line['spo_list']
+        new_spo_lists = []
+        same_predicate = defaultdict(list)
+        for spo in spo_lists:
+            predicate = spo['predicate']
+            same_predicate[predicate].append(spo)
+        
+        for key,values in same_predicate.items():
+            value = self.judge_same_sub_obj(values,line)
+            new_spo_lists.extend(value)
+        return new_spo_lists
+
     def load_dataset(self):
         for index,line in enumerate(self.json_data):
             line = json.loads(line)
             line = self.parse_single_line(line)
+            line['spo_list'] = self.filter_data(line)
             self.json_data[index] = line
 
     def parse_single_line(self, line):
@@ -551,6 +608,41 @@ class BaiduDataset(Dataset):
                 if len(token_ids) > text_len:
                     token_ids = token_ids[:text_len]
                     masks = masks[:text_len]
+                # 为联合学习准备数据
+                joints = np.zeros((self.config.rel_num,text_len,text_len))
+                if self.config.model_name == 'joint':
+                    text_len = text_len*2 - 3 #除去头尾的[cls]和[seq]，汉字之间用[unused2]间隔
+                    if text_len > BERT_MAX_LEN:
+                        text_len = BERT_MAX_LEN
+                    joints = np.zeros((self.config.rel_num,text_len,text_len))
+                    for sub,tails in s2ro_map.items():
+                        subs = np.zeros((text_len,text_len))
+                        if sub[1]*2-2 > text_len:
+                            continue
+                        subs[sub[0]*2-1:sub[1]*2-2,:] = 1
+                        tail = np.zeros((self.config.rel_num,text_len,text_len))
+                        for ro in tails:
+                            if ro[1]*2-2>text_len:
+                                continue
+                            tail[ro[2],:,ro[0]*2-1:ro[1]*2-2]=1
+                        joints += ((subs+tail)==2).astype("int")
+                    # if len(np.where(joints>=2)[0]):
+                    #     print(s2ro_map)
+                    #     print(ins_json_data['spo_list'])
+                    #     print(text)
+                    #     print()
+                    joints = (joints>=1).astype("int")
+                    new_tokens = []
+                    new_tokens.extend(tokens[:2])
+                    for token in tokens[2:-1]:
+                        new_tokens.extend(["[unused2]",token])
+                    new_tokens.append(tokens[-1])
+                    token_ids = np.array(self.tokenizer.convert_tokens_to_ids(new_tokens))
+                    masks = np.array([1]*len(token_ids))
+                    if len(token_ids) > text_len:
+                        token_ids = token_ids[:text_len]
+                        masks = masks[:text_len]
+
                 sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
                 pointer_sub = np.zeros((text_len,text_len)) # for global pointer network
                 # 所有 subject 的头尾index
@@ -558,6 +650,7 @@ class BaiduDataset(Dataset):
                     sub_heads[s[0]] = 1
                     sub_tails[s[1]] = 1
                     pointer_sub[s[0]][s[1]]=1
+
                 # 随机选择一个subject
                 sub_head_idx, sub_tail_idx = choice(list(s2ro_map.keys()))
                 sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
@@ -570,7 +663,8 @@ class BaiduDataset(Dataset):
                     obj_heads[ro[0]][ro[2]] = 1
                     obj_tails[ro[1]][ro[2]] = 1
                     pointer_obj[ro[2]][ro[0]][ro[1]]=1
-                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
+                
+                return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, joints, triples, tokens
             else:
                 return None
         else:
@@ -586,12 +680,30 @@ class BaiduDataset(Dataset):
             if len(token_ids) > text_len:
                 token_ids = token_ids[:text_len]
                 masks = masks[:text_len]
+                        # 为联合学习准备数据
+            joints = np.zeros((self.config.rel_num,text_len,text_len))
+            if self.config.model_name == 'joint':
+                text_len = text_len*2 - 3 #除去头尾的[cls]和[seq]，汉字之间用[unused2]间隔
+                if text_len > BERT_MAX_LEN:
+                    text_len = BERT_MAX_LEN
+                joints = np.zeros((self.config.rel_num,text_len,text_len))
+                new_tokens = []
+                new_tokens.extend(tokens[:2])
+                for token in tokens[2:-1]:
+                    new_tokens.extend(["[unused2]",token])
+                new_tokens.append(tokens[-1])
+                token_ids = np.array(self.tokenizer.convert_tokens_to_ids(new_tokens))
+                masks = np.array([1]*len(token_ids))
+                if len(token_ids) > text_len:
+                    token_ids = token_ids[:text_len]
+                    masks = masks[:text_len]
             sub_heads, sub_tails = np.zeros(text_len), np.zeros(text_len)
             pointer_sub = np.zeros((text_len,text_len)) # for global pointer network
             sub_head, sub_tail = np.zeros(text_len), np.zeros(text_len)
             pointer_obj = np.zeros((self.config.rel_num,text_len,text_len)) # for global pointer network
             obj_heads, obj_tails = np.zeros((text_len, self.config.rel_num)), np.zeros((text_len, self.config.rel_num))
-            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens
+
+            return token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, joints, triples, tokens
 
 
 def get_loader(dataset, config, is_test=False, num_workers=5,epochs = 0):
@@ -654,7 +766,7 @@ collate_register = partial(register,registry=collate_fn_register)
 def casrel_collate_fn(batch,rel_num):
     batch = list(filter(lambda x: x is not None, batch))
     batch.sort(key=lambda x: x[2], reverse=True)
-    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens = zip(*batch)
+    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, joints, triples, tokens = zip(*batch)
     cur_batch = len(batch)
     max_text_len = max(text_len)
     batch_token_ids = torch.LongTensor(cur_batch, max_text_len).zero_()
@@ -665,6 +777,8 @@ def casrel_collate_fn(batch,rel_num):
     batch_sub_tail = torch.Tensor(cur_batch, max_text_len).zero_()
     batch_obj_heads = torch.Tensor(cur_batch, max_text_len, rel_num).zero_() #数字表示是关系数量
     batch_obj_tails = torch.Tensor(cur_batch, max_text_len, rel_num).zero_()
+    batch_joints = torch.Tensor(cur_batch, max_text_len, rel_num).zero_()
+
 
     for i in range(cur_batch):
         batch_token_ids[i, :text_len[i]].copy_(torch.from_numpy(token_ids[i]))
@@ -692,7 +806,7 @@ def casrel_collate_fn(batch,rel_num):
 def global_pointer_collate_fn(batch,rel_num):
     batch = list(filter(lambda x: x is not None, batch))
     batch.sort(key=lambda x: x[2], reverse=True)
-    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, triples, tokens = zip(*batch)
+    token_ids, masks, text_len, sub_heads, sub_tails, sub_head, sub_tail, obj_heads, obj_tails, pointer_sub, pointer_obj, joints, triples, tokens = zip(*batch)
     cur_batch = len(batch)
     max_text_len = max(text_len)
     batch_token_ids = torch.LongTensor(cur_batch, max_text_len).zero_()
@@ -705,6 +819,8 @@ def global_pointer_collate_fn(batch,rel_num):
     batch_pointer_obj = torch.Tensor(cur_batch, rel_num, max_text_len, max_text_len).zero_() #数字表示是关系数量
     batch_obj_heads = torch.Tensor(cur_batch, max_text_len, rel_num).zero_() #数字表示是关系数量
     batch_obj_tails = torch.Tensor(cur_batch, max_text_len, rel_num).zero_()
+    batch_joints = torch.Tensor(cur_batch, rel_num, max_text_len, max_text_len).zero_() #数字表示是关系数量
+
 
     for i in range(cur_batch):
         batch_token_ids[i, :text_len[i]].copy_(torch.from_numpy(token_ids[i]))
@@ -717,6 +833,7 @@ def global_pointer_collate_fn(batch,rel_num):
         batch_pointer_obj[i, :, :text_len[i], :text_len[i]].copy_(torch.from_numpy(pointer_obj[i]))
         batch_obj_heads[i, :text_len[i], :].copy_(torch.from_numpy(obj_heads[i]))
         batch_obj_tails[i, :text_len[i], :].copy_(torch.from_numpy(obj_tails[i]))
+        batch_joints[i,:, :text_len[i], :text_len[i]].copy_(torch.from_numpy(joints[i]))
 
     return {'token_ids': batch_token_ids,
             'mask': batch_masks,
@@ -728,5 +845,6 @@ def global_pointer_collate_fn(batch,rel_num):
             'pointer_obj': batch_pointer_obj,
             'obj_heads': batch_obj_heads,
             'obj_tails': batch_obj_tails,
+            "joint":batch_joints,
             'triples': triples,
             'tokens': tokens}

@@ -4,6 +4,8 @@ import torch.nn.functional as f
 from torch.autograd import Variable
 from functools import partial
 from utils.registry import register
+from .globalpointer import sequence_masking
+
 
 registry = {}
 register = partial(register, registry=registry)
@@ -21,6 +23,30 @@ def global_pointer_f1_score(y_true, y_pred):
     """
     y_pred = y_pred.gt(0).float()
     return 2 * torch.sum(y_true * y_pred) / torch.sum(y_true + y_pred)
+
+
+class CompLoss(nn.Module):
+    def __init__(self,alpha=0.3,beta=0.2):
+        super(CompLoss,self).__init__()
+        self.alpha = alpha
+        self.beta = beta
+        self.epson = 1e-12
+    
+    def forward(self,gold,pred,mask):
+        weight = torch.zeros_like(gold)
+        weight = torch.fill_(weight, self.beta)
+        weight[gold > 0] = 1-self.beta
+        weight = sequence_masking(weight, mask, 0, 2)
+        weight = sequence_masking(weight, mask, 0, 3)
+        loss1 = f.binary_cross_entropy(pred,gold,reduction='none')
+        loss1 =torch.mean(loss1*weight)
+
+        loss3 = (2*torch.sum(gold*pred)+self.epson)/(torch.sum(pred)+torch.sum(gold)+self.epson)
+        loss = 2*loss1 + 10*loss3
+        return loss
+
+
+
 
 @register("gpce")
 class GlobalCrossEntropy(nn.Module):
