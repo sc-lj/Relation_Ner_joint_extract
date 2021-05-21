@@ -164,10 +164,10 @@ class Casrel(BaseModel):
             sub_tail_mapping = data['sub_tail'].unsqueeze(1)
         # [batch_size, seq_len, rel_num]
         pred_obj_heads, pred_obj_tails = self.get_objs_for_specific_sub(sub_head_mapping, sub_tail_mapping, encoded_text)
-        sub_heads_loss = self.sub_loss(data['sub_heads'], pred_sub_heads, data['mask'],True)
-        sub_tails_loss = self.sub_loss(data['sub_tails'], pred_sub_tails, data['mask'],True)
-        obj_heads_loss = self.sub_loss(data['obj_heads'], pred_obj_heads, data['mask'])
-        obj_tails_loss = self.sub_loss(data['obj_tails'], pred_obj_tails, data['mask'])
+        sub_heads_loss = self.sub_loss(data['sub_heads'], pred_sub_heads, data['mask'],2,True)
+        sub_tails_loss = self.sub_loss(data['sub_tails'], pred_sub_tails, data['mask'],2,True)
+        obj_heads_loss = self.sub_loss(data['obj_heads'], pred_obj_heads, data['mask'],2)
+        obj_tails_loss = self.sub_loss(data['obj_tails'], pred_obj_tails, data['mask'],2)
         sub_loss = sub_heads_loss + sub_tails_loss
         obj_loss = obj_heads_loss + obj_tails_loss
         return sub_loss,obj_loss
